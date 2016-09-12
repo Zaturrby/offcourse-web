@@ -15,7 +15,7 @@
 (defn send [{:keys [name endpoint]} [_ query :as event]]
   (let [c (chan)
         auth-token ""]
-    (async/put! c (event/create [name :fetched {:user-name "Yeehaa"}]))
+    (async/put! c (event/create [name :not-found {:user-name "Yeehaa"}]))
     #_(POST endpoint
         {:headers {:Authorization (str "Bearer " auth-token)}
          :params (clj->js {:type :request-data

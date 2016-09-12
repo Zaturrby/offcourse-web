@@ -23,9 +23,9 @@
    :logo           (fnk [[:appstate site-title]
                          respond]
                         (logo {:site-title site-title} respond))
-   :actions-panel  (fnk [user-name
+   :actions-panel  (fnk [user
                          respond]
-                        (actions-panel {:user-name user-name}
+                        (actions-panel user
                                        respond))
    :menubar        (fnk [logo
                          actions-panel
