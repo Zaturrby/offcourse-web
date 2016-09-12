@@ -112,21 +112,21 @@
   identity)
 
 (deftask deploy-prod []
-  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-production"))
+  (task-options! s3-sync #(assoc % :bucket "offcourse-web-production"))
   (comp (deploying)
         (build)
         (s3-sync)))
 
 
 (deftask deploy-staging []
-  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-staging"))
+  (task-options! s3-sync #(assoc % :bucket "offcourse-web-staging"))
   (comp (deploying)
         (build)
         (s3-sync)))
 
 
 (deftask deploy-dev []
-  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-dev"))
+  (task-options! s3-sync #(assoc % :bucket "offcourse-web-dev"))
   (comp (deploying)
         (build)
         (s3-sync)))
