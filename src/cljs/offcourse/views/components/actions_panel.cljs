@@ -21,10 +21,10 @@
                :on-click #(respond [action-name])}
    (button-title action-name)])
 
-(rum/defc actions-panel [{:keys [user-name]        :as data}
+(rum/defc actions-panel [{:keys [user-name auth-token]        :as data}
                          respond]
   [:ul.actions-panel
    (when user-name (url-button user-name "/"))
-   (if user-name
+   (if auth-token
      (handler-button :sign-out respond)
      (handler-button :sign-in respond))])

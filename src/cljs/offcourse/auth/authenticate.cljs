@@ -19,11 +19,12 @@
 (defmulti react (fn [_ event] (sp/resolve event)))
 
 (defmethod react [:requested :action] [{:keys [config provider] :as auth} [_ action]]
-  (if (= (first action) :sign-in)
-    (go
-      (let [{:keys [token]} (<! (-sign-in provider))]
-        (.setItem js/localStorage "auth-token" token)
-        (ef/respond auth [:granted (credentials/create token)])))
-    (do
-      (.removeItem js/localStorage "auth-token")
-      (ef/respond auth [:revoked (credentials/create nil)]))))
+  (case (first action)
+    :sign-in (go
+               (let [{:keys [token]} (<! (-sign-in provider))]
+                 (.setItem js/localStorage "auth-token" token)
+                 (ef/respond auth [:granted (credentials/create token)])))
+    :sign-out (do
+                (.removeItem js/localStorage "auth-token")
+                (ef/respond auth [:revoked (credentials/create nil)]))
+    nil))

@@ -38,7 +38,7 @@
                                                 :config    :auth-config})
 
      :routes                 routes/table
-     :router-triggers        [:refreshed]
+     :router-triggers        [:refreshed :requested]
      :router-responses       [:requested]
      :router-channels        (:router channels)
      :router                 (component/using (router/create :router)

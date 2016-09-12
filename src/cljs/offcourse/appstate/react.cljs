@@ -11,10 +11,12 @@
                   (sp/resolve event)))
 
 (defmethod react [:granted :data] [{:keys [state] :as as} [_ payload]]
-  (let [proposal (ac/perform @state [:add payload])]
-    (when (ck/check as proposal)
-      (reset! state proposal)
-      (ef/respond as [:not-found (query/create (get-in proposal [:user]))]))))
+  (let [proposal (ac/perform @state [:add payload])
+        user     (:user proposal)
+        token    (:auth-token user)]
+    (reset! state proposal)
+    (when token
+      (ef/respond as [:not-found (query/create user)]))))
 
 (defmethod react [:revoked :data] [{:keys [state] :as as} [_ payload]]
   (let [proposal (ac/perform @state [:add payload])]
@@ -30,6 +32,10 @@
     (when (sp/valid? proposal)
       (reset! state proposal)
       (ef/respond as [:refreshed @state]))))
+
+(defmethod react [:not-found :query] [{:keys [state] :as as} [_ query]]
+  (when (= :user (sp/resolve query))
+    (ef/respond as [:requested [:create :new-user]])))
 
 (defmethod react [:not-found :data] [{:keys [state] :as as} [_ payload]]
   (log/error payload "missing-data")
