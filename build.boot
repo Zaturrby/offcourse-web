@@ -101,6 +101,7 @@
                  cljs {:optimizations :advanced})
   (comp (cljs)
         (css)
+        (sift :invert true :include #{#"js/app\.out"})
         (target)))
 
 
@@ -109,24 +110,21 @@
   (task-options! s3-sync {:source ""
                           :access-key (get-sys-env "AWS_ACCESS_OFFCOURSE_KEY" :required)
                           :secret-key (get-sys-env "AWS_SECRET_OFFCOURSE_KEY" :Required)})
-  identity)
+  (build))
 
 (deftask deploy-prod []
-  (task-options! s3-sync #(assoc % :bucket "offcourse-web-production"))
+  (task-options! s3-sync #(assoc % :bucket "offcourse-web-platform"))
   (comp (deploying)
-        (build)
         (s3-sync)))
 
 
 (deftask deploy-staging []
-  (task-options! s3-sync #(assoc % :bucket "offcourse-web-staging"))
+  (task-options! s3-sync #(assoc % :bucket "offcourse-web-edge"))
   (comp (deploying)
-        (build)
         (s3-sync)))
 
 
 (deftask deploy-dev []
   (task-options! s3-sync #(assoc % :bucket "offcourse-web-dev"))
   (comp (deploying)
-        (build)
         (s3-sync)))
