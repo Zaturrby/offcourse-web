@@ -1,5 +1,5 @@
 (set-env!
- :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../shared/src"}
+ :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.3"          :scope "test"]
@@ -41,7 +41,8 @@
                  [cljsjs/react-dom-server       "15.3.1-0"]
                  [funcool/cuerdas               "0.8.0"]
                  [offcourse/styles              "0.1.8-SNAPSHOT"]
-                 [offcourse/shared              "0.1.0-SNAPSHOT"]])
+                 [offcourse/shared              "0.1.0-SNAPSHOT"]
+                 [hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]])
 
 (require
  '[adzerk.boot-cljs              :refer [cljs]]
@@ -50,7 +51,8 @@
  '[powerlaces.boot-cljs-devtools :refer [cljs-devtools]]
  '[org.martinklepsch.boot-garden :refer [garden]]
  '[crisptrutski.boot-cljs-test   :refer [exit! test-cljs]]
- '[pandeiro.boot-http            :refer [serve]])
+ '[pandeiro.boot-http            :refer [serve]]
+ '[hashobject.boot-s3            :refer :all])
 
 (deftask testing []
   (merge-env! :resource-paths #{"test"})
@@ -100,3 +102,31 @@
   (comp (cljs)
         (css)
         (target)))
+
+
+(deftask deploying []
+  (set-env! :target-path "dist/")
+  (task-options! s3-sync {:source ""
+                          :access-key (get-sys-env "AWS_ACCESS_OFFCOURSE_KEY" :required)
+                          :secret-key (get-sys-env "AWS_SECRET_OFFCOURSE_KEY" :Required)})
+  identity)
+
+(deftask deploy-prod []
+  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-production"))
+  (comp (deploying)
+        (build)
+        (s3-sync)))
+
+
+(deftask deploy-staging []
+  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-staging"))
+  (comp (deploying)
+        (build)
+        (s3-sync)))
+
+
+(deftask deploy-dev []
+  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-dev"))
+  (comp (deploying)
+        (build)
+        (s3-sync)))
