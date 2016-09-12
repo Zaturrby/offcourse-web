@@ -5,7 +5,7 @@
             [plumbing.core :refer-macros [fnk]]))
 
 (def graph
-  {:profile     (fnk [appstate] nil)
+  {:profile     (fnk [appstate] {:user-name "yeehaa"})
    :main        (fnk [] nil)
    :actions    (fnk [base-actions]
                     (->> base-actions
