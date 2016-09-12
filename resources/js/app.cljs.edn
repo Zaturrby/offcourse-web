@@ -1,0 +1,5 @@
+{:require  [offcourse.main]
+ :init-fns [offcourse.main/init]
+ :compiler-options {:asset-path "/js/app.out"
+                    :language-in  :ecmascript5
+                    :language-out :ecmascript5}}
