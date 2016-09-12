@@ -22,7 +22,7 @@
   (let [proposal (ac/perform @state [:add payload])]
     (when (sp/valid? proposal)
       (reset! state proposal)
-      (ef/respond as [:refreshed @state]))))
+      (ef/respond as [:requested [:go :home]]))))
 
 (defmethod react [:requested :action] [{:keys [state] :as as} [_ action]]
   (ac/perform as action))

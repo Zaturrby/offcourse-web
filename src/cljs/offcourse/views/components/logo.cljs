@@ -2,6 +2,7 @@
   (:require [rum.core :as rum]))
 
 (rum/defc logo [{:keys [site-title] :as data}
-                responder]
+                respond]
   [:.logo
-   [:a {:href "/"} site-title]])
+   [:a {on-click #(respond [:go :home])}
+    site-title]])

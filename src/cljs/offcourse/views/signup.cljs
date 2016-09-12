@@ -5,11 +5,14 @@
             [plumbing.core :refer-macros [fnk]]))
 
 (def graph
-  {:profile     (fnk [appstate] {:user-name "yeehaa"})
+  {:user     (fnk [appstate] (:user appstate))
+   :auth-token (fnk [user] (:auth-token user))
    :main        (fnk [] nil)
    :actions    (fnk [base-actions]
                     (->> base-actions
                          (into #{})))
-   :dashboard   (fnk [profile
+   :dashboard   (fnk [user
+                      auth-token
                       respond]
-                     (dashboard {:main (user-form profile respond)}))})
+                     (if auth-token (dashboard {:main (user-form user respond)})
+                         "Please Sign In to start the sign up process..."))})

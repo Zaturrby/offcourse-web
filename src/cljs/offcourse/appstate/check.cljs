@@ -1,5 +1,6 @@
 (ns offcourse.appstate.check
-  (:require [shared.protocols.specced :as sp]))
+  (:require [shared.protocols.specced :as sp]
+            [shared.protocols.loggable :as log]))
 
 (defn viewmodel-type [{:keys [viewmodel] :as state}]
   (when viewmodel (sp/resolve viewmodel)))
@@ -8,10 +9,8 @@
   (let [old-type (viewmodel-type @state)
         new-type(viewmodel-type proposal)
         user-name (some-> proposal :user :user-name)
-        auth-token (some-> proposal :auth-token)]
+        auth-token (some-> proposal :user :auth-token)]
     (cond
-      (and (= old-type :signup) (= new-type :signup)) true
-      (and (= old-type :new-course) (= new-type :new-course)) true
-      (and (= new-type :new-course) (not user-name)) false
-      (and (= old-type :signup) (and auth-token (not user-name))) false
+      (and (= old-type :signup-view) (= new-type :signup-view)) true
+      (and (= old-type :signup-view) (and auth-token (not user-name))) false
       :default true)))

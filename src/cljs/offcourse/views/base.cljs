@@ -13,7 +13,7 @@
    :viewmodel-name (fnk [viewmodel] (sp/resolve viewmodel))
    :user           (fnk [appstate] (:user appstate))
    :user-name      (fnk [user] (when user (:user-name user)))
-   :base-actions   (fnk [] [:sign-in :sign-out])
+   :base-actions   (fnk [] [:sign-in :go :sign-out])
    :actions        (fnk [base-actions] (into #{} base-actions))
    :respond        (fnk [responder actions]
                         (fn [[action-type :as action]]

@@ -15,6 +15,9 @@
 (defmethod perform [:sign-out nil] [rt action]
   (ef/respond rt [:requested go-home]))
 
+(defmethod perform [:go :home] [rt action]
+  (ef/respond rt [:requested go-home]))
+
 (defmethod perform [:create :new-user] [rt action]
   (ef/respond rt [:requested go-to-signup]))
 

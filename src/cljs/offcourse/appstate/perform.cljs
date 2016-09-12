@@ -23,3 +23,6 @@
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} [_ viewmodel :as action]]
   (ef/respond as [:requested action]))
+
+(defmethod perform [:go :home] [{:keys [state] :as as} [_ viewmodel :as action]]
+  (ef/respond as [:requested action]))

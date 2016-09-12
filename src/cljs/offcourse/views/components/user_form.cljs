@@ -18,8 +18,7 @@
                     :on-change nil}]]
     [:.card--section {:key :actions}
      [:.actions
-      (when true
-        [:button.button {:key :save-course
-                         :data-button-type :textbar
-                         :on-click #(log/log user)
-                         :disabled (not true)} "Save"])]]]])
+      [:button.button {:key :save-course
+                       :data-button-type :textbar
+                       :on-click #(log/log user)
+                       :disabled (not true)} "Save"]]]]])
