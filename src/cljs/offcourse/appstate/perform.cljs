@@ -18,8 +18,13 @@
         (ef/respond as [:refreshed @state])
         (log/error @state (sp/errors @state))))))
 
-(defmethod perform [:add :user] [{:keys [state] :as as} [_ user :as action]]
-  (log/log user))
+(defmethod perform [:add :profile] [{:keys [state] :as as} action]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+    (when (ck/check as proposal)
+      (reset! state proposal)
+      (if (sp/valid? @state)
+        (ac/perform as [:go :home])
+        (log/error @state (sp/errors @state))))))
 
 (defmethod perform [:sign-in nil] [{:keys [state] :as as} [_ viewmodel :as action]]
   (ef/respond as [:requested action]))

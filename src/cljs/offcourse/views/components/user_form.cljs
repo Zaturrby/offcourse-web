@@ -13,11 +13,6 @@
   (let [user-name (.. event -target -value)]
     (swap! atom #(assoc % prop-name user-name))))
 
-(defn update-user [user respond]
-  (if (sp/valid? user)
-    (respond [:add user])
-    (log/log (sp/errors user))))
-
 (rum/defcs user-form < (rum/local {} ::user) [state user respond]
   (let [user-atom (::user state)
         user (merge user @user-atom)
@@ -34,5 +29,5 @@
        [:.actions
         [:button.button {:key :save-course
                          :data-button-type :textbar
-                         :on-click #(update-user user respond)
+                         :on-click #(respond [:add @user-atom])
                          :disabled (not true)} "Save"]]])]]))
