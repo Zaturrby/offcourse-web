@@ -4,7 +4,8 @@
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
-            [shared.protocols.queryable :as qa]))
+            [shared.protocols.queryable :as qa]
+            [clojure.set :as set]))
 
 (def graph
   {:checkpoint-data (fnk [viewmodel] (or (-> viewmodel :checkpoint) {:checkpoint-slug nil}))
@@ -26,9 +27,7 @@
                           checkpoint]
                          (when checkpoint
                            #_(qa/get appstate {:url (:url checkpoint)})))
-   :actions         (fnk [base-actions]
-                         (->> base-actions
-                              (into #{})))
+   :view-actions         (fnk [] #{})
    :main            (fnk [checkpoint
                           resource]
                          (viewer {:resource resource} nil nil))

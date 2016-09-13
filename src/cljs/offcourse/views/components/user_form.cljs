@@ -8,17 +8,22 @@
       str/humanize
       str/titleize))
 
-(rum/defc user-form  [{:keys [user-name] :as user}
-                      respond]
+(defn update-prop [prop-name event atom]
+  (let [user-name (.. event -target -value)]
+    (swap! atom #(assoc % prop-name user-name))))
+
+(rum/defcs user-form < (rum/local {} ::user) [state user respond]
+  (let [user-atom (::user state)]
   [:.container
    [:.card
     [:.card--section {:key :user-name}
      [:input.title {:placeholder "Your Name"
-                    :value (when user-name (button-title user-name))
-                    :on-change nil}]]
+                    :value (:user-name @user-atom)
+                    :auto-focus true
+                    :on-change #(update-prop :user-name % user-atom)}]]
     [:.card--section {:key :actions}
      [:.actions
       [:button.button {:key :save-course
                        :data-button-type :textbar
-                       :on-click #(log/log user)
-                       :disabled (not true)} "Save"]]]]])
+                       :on-click #(respond [:update (merge user @user-atom)])
+                       :disabled (not true)} "Save"]]]]]))

@@ -5,7 +5,8 @@
             [offcourse.views.components.actions-panel :refer [actions-panel]]
             [offcourse.views.containers.menubar :refer [menubar]]
             [shared.protocols.specced :as sp]
-            [shared.protocols.loggable :as log]))
+            [shared.protocols.loggable :as log]
+            [clojure.set :as set]))
 
 (def graph
   {:container      (fnk [] app)
@@ -13,10 +14,10 @@
    :viewmodel-name (fnk [viewmodel] (sp/resolve viewmodel))
    :user           (fnk [appstate] (:user appstate))
    :user-name      (fnk [user] (when user (:user-name user)))
-   :base-actions   (fnk [] [:sign-in :go :sign-out])
-   :actions        (fnk [base-actions] (into #{} base-actions))
+   :base-actions   (fnk [] #{:sign-in :go :sign-out})
+   :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :respond        (fnk [responder actions]
-                        (fn [[action-type :as action]]
+                        (fn [[action-type :as action]] action
                           (if (contains? actions action-type)
                             (responder [:requested action])
                             (log/error action-type (str "invalid action")))))
