@@ -10,7 +10,7 @@
   {:user         (fnk [appstate] (:user appstate))
    :auth-token   (fnk [user] (:auth-token user))
    :main         (fnk [] nil)
-   :view-actions (fnk [] #{:update})
+   :view-actions (fnk [] #{:add})
    :dashboard    (fnk [user
                        auth-token
                        respond]

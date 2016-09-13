@@ -18,6 +18,9 @@
         (ef/respond as [:refreshed @state])
         (log/error @state (sp/errors @state))))))
 
+(defmethod perform [:add :user] [{:keys [state] :as as} [_ user :as action]]
+  (log/log user))
+
 (defmethod perform [:sign-in nil] [{:keys [state] :as as} [_ viewmodel :as action]]
   (ef/respond as [:requested action]))
 

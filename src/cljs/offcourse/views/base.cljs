@@ -1,12 +1,12 @@
 (ns offcourse.views.base
-  (:require [plumbing.core :refer-macros [fnk]]
-            [offcourse.views.containers.app :refer [app]]
-            [offcourse.views.components.logo :refer [logo]]
+  (:require [clojure.set :as set]
             [offcourse.views.components.actions-panel :refer [actions-panel]]
+            [offcourse.views.components.logo :refer [logo]]
+            [offcourse.views.containers.app :refer [app]]
             [offcourse.views.containers.menubar :refer [menubar]]
-            [shared.protocols.specced :as sp]
+            [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
-            [clojure.set :as set]))
+            [shared.protocols.specced :as sp]))
 
 (def graph
   {:container      (fnk [] app)
@@ -24,11 +24,8 @@
    :logo           (fnk [[:appstate site-title]
                          respond]
                         (logo {:site-title site-title} respond))
-   :actions-panel  (fnk [user
-                         respond]
+   :actions-panel  (fnk [user respond]
                         (actions-panel user
                                        respond))
-   :menubar        (fnk [logo
-                         actions-panel
-                         viewmodel-name]
+   :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))})
