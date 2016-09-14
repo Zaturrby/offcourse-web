@@ -24,14 +24,11 @@
       (reset! state proposal)
       (ef/respond as [:requested [:go :home]]))))
 
-(defmethod react [:requested :action] [{:keys [state] :as as} [_ action]]
+(defmethod react [:requested :action] [as [_ action]]
   (ac/perform as action))
 
-(defmethod react [:found :data] [{:keys [state] :as as} [_ payload]]
-  (let [proposal (ac/perform @state [:add payload])]
-    (when (sp/valid? proposal)
-      (reset! state proposal)
-      (ef/respond as [:refreshed @state]))))
+(defmethod react [:found :data] [as [_ payload]]
+  (ac/perform as [:add payload]))
 
 (defmethod react [:not-found :query] [{:keys [state] :as as} [_ query]]
   (when (= :user (sp/resolve query))

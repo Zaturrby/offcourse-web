@@ -20,7 +20,7 @@
 (def query-adapters
   [{:adapter    aws/create
     :name      "query"
-    :resources #{:user}
+    :resources #{:user :resources}
     :endpoint  "https://zoqvfcqgrh.execute-api.us-east-1.amazonaws.com/dev/query"}
    #_{:adapter    github/create
     :name       "html-course"

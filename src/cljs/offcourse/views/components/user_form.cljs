@@ -29,5 +29,5 @@
        [:.actions
         [:button.button {:key :save-course
                          :data-button-type :textbar
-                         :on-click #(respond [:add @user-atom])
+                         :on-click #(respond [:create @user-atom])
                          :disabled (not true)} "Save"]]])]]))

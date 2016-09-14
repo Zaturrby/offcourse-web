@@ -9,15 +9,17 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn handle-response [name res]
-  (event/create [name :fetched (walk/keywordize-keys res)]))
+  (log/log "R" res)
+  (event/create [name :not-found (walk/keywordize-keys res)]))
 
-(defn send [{:keys [name endpoint]} [_ query :as event]]
+(defn send [{:keys [name endpoint]} [event-type query :as event]]
   (let [c (chan)
         auth-token ""]
     (POST endpoint
         {:headers {:Authorization (str "Bearer " auth-token)}
-         :params (clj->js {:type :request-data
-                           :payload query})
+         :params {:event-type event-type
+                  :payload-type (sp/resolve query)
+                  :payload query}
          :format :json
          :handler #(go (>! c (handle-response name %)))})
     c))
