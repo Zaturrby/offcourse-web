@@ -4,19 +4,17 @@
             [shared.models.event.index :as event]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]
-            [cljs.core.async :as async])
+            [cljs.core.async :as async]
+            [clojure.walk :as walk])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn handle-response [name res]
-  (let [{:keys [type payload]} (js->clj (.parse js/JSON res) :keywordize-keys true)]
-    (event/create [name (keyword type) payload])))
-
+  (event/create [name :fetched (walk/keywordize-keys res)]))
 
 (defn send [{:keys [name endpoint]} [_ query :as event]]
   (let [c (chan)
         auth-token ""]
-    (async/put! c (event/create [name :not-found {:user-name "Yeehaa"}]))
-    #_(POST endpoint
+    (POST endpoint
         {:headers {:Authorization (str "Bearer " auth-token)}
          :params (clj->js {:type :request-data
                            :payload query})
