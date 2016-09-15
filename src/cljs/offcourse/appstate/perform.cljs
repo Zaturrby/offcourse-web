@@ -33,6 +33,10 @@
       (ef/respond as [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
+(defmethod perform [:add :resources] [{:keys [state] :as as} action]
+  (log/log "ACTION" action)
+  as)
+
 (defmethod perform [:add :courses] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)

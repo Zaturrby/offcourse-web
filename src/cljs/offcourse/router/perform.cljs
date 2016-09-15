@@ -21,3 +21,5 @@
 (defmethod perform [:create :new-user] [rt action]
   (ef/respond rt [:requested go-to-signup]))
 
+(defmethod perform [:go :home] [rt action]
+  (ef/respond rt [:requested go-home]))

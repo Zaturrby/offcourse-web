@@ -17,7 +17,6 @@
   (let [{:keys [organization name sha]} repository]
     (str base-url "/repos/" organization "/" name "/git/trees/" sha)))
 
-
 (defn content-url [{:keys [base-url repository]} path]
   (let [{:keys [organization name sha]} repository]
     (str base-url "/repos/" organization "/" name "/contents/" path)))
@@ -50,6 +49,7 @@
     c))
 
 (defn send [{:keys [name repository base-url] :as adapter} [_ query :as event]]
+  (log/log "QUERY:" query)
   (let [c (chan)
         auth-token ""
         tree-url (tree-url adapter)]
