@@ -14,7 +14,7 @@
     (when (ck/check as proposal)
       (reset! state proposal)
       (if (sp/valid? @state)
-        (ac/perform as [:go :home])
+        (ef/respond as [:requested [:save (:user @state)]])
         (log/error @state (sp/errors @state))))))
 
 (defmethod perform [:sign-in nil] [{:keys [state] :as as} [_ viewmodel :as action]]

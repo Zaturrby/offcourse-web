@@ -10,7 +10,7 @@
 (defn respond [{:keys [name]} res]
   (event/create [name :found res]))
 
-(fetcheddefn yaml-file? [path]
+(defn yaml-file? [path]
   (re-find #"\.yaml$" path))
 
 (defn tree-url [{:keys [base-url repository]}]

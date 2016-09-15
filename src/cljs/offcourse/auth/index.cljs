@@ -9,13 +9,13 @@
 (defn init [{:keys [config] :as auth}]
   (assoc auth :provider (js/Auth0Lock. (:clientID config) (:domain config))))
 
-
 (defrecord Auth []
   Lifecycle
   (start [auth]
-    (let [auth-token (get/get-local-token auth {:auth-token nil})]
-      (when auth-token
-        (ef/respond auth [:granted (credentials/create auth-token)]))
+    (let [token (get/get-local-token auth)
+          profile (get/get-local-profile auth)]
+      (when token
+        (ef/respond auth [:granted (credentials/create token profile)]))
       (-> auth
           init
           ef/listen)))

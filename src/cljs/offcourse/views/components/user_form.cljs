@@ -20,7 +20,7 @@
   [:.container
    [:.card
     [:.card--section {:key :user-name}
-     [:input.title {:placeholder "Your Name"
+     [:input.title {:placeholder "Your User Name"
                     :value (:user-name user)
                     :auto-focus true
                     :on-change #(update-prop :user-name % user-atom)}]]
@@ -29,5 +29,5 @@
        [:.actions
         [:button.button {:key :save-course
                          :data-button-type :textbar
-                         :on-click #(respond [:create @user-atom])
+                         :on-click #(respond [:create user])
                          :disabled (not true)} "Save"]]])]]))

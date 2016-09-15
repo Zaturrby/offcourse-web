@@ -15,7 +15,7 @@
 (defmethod perform [:sign-out nil] [rt action]
   (ef/respond rt [:requested go-home]))
 
-(defmethod perform [:go :home] [rt action]
+(defmethod perform [:save :profile] [rt action]
   (ef/respond rt [:requested go-home]))
 
 (defmethod perform [:create :new-user] [rt action]
