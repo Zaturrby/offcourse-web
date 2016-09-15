@@ -8,9 +8,9 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn respond [{:keys [name]} res]
-  (event/create [name :fetched res]))
+  (event/create [name :found res]))
 
-(defn yaml-file? [path]
+(fetcheddefn yaml-file? [path]
   (re-find #"\.yaml$" path))
 
 (defn tree-url [{:keys [base-url repository]}]

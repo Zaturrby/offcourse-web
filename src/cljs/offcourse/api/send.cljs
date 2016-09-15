@@ -16,6 +16,6 @@
       (go
         (let [response (<! (ef/send repository (into [component-name] event)))]
           (match response
-                 [:fetched _]  (ef/respond api [:found (-> response cv/to-models)])
+                 [:found _]  (ef/respond api [:found (-> response cv/to-models)])
                  [:not-found _]    (ef/respond api [:not-found query])
                  _ (ef/respond api [:failed query])))))))

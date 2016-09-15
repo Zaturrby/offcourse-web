@@ -8,9 +8,10 @@
             [clojure.walk :as walk])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn handle-response [name res]
-  (log/log "R" res)
-  (event/create [name :not-found (walk/keywordize-keys res)]))
+
+(defn handle-response [name [event-type payload]]
+  (log/log "R" (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
+  (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
 
 (defn send [{:keys [name endpoint]} [event-type query :as event]]
   (let [c (chan)
