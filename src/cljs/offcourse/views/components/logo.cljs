@@ -3,6 +3,6 @@
 
 (rum/defc logo [{:keys [site-title] :as data}
                 respond]
-  [:.logo
+  [:.menubar--logo
    [:a {on-click #(respond [:go :home])}
     site-title]])
