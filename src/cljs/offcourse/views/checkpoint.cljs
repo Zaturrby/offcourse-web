@@ -5,10 +5,11 @@
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
             [shared.protocols.queryable :as qa]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [shared.protocols.loggable :as log]))
 
 (def graph
-  {:checkpoint-data (fnk [viewmodel] (or (-> viewmodel :checkpoint) {:checkpoint-slug nil}))
+  {:checkpoint-data (fnk [viewmodel] (some-> viewmodel :checkpoint))
    :course-data     (fnk [viewmodel] (-> viewmodel :course))
    :course          (fnk [appstate
                           course-data
@@ -21,12 +22,13 @@
    :checkpoint      (fnk [appstate
                           course
                           checkpoint-data]
-                         (some-> course
-                                 (qa/get checkpoint-data)))
+                         (when course
+                           (if checkpoint-data
+                             (qa/get course checkpoint-data)
+                             (first (:checkpoints course)))))
    :resource        (fnk [appstate
                           checkpoint]
-                         (when checkpoint
-                           #_(qa/get appstate {:url (:url checkpoint)})))
+                         (when checkpoint (qa/get appstate checkpoint)))
    :view-actions         (fnk [] #{})
    :main            (fnk [checkpoint
                           resource]

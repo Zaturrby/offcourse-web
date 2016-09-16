@@ -1,11 +1,14 @@
 (ns offcourse.adapters.github.send
   (:require [ajax.core :refer [GET]]
+            [shared.models.appstate.paths :as paths]
             [cljs.core.async :as async :refer [<! chan]]
             cljsjs.js-yaml
             [clojure.walk :as walk]
             [shared.models.event.index :as event]
-            [shared.protocols.loggable :as log])
-  (:require-macros [cljs.core.async.macros :refer [go]]))
+            [shared.protocols.loggable :as log]
+            [shared.protocols.specced :as sp])
+  (:require-macros [cljs.core.async.macros :refer [go]]
+                   [com.rpl.specter.macros :refer [select-first]]))
 
 (defn respond [{:keys [name]} res]
   (event/create [name :found res]))
@@ -48,8 +51,8 @@
          :handler #(handle-response c %)})
     c))
 
-(defn send [{:keys [name repository base-url] :as adapter} [_ query :as event]]
-  (log/log "QUERY:" query)
+
+(defn fetch-all [{:keys [name repository base-url] :as adapter} [_ query :as event]]
   (let [c (chan)
         auth-token ""
         tree-url (tree-url adapter)]
@@ -63,5 +66,24 @@
             complete (map #(assoc %1
                                   :curator (or (:curator %1) (:curator repository))
                                   :organization (or (:organization %1) (:organization repository))) content)]
-        (async/put! c (respond adapter complete))))
+        (async/put! c complete)))
+      c))
+
+(defmulti send (fn [_ [_ query]] (sp/resolve query)))
+
+(defmethod send :course [adapter event]
+  (let [c (chan)]
+    (go
+      (let [courses   (<! (fetch-all adapter event))
+            [_ query] event
+            course    (select-first (paths/course query) courses)]
+        (async/put! c (respond adapter course))))
+      c))
+
+
+(defmethod send :collection [adapter event]
+  (let [c (chan)]
+    (go
+      (let [courses (<! (fetch-all adapter event))]
+        (async/put! c (respond adapter courses))))
     c))
