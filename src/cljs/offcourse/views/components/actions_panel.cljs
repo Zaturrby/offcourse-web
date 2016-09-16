@@ -24,6 +24,10 @@
 (rum/defc actions-panel [{:keys [user-name auth-token]        :as data}
                          respond]
   [:ul.actions-panel
+   (when user-name [:li.button  
+                    {:key "profile"
+                     :data-button-type "textbar"}
+                    "My Profile"])
    (when user-name (url-button user-name "/"))
    (if auth-token
      (handler-button :sign-out respond)

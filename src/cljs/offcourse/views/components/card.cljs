@@ -7,10 +7,10 @@
    [:.card
     [:.card--section
      [:a.card--title {:href (-> course meta :course-url)} goal]
-     [:.card--earmark ]]
+     [:img.card--edit-sign {:src "/images/pencil.svg"}]]
     [:.card--section (item-list :todo checkpoints)]
     [:.card--section
-     [:.card--button      "Start"]]]])
+     [:.card--button "Start"]]]])
 
 (rum/defc cards [{:keys [courses]}]
   [:.cards (map #(rum/with-key (card %) (:course-id %)) courses)])
