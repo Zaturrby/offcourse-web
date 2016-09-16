@@ -24,16 +24,12 @@
 (rum/defc actions-panel [{:keys [user-name auth-token]        :as data}
                          respond]
   [:ul.actions-panel
-   (when user-name [:li.button  
+   (when user-name [:li.button
                     {:key "create"
                      :data-button-type "textbar"}
                     "Create Course"])
-   (when user-name [:li.button  
-                    {:key "profile"
-                     :data-button-type "textbar"}
-                    "My Profile"])
    (when user-name (url-button user-name "/"))
-   (when-not user-name [:li.button  
+   (when-not user-name [:li.button
                         {:key "profile"
                          :data-button-type "textbar"}
                         "Sign Up"])

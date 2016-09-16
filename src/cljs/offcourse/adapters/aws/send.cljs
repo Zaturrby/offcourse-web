@@ -10,7 +10,7 @@
 
 
 (defn handle-response [name [event-type payload]]
-  (log/log "QUERY RESPONSE" (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
+  (log/error "QUERY RESPONSE" (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
   (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
 
 (defn send [{:keys [name endpoint]} [event-type query :as event]]
