@@ -25,10 +25,18 @@
                          respond]
   [:ul.actions-panel
    (when user-name [:li.button  
+                    {:key "create"
+                     :data-button-type "textbar"}
+                    "Create Course"])
+   (when user-name [:li.button  
                     {:key "profile"
                      :data-button-type "textbar"}
                     "My Profile"])
    (when user-name (url-button user-name "/"))
+   (when-not user-name [:li.button  
+                        {:key "profile"
+                         :data-button-type "textbar"}
+                        "Sign Up"])
    (if auth-token
      (handler-button :sign-out respond)
      (handler-button :sign-in respond))])
