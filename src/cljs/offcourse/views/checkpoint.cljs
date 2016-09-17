@@ -27,8 +27,11 @@
                              (qa/get course checkpoint-data)
                              (first (:checkpoints course)))))
    :resource        (fnk [appstate
+                          course
                           checkpoint]
-                         (when checkpoint (qa/get appstate checkpoint)))
+                         (let [query {:course-id (:course-id course)
+                                      :resource-url (:resource-url checkpoint)}]
+                           (when checkpoint (qa/get appstate query))))
    :view-actions         (fnk [] #{})
    :main            (fnk [checkpoint
                           resource]
