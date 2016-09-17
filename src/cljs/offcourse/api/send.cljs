@@ -9,7 +9,7 @@
 
 (defmulti send (fn [_ event] (sp/resolve event)))
 
-(defmethod send [:not-found :query]
+(defmethod send :default
   [{:keys [component-name repositories] :as api} [_ query :as event]]
   (doseq [{:keys [resources] :as repository} repositories]
     (when (contains? resources (sp/resolve query))
