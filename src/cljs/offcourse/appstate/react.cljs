@@ -29,11 +29,13 @@
 (defmethod react [:found :data] [as [_ payload]]
   (ac/perform as [:add payload]))
 
-(defmethod react [:not-found :query] [{:keys [state] :as as} [_ query]]
+;; should be [:not-found :query]
+(defmethod react [:not-found :data] [{:keys [state] :as as} [_ query]]
   (when (= :user (sp/resolve query))
     (ef/respond as [:requested [:create :new-user]])))
 
-(defmethod react [:not-found :data] [{:keys [state] :as as} [_ payload]]
+#_(defmethod react [:not-found :data] [{:keys [state] :as as} [_ payload]]
   (log/error payload "missing-data")
+  as
   #_(when-not (-> @state :user :user-name)
       (rd/redirect as :signup)))
