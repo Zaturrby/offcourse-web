@@ -9,9 +9,12 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 
-(defn handle-response [name [event-type payload]]
+#_(defn handle-response [name [event-type payload]]
   (log/error "QUERY RESPONSE" (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
   (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
+
+(defn handle-response [name _]
+  (event/create [name :not-found {:user-name "yeehaa"}]))
 
 (defn send [{:keys [name endpoint]} [event-type query :as event]]
   (let [c (chan)
