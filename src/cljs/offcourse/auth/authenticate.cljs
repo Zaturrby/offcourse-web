@@ -18,9 +18,9 @@
 
 (defn marshal [obj] (.stringify js/JSON obj))
 
-(defmulti react (fn [_ event] (sp/resolve event)))
+(defmulti react (fn [_ [event-type _]] event-type))
 
-(defmethod react [:requested :action] [{:keys [config provider] :as auth} [_ action]]
+(defmethod react :requested [{:keys [config provider] :as auth} [_ action]]
   (case (first action)
     :sign-in (go
                (let [{:keys [token response]} (<! (-sign-in provider))

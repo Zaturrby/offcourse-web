@@ -15,9 +15,9 @@
     (rum/mount rendered-view
                (. js/document (querySelector element)))))
 
-(defmulti render (fn [_ [_ payload :as event]] (sp/resolve event)))
+(defmulti render (fn [_ [event-type _]] event-type))
 
-(defmethod render [:refreshed :data] [{:keys [views container routes] :as rd}
+(defmethod render :refreshed [{:keys [views container routes] :as rd}
                              [_ payload]]
   (let [view       (view/create {:appstate    payload
                                  :responder   (partial ef/respond rd)
@@ -26,6 +26,6 @@
         viewmodel  (:viewmodel view-graph)
         actions    (:actions view-graph)]
     (-render view-graph container)
-    (ef/respond rd [:rendered nil])))
+    (ef/respond rd [:rendered])))
 
 (defmethod render :default [_ _] nil)
