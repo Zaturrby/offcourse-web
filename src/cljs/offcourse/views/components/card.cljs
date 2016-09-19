@@ -17,8 +17,6 @@
      [:.card--section (item-list :todo checkpoints)]
      [:.card--section
       [:ul.card--actions
-       (log/log "Course in Card:")
-       (log/log course)
        (when browsable? (action course "Browse"))
        (when forkable? (action course "Fork"))
        (when editable? (action course "Edit"))]]]]))

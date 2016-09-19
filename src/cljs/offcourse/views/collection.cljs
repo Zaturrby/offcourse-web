@@ -22,5 +22,4 @@
                            (filter-courses collection)))
    :view-actions (fnk [] #{:toggle})
    :main         (fnk [courses]
-                      (when courses (log/log (map meta courses)))
                       (cards {:courses courses}))})

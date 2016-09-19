@@ -44,7 +44,6 @@
         (with-meta checkpoint {:checkpoint-url checkpoint-url}))))
   Course
   (-decorate [{:keys [checkpoints curator] :as course} appstate routes]
-    (log/log course)
     (let [course-meta (compute course-meta-graph {:course   course
                                                   :routes   routes
                                                   :appstate appstate})]
