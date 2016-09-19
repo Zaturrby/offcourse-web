@@ -8,7 +8,7 @@
 (spec/def ::button-type (spec/or :link string?
                                  :action any?))
 
-(defmulti button (fn [button-text something] (first (spec/conform ::button-type something))))
+(defmulti button (fn [button-text payload] (first (spec/conform ::button-type payload))))
 
 (defmethod button :link [button-text url]
   [:li.button {:data-button-type "textbar"}

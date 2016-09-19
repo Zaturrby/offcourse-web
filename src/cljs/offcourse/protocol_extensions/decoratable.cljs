@@ -9,6 +9,7 @@
             [shared.protocols.queryable :as qa]
             [shared.protocols.loggable :as log]))
 
+<<<<<<< HEAD
 (defn compute [graph graph-data]
   ((graph/compile graph) graph-data))
 
@@ -38,6 +39,11 @@
                           (compute affordances-graph {:user-is-curator? user-is-curator?
                                                       :user-is-forker? user-is-forker?
                                                       :current-user     current-user}))})
+=======
+
+(defn compute-affordances [course appstate]
+  {:browsable? true})  
+>>>>>>> f23194e... add affordances to decoratable extention
 
 (extend-protocol Decoratable
   Checkpoint
@@ -49,6 +55,7 @@
                                :checkpoint-url checkpoint-url})
         (with-meta checkpoint {:checkpoint-url checkpoint-url}))))
   Course
+<<<<<<< HEAD
   (-decorate [{:keys [checkpoints forks curator] :as course} appstate routes]
     (let [course-meta (compute course-meta-graph {:course   course
                                                   :routes   routes
@@ -58,3 +65,14 @@
                                                          :course course} routes)
                                        checkpoints))
               (with-meta course-meta)))))
+=======
+  (-decorate [{:keys [checkpoints curator] :as course} user-name selected routes]
+    (let [tags (-> (qa/get course {:tags :all}))
+          course-url (cv/to-url course routes)
+          affordances (compute-affordances course nil)]
+      (some-> course
+              (assoc :checkpoints (map #(dc/decorate %1 (:checkpoint-slug selected) course routes) checkpoints))
+              (with-meta {:tags       tags
+                          :affordances affordances
+                          :course-url course-url})))))
+>>>>>>> f23194e... add affordances to decoratable extention
