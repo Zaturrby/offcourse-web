@@ -4,7 +4,12 @@
             [shared.models.course.index :as co :refer [Course]]
             [shared.protocols.convertible :as cv]
             [shared.protocols.decoratable :as dc :refer [Decoratable]]
-            [shared.protocols.queryable :as qa]))
+            [shared.protocols.queryable :as qa]
+            [shared.protocols.loggable :as log]))
+
+
+(defn compute-affordances [course appstate]
+  {:browsable? true})  
 
 (extend-protocol Decoratable
   Checkpoint
@@ -18,9 +23,10 @@
   Course
   (-decorate [{:keys [checkpoints curator] :as course} user-name selected routes]
     (let [tags (-> (qa/get course {:tags :all}))
-          course-url (cv/to-url course routes)]
+          course-url (cv/to-url course routes)
+          affordances (compute-affordances course nil)]
       (some-> course
               (assoc :checkpoints (map #(dc/decorate %1 (:checkpoint-slug selected) course routes) checkpoints))
               (with-meta {:tags       tags
-                          :course-url course-url
-                          :trackable? (= user-name curator)})))))
+                          :affordances affordances
+                          :course-url course-url})))))
