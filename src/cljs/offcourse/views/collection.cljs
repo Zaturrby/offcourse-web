@@ -2,7 +2,8 @@
   (:require [clojure.set :as set]
             [offcourse.views.components.card :refer [cards]]
             [plumbing.core :refer-macros [fnk]]
-            [shared.protocols.decoratable :as dc]))
+            [shared.protocols.decoratable :as dc]
+            [shared.protocols.loggable :as log]))
 
 (defn filter-courses [{:keys [collection-name collection-type]} courses]
   (case collection-type
@@ -17,7 +18,9 @@
   {:collection   (fnk [viewmodel] (get-in viewmodel [:collection]))
    :courses      (fnk [appstate user-name viewmodel collection routes]
                       (->> (:courses appstate)
-                           (map #(dc/decorate %1 user-name nil routes))
+                           (map #(dc/decorate %1 appstate routes))
                            (filter-courses collection)))
    :view-actions (fnk [] #{:toggle})
-   :main         (fnk [courses] (cards {:courses courses}))})
+   :main         (fnk [courses]
+                      (when courses (log/log (map meta courses)))
+                      (cards {:courses courses}))})

@@ -1,5 +1,5 @@
 (set-env!
- :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../offcourse-shared" "../offcourse-styles/src"}
+ :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../offcourse-shared" #_"../offcourse-styles/src"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.3"          :scope "test"]

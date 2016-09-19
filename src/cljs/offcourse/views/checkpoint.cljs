@@ -18,7 +18,7 @@
                           user-name]
                          (some-> appstate
                                  (qa/get course-data)
-                                 (dc/decorate user-name checkpoint-data routes)))
+                                 (dc/decorate appstate routes)))
    :checkpoint      (fnk [appstate
                           course
                           checkpoint-data]
