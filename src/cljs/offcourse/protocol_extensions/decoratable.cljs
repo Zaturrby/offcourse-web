@@ -24,8 +24,8 @@
                           (qa/get course {:tags :all}))
    :course-url       (fnk [course routes]
                           (cv/to-url course routes))
-   :current-user     (fnk [[:appstate user]]
-                          (when user (:user-name user)))
+   :current-user     (fnk [appstate]
+                          (when (:user appstate) (:user-name user)))
    :course-curator   (fnk [course] (:curator course))
    :user-is-curator? (fnk [current-user course-curator]
                           (and current-user (= course-curator current-user)))
