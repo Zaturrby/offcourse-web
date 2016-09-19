@@ -30,7 +30,7 @@
                     "Create Course"])
    (when user-name (url-button user-name "/"))
    (when-not user-name [:li.button
-                        {:key "profile"
+                        {:key "sign-up"
                          :data-button-type "textbar"}
                         "Sign Up"])
    (if auth-token

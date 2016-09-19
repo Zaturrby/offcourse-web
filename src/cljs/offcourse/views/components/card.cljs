@@ -8,9 +8,7 @@
     [:.card--section
      [:a.card--title {:href (-> course meta :course-url)} goal]
      [:img.card--edit-sign {:src "/images/pencil.svg"}]]
-    [:.card--section (item-list :todo checkpoints)]
-    [:.card--section
-     [:.card--button "Start"]]]])
+    [:.card--section (item-list :todo checkpoints)]]])
 
 (rum/defc cards [{:keys [courses]}]
   [:.cards (map #(rum/with-key (card %) (:course-id %)) courses)])
