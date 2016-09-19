@@ -1,15 +1,22 @@
 (ns offcourse.views.components.card
   (:require [offcourse.views.components.item-list :refer [item-list]]
             [rum.core :as rum]
-            [shared.protocols.loggable :as log]))
+            [shared.protocols.loggable :as log]
+            [cljs.test :as test]
+            [cljs.spec :as spec]))
 
-(rum/defc link-button [button-text url]
+(spec/def ::button-type (spec/or :link string?
+                                 :action any?))
+
+(defmulti button (fn [button-text something] (first (spec/conform ::button-type something))))
+
+(defmethod button :link [button-text url]
   [:li.button {:data-button-type "textbar"}
    [:a {:href url} button-text]])
 
-(rum/defc action-button [button-text action respond]
+(defmethod button :action [button-text action]
   [:li.button {:data-button-type "textbar"}
-   [:a {:on-click #(respond action)} button-text]])
+   [:a {:on-click action} button-text]])
 
 (rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
                 respond]
@@ -22,8 +29,8 @@
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      [:.card--section
       [:ul.card--actions
-       (when browsable? (link-button "Browse" course-url))
-       (when forkable? (action-button "Fork" [:fork course] respond))]]]]))
+       (when browsable? (button "Browse" course-url))
+       (when forkable? (button "Fork" #(respond [:fork course])))]]]]))
 
 (rum/defc cards [{:keys [courses]} respond]
   [:.cards (map #(rum/with-key (card % respond) (:course-id %)) courses)])

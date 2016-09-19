@@ -11,7 +11,7 @@
   (let [{:keys [selected checkpoint-url]} (meta checkpoint)]
     [:li.list--item {:data-selected selected
                      :data-item-type :todo}
-     (when trackable? [:button.button 
+     (when trackable? [:button.button
                        {:key :checkbox
                         :data-button-type :checkbox
                         :on-click #(toggle-checkpoint checkpoint respond)
