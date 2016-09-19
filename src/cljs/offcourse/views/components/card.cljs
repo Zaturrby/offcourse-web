@@ -19,8 +19,6 @@
     [:.card
      [:.card--section
       [:a.card--title {:href (-> course meta :course-url)} goal]]
-     (log/log "course from card")
-     (log/log course)
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      [:.card--section
       [:ul.card--actions

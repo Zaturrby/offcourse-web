@@ -3,7 +3,6 @@
             [shared.protocols.loggable :as log]))
 
 (defn toggle-checkpoint [checkpoint respond]
-  (log/log "im a beautifull checkpoiint")
   (if (:completed? checkpoint)
     (respond [:mark-incomplete checkpoint])
     (respond [:mark-complete checkpoint])))
@@ -12,8 +11,6 @@
   (let [{:keys [selected checkpoint-url]} (meta checkpoint)]
     [:li.list--item {:data-selected selected
                      :data-item-type :todo}
-     (log/log "traaaking")
-     (log/log (str trackable?))
      (when trackable? [:button.button 
                        {:key :checkbox
                         :data-button-type :checkbox
