@@ -4,5 +4,4 @@
 (rum/defc logo [{:keys [site-title] :as data}
                 respond]
   [:.menubar--logo
-   [:a {on-click #(respond [:go :home])}
-    site-title]])
+   [:a {on-click #(respond [:go :home])} site-title]])
