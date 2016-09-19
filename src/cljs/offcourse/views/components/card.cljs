@@ -14,12 +14,14 @@
 (rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
                 respond]
   (let [{:keys [affordances course-url]} (meta course)
-        {:keys [browsable? forkable? editable?]} affordances]
+        {:keys [browsable? forkable? trackable? editable?]} affordances]
    [:.container
     [:.card
      [:.card--section
       [:a.card--title {:href (-> course meta :course-url)} goal]]
-     [:.card--section (item-list :todo checkpoints)]
+     (log/log "course from card")
+     (log/log course)
+     [:.card--section (item-list :todo checkpoints trackable? respond)]
      [:.card--section
       [:ul.card--actions
        (when browsable? (link-button "Browse" course-url))

@@ -1,17 +1,24 @@
 (ns offcourse.views.components.item-list
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [shared.protocols.loggable :as log]))
 
+(defn toggle-checkpoint [checkpoint respond]
+  (log/log "im a beautifull checkpoiint")
+  (if (:completed? checkpoint)
+    (respond [:mark-incomplete checkpoint])
+    (respond [:mark-complete checkpoint])))
 
-(rum/defc todo-list-item [{:keys [task completed? checkpoint-slug order] :as checkpoint}]
-  (let [{:keys [selected checkpoint-url]} (meta checkpoint)
-        trackable? false]
+(rum/defc todo-list-item [{:keys [task completed? checkpoint-slug order] :as checkpoint} trackable? respond]
+  (let [{:keys [selected checkpoint-url]} (meta checkpoint)]
     [:li.list--item {:data-selected selected
                      :data-item-type :todo}
-     (when trackable? [:button.button {:key :checkbox
-                       :data-button-type :checkbox
-                       :on-click nil #_(toggle-checkpoint checkpoint %1)
-                       :disabled (not trackable?)
-                       :data-selected (boolean completed?)} nil])
+     (log/log "traaaking")
+     (log/log (str trackable?))
+     (when trackable? [:button.button 
+                       {:key :checkbox
+                        :data-button-type :checkbox
+                        :on-click #(toggle-checkpoint checkpoint respond)
+                        :data-selected (boolean completed?)}])
      [:a {:key :title
           :href checkpoint-url} [:span task]]]))
 
@@ -22,8 +29,8 @@
                     :data-button-type (name :icon)
                     :on-click nil #_(remove-checkpoint checkpoint)} "X"]])
 
-(rum/defc item-list [list-type checkpoints]
+(rum/defc item-list [list-type checkpoints trackable? respond]
   [:ul.list {:data-list-type (name list-type)}
    (case list-type
-     :todo (map #(rum/with-key (todo-list-item %) (:checkpoint-id %)) checkpoints)
+     :todo (map #(rum/with-key (todo-list-item % trackable? respond) (:checkpoint-id %)) checkpoints)
      :edit (map #(rum/with-key (list-item %) (:checkpoint-id %)) checkpoints))])
