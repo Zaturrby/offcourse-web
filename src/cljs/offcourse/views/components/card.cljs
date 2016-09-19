@@ -3,12 +3,17 @@
             [rum.core :as rum]
             [shared.protocols.loggable :as log]))
 
-(rum/defc action [course action-type]
+(rum/defc link-button [button-text url]
   [:li.button {:data-button-type "textbar"}
-   [:a {:href (-> course meta :course-url)} action-type]])
+   [:a {:href url} button-text]])
 
-(rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}]
-  (let [{:keys [affordances]} (meta course)
+(rum/defc action-button [button-text action respond]
+  [:li.button {:data-button-type "textbar"}
+   [:a {:on-click #(respond action)} button-text]])
+
+(rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
+                respond]
+  (let [{:keys [affordances course-url]} (meta course)
         {:keys [browsable? forkable? editable?]} affordances]
    [:.container
     [:.card
@@ -17,9 +22,8 @@
      [:.card--section (item-list :todo checkpoints)]
      [:.card--section
       [:ul.card--actions
-       (when browsable? (action course "Browse"))
-       (when forkable? (action course "Fork"))
-       (when editable? (action course "Edit"))]]]]))
+       (when browsable? (link-button "Browse" course-url))
+       (when forkable? (action-button "Fork" [:fork course] respond))]]]]))
 
-(rum/defc cards [{:keys [courses]}]
-  [:.cards (map #(rum/with-key (card %) (:course-id %)) courses)])
+(rum/defc cards [{:keys [courses]} respond]
+  [:.cards (map #(rum/with-key (card % respond) (:course-id %)) courses)])

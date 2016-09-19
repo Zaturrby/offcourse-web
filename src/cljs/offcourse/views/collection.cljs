@@ -20,6 +20,6 @@
                       (->> (:courses appstate)
                            (map #(dc/decorate %1 appstate routes))
                            (filter-courses collection)))
-   :view-actions (fnk [] #{:toggle})
-   :main         (fnk [courses]
-                      (cards {:courses courses}))})
+   :view-actions (fnk [] #{:toggle :fork})
+   :main         (fnk [courses respond]
+                      (cards {:courses courses} respond))})
