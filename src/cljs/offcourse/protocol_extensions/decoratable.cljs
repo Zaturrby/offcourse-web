@@ -14,24 +14,29 @@
 
 (def affordances-graph
   {:browsable? (fnk [] true)
-   :forkable?  (fnk [current-user user-is-curator?]
-                    (and current-user (not user-is-curator?)))
+   :forkable?  (fnk [current-user user-is-curator? user-is-forker?]
+                    (and current-user (not user-is-forker?) (not user-is-curator?)))
    :editable?  (fnk [user-is-curator?] user-is-curator?)
    :trackable? (fnk [user-is-curator?] user-is-curator?)})
 
 (def course-meta-graph
-  {:tags             (fnk [course]
-                          (qa/get course {:tags :all}))
+  {:tags             (fnk [course] (qa/get course {:tags :all}))
+   :fork-curators      (fnk [course] (->> (:forks course)
+                                          (map (fn [id]
+                                                 (let [[org curator hash] (str/split id "::")]
+                                                   curator)))
+                                          (into #{})))
    :course-url       (fnk [course routes]
                           (cv/to-url course routes))
-   :current-user     (fnk [appstate] (when-let [user (:user appstate)]
-                                       (:user-name user)))
+   :current-user     (fnk [appstate]
+                          (when-let [user (:user appstate)] (:user-name user)))
    :course-curator   (fnk [course] (:curator course))
-   :user-is-forker   (fnk [current-user course] false)
+   :user-is-forker?  (fnk [current-user course fork-curators] (contains? fork-curators current-user))
    :user-is-curator? (fnk [current-user course-curator]
                           (and current-user (= course-curator current-user)))
-   :affordances      (fnk [user-is-curator? current-user]
+   :affordances      (fnk [user-is-curator? current-user user-is-forker?]
                           (compute affordances-graph {:user-is-curator? user-is-curator?
+                                                      :user-is-forker? user-is-forker?
                                                       :current-user     current-user}))})
 
 (extend-protocol Decoratable
@@ -44,7 +49,7 @@
                                :checkpoint-url checkpoint-url})
         (with-meta checkpoint {:checkpoint-url checkpoint-url}))))
   Course
-  (-decorate [{:keys [checkpoints curator] :as course} appstate routes]
+  (-decorate [{:keys [checkpoints forks curator] :as course} appstate routes]
     (let [course-meta (compute course-meta-graph {:course   course
                                                   :routes   routes
                                                   :appstate appstate})]
