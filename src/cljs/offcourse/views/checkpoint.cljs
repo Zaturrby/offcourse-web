@@ -32,12 +32,11 @@
                          (let [query {:course-id (:course-id course)
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
-   :view-actions         (fnk [] #{})
+   :view-actions         (fnk [] #{:update :fork})
    :main            (fnk [checkpoint
                           resource]
                          (viewer {:resource resource} nil nil))
-   :dashboard       (fnk [user-name
-                          course
-                          actions]
+   :dashboard       (fnk [course
+                          respond]
                          (when course
-                           (dashboard {:main (card course)})))})
+                           (dashboard {:main (card course respond)})))})
