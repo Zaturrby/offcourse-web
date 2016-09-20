@@ -2,12 +2,10 @@
   (:require [rum.core :as rum]
             [shared.protocols.loggable :as log]))
 
-(defn toggle-checkpoint [checkpoint respond]
-  (if (:completed? checkpoint)
-    (respond [:mark-incomplete checkpoint])
-    (respond [:mark-complete checkpoint])))
+(defn toggle-checkpoint [{:keys [complete?] :as checkpoint} respond]
+  (respond [:update (assoc checkpoint :complete? (not complete?))]))
 
-(rum/defc todo-list-item [{:keys [task completed? checkpoint-slug order] :as checkpoint} trackable? respond]
+(rum/defc todo-list-item [{:keys [task complete? checkpoint-slug order] :as checkpoint} trackable? respond]
   (let [{:keys [selected checkpoint-url]} (meta checkpoint)]
     [:li.list--item {:data-selected selected
                      :data-item-type :todo}
@@ -15,7 +13,7 @@
                        {:key :checkbox
                         :data-button-type :checkbox
                         :on-click #(toggle-checkpoint checkpoint respond)
-                        :data-selected (boolean completed?)}])
+                        :data-selected (boolean complete?)}])
      [:a {:key :title
           :href checkpoint-url} [:span task]]]))
 

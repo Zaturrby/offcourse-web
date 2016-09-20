@@ -20,6 +20,6 @@
                       (->> (:courses appstate)
                            (map #(dc/decorate %1 appstate routes))
                            (filter-courses collection)))
-   :view-actions (fnk [] #{:toggle :fork :mark-complete :mark-incomplete})
+   :view-actions (fnk [] #{:toggle :fork :update})
    :main         (fnk [courses respond]
                       (cards {:courses courses} respond))})

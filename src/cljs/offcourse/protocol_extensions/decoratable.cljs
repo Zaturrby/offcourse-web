@@ -43,11 +43,14 @@
   Checkpoint
   (-decorate [{:keys [task] :as checkpoint} {:keys [selected course]} routes]
     (let [checkpoint-url  (cv/to-url checkpoint course routes)
+          course-id       (:course-id course)
           checkpoint-slug (str/slugify task)]
       (if (= selected checkpoint-slug)
         (with-meta checkpoint {:selected       true
+                               :course-id      course-id
                                :checkpoint-url checkpoint-url})
-        (with-meta checkpoint {:checkpoint-url checkpoint-url}))))
+        (with-meta checkpoint {:checkpoint-url checkpoint-url
+                               :course-id      course-id}))))
   Course
   (-decorate [{:keys [checkpoints forks curator] :as course} appstate routes]
     (let [course-meta (compute course-meta-graph {:course   course
