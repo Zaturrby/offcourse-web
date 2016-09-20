@@ -26,6 +26,17 @@
     [:.card
      [:.card--section
       [:a.card--title {:href (-> course meta :course-url)} goal]]
+     [:.card--section
+       [:.card--profile
+        [:.card--profile-section
+          (log/log course)
+          [:img.card--profile-image {:src "/images/profilepics/2.jpg"}]]
+        [:.card--profile-section
+         [:.card--profile-subtitle "Curated by"]
+         [:.card--profile-username "Elmo the Pelmo"]
+         [:.card--profile-stats
+          [:span "Learners 345"]
+          [:span "Stats 123"]]]]]
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      [:.card--section
       [:ul.card--actions
