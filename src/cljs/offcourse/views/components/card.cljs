@@ -30,10 +30,11 @@
        [:.card--profile
         [:.card--profile-section
           (log/log course)
-          [:img.card--profile-image {:src "/images/profilepics/2.jpg"}]]
+          [:img.card--profile-image {:src (str "/images/profilepics/" (:curator course) ".jpg")}]]
         [:.card--profile-section
+         (log/log course)
          [:.card--profile-subtitle "Curated by"]
-         [:.card--profile-username "Elmo the Pelmo"]
+         [:.card--profile-username (clojure.string/capitalize (:curator course))]
          [:.card--profile-stats
           [:span "Learners 345"]
           [:span "Stats 123"]]]]]
