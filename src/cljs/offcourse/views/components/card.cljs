@@ -32,16 +32,21 @@
           (log/log course)
           [:img.card--profile-image {:src (str "/images/profilepics/" (:curator course) ".jpg")}]]
         [:.card--profile-section
-         [:.card--profile-subtitle "Curated by"]
-         [:.card--profile-username (clojure.string/capitalize (:curator course))]
-         [:.card--profile-stats
-          [:span "Learners 345"]
-          [:span "Stats 123"]]]]]
+         [:.card--profile-label "Curated by"]
+         [:.card--profile-username (clojure.string/capitalize (:curator course))]]]]
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      [:.card--section
       [:ul.card--actions
        (when browsable? (button "Browse" course-url))
-       (when forkable? (button "Fork" #(respond [:fork course])))]]]]))
+       (when forkable? (button "Fork" #(respond [:fork course])))]]
+     [:.card--section 
+      [:.card--social
+       [:.card--social-icons
+        [:img.card--social-img {:src "/images/social/t.png"}]
+        [:img.card--social-img {:src "/images/social/f.png"}]
+        [:img.card--social-img {:src "/images/social/gplus.png"}]
+        [:img.card--social-img {:src "/images/social/gh.png"}]]
+       [:.card--social-url "Get URL"]]]]]))
 
 (rum/defc cards [{:keys [courses]} respond]
   [:.cards (map #(rum/with-key (card % respond) (:course-id %)) courses)])
