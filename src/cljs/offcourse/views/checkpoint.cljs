@@ -34,10 +34,11 @@
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
    :view-actions         (fnk [] #{:update :fork})
-   :main            (fnk [checkpoint]
-                         (checkpoint-content {:viewer (viewer {:resource {:title "Im a cool title too" :content "lorem"}} nil nil)
-                                              :meta-widget (meta-widget)}))
-                         ; (viewer {:resource {:title "Im a cool title" :content "lorem"}} nil nil)
+   :main            (fnk [checkpoint
+                          course
+                          #_resource] 
+                         (checkpoint-content {:viewer (viewer {:resource {:title "Temporary Title" :content "Lorem"}} nil nil)
+                                              :meta-widget (meta-widget checkpoint course)}))
    :dashboard       (fnk [course
                           respond]
                          (when course
