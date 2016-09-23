@@ -4,6 +4,5 @@
 
 (rum/defc dashboard [{:keys [main edit-button]}]
   [:.dashboard
-   (log/log edit-button)
    [:.dashboard--main main]
    [:.dashboard--edit edit-button]])
