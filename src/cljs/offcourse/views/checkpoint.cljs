@@ -1,7 +1,8 @@
 (ns offcourse.views.checkpoint
   (:require [offcourse.views.components.card :refer [card]]
-            [offcourse.views.components.viewer :refer [viewer]]
+            [offcourse.views.components.viewer :refer [viewer meta-widget]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
+            [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
             [shared.protocols.queryable :as qa]
@@ -33,9 +34,10 @@
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
    :view-actions         (fnk [] #{:update :fork})
-   :main            (fnk [checkpoint
-                          resource]
-                         (viewer {:resource resource} nil nil))
+   :main            (fnk [checkpoint]
+                         (checkpoint-content {:viewer (viewer {:resource {:title "Im a cool title too" :content "lorem"}} nil nil)
+                                              :meta-widget (meta-widget)}))
+                         ; (viewer {:resource {:title "Im a cool title" :content "lorem"}} nil nil)
    :dashboard       (fnk [course
                           respond]
                          (when course
