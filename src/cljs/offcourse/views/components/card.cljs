@@ -1,23 +1,9 @@
 (ns offcourse.views.components.card
   (:require [offcourse.views.components.item-list :refer [item-list]]
+            [offcourse.views.components.button :refer [button]]
             [rum.core :as rum]
-            [shared.protocols.loggable :as log]
-            [cljs.test :as test]
-            [cljs.spec :as spec]))
-
-(spec/def ::button-type (spec/or :link string?
-                                 :action any?))
-
-(defmulti button (fn [button-text payload] (first (spec/conform ::button-type payload))))
-
-(defmethod button :link [button-text url]
-  [:li.button {:data-button-type "textbar"}
-   [:a {:href url} button-text]])
-
-(defmethod button :action [button-text action]
-  [:li.button {:data-button-type "textbar"}
-   [:a {:on-click action} button-text]])
-
+            [shared.protocols.loggable :as log]))
+ 
 (rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
                 respond]
   (let [{:keys [affordances course-url]} (meta course)

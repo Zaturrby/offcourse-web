@@ -44,4 +44,4 @@
                           respond]
                          (when course
                            (dashboard {:main (card course respond)
-                                       :edit-button (button "edit" (log/log "edit now plx"))})))})
+                                       :edit-button (button "edit" "none")})))})

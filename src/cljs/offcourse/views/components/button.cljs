@@ -1,14 +1,20 @@
 (ns offcourse.views.components.button
   (:require [rum.core :as rum]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [cljs.test :as test]
+            [cljs.spec :as spec]))
 
-(defn titleize [word]
-  (as-> word %
-    (str/split % "-")
-    (map str/capitalize %)
-    (str/join " " %)))
+(spec/def ::button-type (spec/or :link string?
+                                 :action any?))
 
-(rum/defc button [[key action]]
-  (let [title (titleize (name key))]
-    [:div.container--btn {:onClick action}
-     [:button.btn title]]))
+(defmulti button (fn [button-text payload] (first (spec/conform ::button-type payload))))
+
+(defmethod button :link [button-text url]
+  [:li.button {:data-button-type "textbar"}
+   [:a {:href url} button-text]])
+
+(defmethod button :action [button-text action]
+  [:li.button {:data-button-type "textbar"}
+   [:a {:on-click action} button-text]])
+
+
