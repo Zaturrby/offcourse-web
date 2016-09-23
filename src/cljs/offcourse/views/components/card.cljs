@@ -29,7 +29,6 @@
      [:.card--section
        [:.card--profile
         [:.card--profile-section
-          (log/log course)
           [:img.card--profile-image {:src (str "/images/profilepics/" (:curator course) ".jpg")}]]
         [:.card--profile-section
          [:.card--profile-label "Curated by"]
