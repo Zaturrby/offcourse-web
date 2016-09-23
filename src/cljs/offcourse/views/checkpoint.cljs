@@ -1,6 +1,7 @@
 (ns offcourse.views.checkpoint
   (:require [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.viewer :refer [viewer meta-widget]]
+            [offcourse.views.components.button :refer [button]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
             [plumbing.core :refer-macros [fnk]]
@@ -42,4 +43,5 @@
    :dashboard       (fnk [course
                           respond]
                          (when course
-                           (dashboard {:main (card course respond)})))})
+                           (dashboard {:main (card course respond)
+                                       :edit-button (button "edit" (log/log "edit now plx"))})))})
