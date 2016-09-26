@@ -3,4 +3,4 @@
             [shared.protocols.loggable :as log]))
  
 (rum/defc edit-modal []
-  (log/log "Edit!"))
+  [:div.edit "Edit!"])

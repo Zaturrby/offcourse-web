@@ -2,6 +2,7 @@
   (:require [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.viewer :refer [viewer meta-widget]]
             [offcourse.views.components.button :refer [button]]
+            [offcourse.views.components.edit-modal :refer [edit-modal]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
             [offcourse.views.containers.overlay :refer [overlay]]
@@ -50,4 +51,4 @@
                                        :edit-button (button "Edit this course" "none")})))
    :overlay         (fnk []
                          (when true
-                           (overlay)))})
+                           (overlay {:edit-modal (edit-modal)})))})
