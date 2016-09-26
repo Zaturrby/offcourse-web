@@ -22,13 +22,13 @@
    [:.card
     [:.card--section {:key :user-name}
      [:input.card--edit-field {:placeholder "Your User Name"
-                             :value (:user-name user)
-                             :auto-focus true
-                             :on-change #(update-prop :user-name % user-atom)}]
+                               :value (:user-name user)
+                               :auto-focus true
+                               :on-change #(update-prop :user-name % user-atom)}]
      [:input.card--edit-field {:placeholder "Your Email"
-                             :value (:email user)
-                             :auto-focus true
-                             :on-change #(update-prop :email % user-atom)}]]
+                               :value (:email user)
+                               :auto-focus true
+                               :on-change #(update-prop :email % user-atom)}]]
     (when valid?
       [:.card--section {:key :actions}
        [:.actions
