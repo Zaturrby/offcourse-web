@@ -6,7 +6,6 @@
             [shared.protocols.loggable :as log])
   (:require-macros [com.rpl.specter.macros :refer [setval]]))
 
- 
 (defn update-prop [prop-name event atom]
   (let [prop-value (.. event -target -value)]
     (swap! atom #(assoc % prop-name prop-value))))
@@ -20,17 +19,17 @@
        course (merge course @course-atom)
        valid? (sp/valid? course)]
   [:.edit-modal
-   [:.edit-modal--section 
+   [:.edit-modal--section {:key :title}
     [:.edit-modal--action-title "Edit the Title"]
     [:input.edit-modal--course-title {:type        :text 
                                       :value      (:goal course)
                                       :on-change   #(update-prop :goal % course-atom)}]]
-   [:.edit-modal--section
+   [:.edit-modal--section {:key :tasks}
     [:.edit-modal--action-title "Edit the Resources"]
     [:.edit-modal--list (edit-list :edit 
                                   (:checkpoints course) 
                                   (partial update-checkpoint course-atom))]]
-   [:.edit-modal--section
+   [:.edit-modal--section {:key :actions}
     [:.edit-modal--actions 
      [(when true (button "Save Course" (partial log/log "Saving Course... or not")))]
      [(when true (button "Publish Course" (partial log/log "Publishing Course... or not")))]

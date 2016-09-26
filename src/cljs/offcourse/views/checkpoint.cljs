@@ -36,7 +36,7 @@
                          (let [query {:course-id (:course-id course)
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
-   :view-actions    (fnk [] #{:update :fork})
+   :view-actions    (fnk [] #{:update :fork :start :stop})
    :main            (fnk [checkpoint
                           course
                           #_resource] 
@@ -48,8 +48,8 @@
                           respond]
                          (when course
                            (dashboard {:main (card course respond)
-                                       :edit-button (button "Edit this course" "none")})))
-   :overlay         (fnk [checkpoint course #_is-editable]
-                         (when (and checkpoint course #_is-editable)
-                           (overlay {:edit-modal (edit-modal {:checkpoint checkpoint 
-                                                              :course     course})})))})
+                                       :edit-button (button "Edit this course" 
+                                                     (partial respond [:start :edit-mode]))})))
+   :overlay         (fnk [course]
+                         (when (and course false)
+                           (overlay {:edit-modal (edit-modal {:course course})})))})

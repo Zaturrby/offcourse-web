@@ -25,14 +25,14 @@
 
 (rum/defc edit-list-item [checkpoint trackable? handler]
     [:li.list--item
-      [:li.list--item-section
+      [:.list--item-section
        [:input.list--course {:type        :text 
                              :value      (:task checkpoint)
                              :on-change   #(handler :task % checkpoint)}]
        [:input.list--url    {:type        :text 
                              :value      (:resource-url checkpoint)
                              :on-change   #(handler :resource-url checkpoint %)}]]
-      [:li.list--item-section
+      [:.list--item-section
        [:button.button {:key :add-button
                         :data-button-type (name :icon)
                         :on-click nil #_(remove-checkpoint checkpoint)} "^"]]])

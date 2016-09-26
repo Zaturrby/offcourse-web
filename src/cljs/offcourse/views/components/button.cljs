@@ -10,11 +10,13 @@
 (defmulti button (fn [button-text payload] (first (spec/conform ::button-type payload))))
 
 (defmethod button :link [button-text url]
-  [:li.button {:data-button-type "textbar"}
+  [:li.button {:key button-text
+               :data-button-type "textbar"}
    [:a {:href url} button-text]])
 
 (defmethod button :action [button-text action]
-  [:li.button {:data-button-type "textbar"}
+  [:li.button {:key button-text
+               :data-button-type "textbar"}
    [:a {:on-click action} button-text]])
 
 
