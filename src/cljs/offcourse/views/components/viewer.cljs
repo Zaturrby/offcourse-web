@@ -3,27 +3,14 @@
             [shared.protocols.loggable :as log]
             [rum.core :as rum]))
 
-(def lorem "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-
 (rum/defc viewer [{:keys [resource]} _ _]
+  (log/log resource)
   [:.viewer
-   (if-let [{:keys [title content]} resource]
+   (if-let [{:keys [title description content]} resource]
      [:.viewer--content
       [:h1.title {:key :title} title]
       [:article {:key :content
-                 :dangerouslySetInnerHTML {:__html (md->html #_content lorem)}}]]
+                 :dangerouslySetInnerHTML {:__html (md->html (or content description))}}]]
      [:.loading "This resource couldn't be found... yet..."])])
 
 (rum/defc meta-widget [checkpoint course]

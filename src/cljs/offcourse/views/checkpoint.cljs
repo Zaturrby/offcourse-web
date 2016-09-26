@@ -10,6 +10,24 @@
             [clojure.set :as set]
             [shared.protocols.loggable :as log]))
 
+(def lorem "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+(def fake-resource
+  {:content lorem
+   :title "Fake Title"})
+
 (def graph
   {:checkpoint-data (fnk [viewmodel] (some-> viewmodel :checkpoint))
    :course-data     (fnk [viewmodel] (-> viewmodel :course))
@@ -37,10 +55,13 @@
    :view-actions         (fnk [] #{:update :fork})
    :main            (fnk [checkpoint
                           course
-                          #_resource] 
-                         (when checkpoint (checkpoint-content) 
-                            {:viewer (viewer {:resource {:title "Temporary Title" :content "Lorem"}} nil nil)
-                             :meta-widget (meta-widget checkpoint course)}))
+                          resource]
+                         (when checkpoint
+                           (checkpoint-content
+                            {:viewer (if resource
+                                       (viewer {:resource resource} nil nil)
+                                       (viewer {:resource fake-resource} nil nil))
+                             :meta-widget (meta-widget checkpoint course)})))
    :dashboard       (fnk [course
                           respond]
                          (when course

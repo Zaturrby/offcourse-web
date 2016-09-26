@@ -81,4 +81,4 @@
 
 
 (defmethod perform :default [as action]
-  (log/error action "Jan Hein hasn't implemented this action yet! Shame on him!"))
+  (log/error (sp/resolve action) "Jan Hein hasn't implemented this action yet! Shame on him!"))
