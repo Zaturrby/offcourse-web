@@ -17,15 +17,18 @@
      [:a {:key :title
           :href checkpoint-url} [:span task]]]))
 
-(rum/defc list-item [{:keys [task] :as checkpoint}]
+(rum/defc edit-list-item [{:keys [task resource-url] :as checkpoint}]
   [:li.list--item
-   [:span {:key :title} task]
-   [:button.button {:key :add-button
-                    :data-button-type (name :icon)
-                    :on-click nil #_(remove-checkpoint checkpoint)} "X"]])
+    [:li.list--item-section
+     [:input.list--course {:type :text :value task}]
+     [:input.list--url    {:type :text :value resource-url}]]
+    [:li.list--item-section
+     [:button.button {:key :add-button
+                      :data-button-type (name :icon)
+                      :on-click nil #_(remove-checkpoint checkpoint)} "^"]]])
 
 (rum/defc item-list [list-type checkpoints trackable? respond]
   [:ul.list {:data-list-type (name list-type)}
    (case list-type
      :todo (map #(rum/with-key (todo-list-item % trackable? respond) (:checkpoint-id %)) checkpoints)
-     :edit (map #(rum/with-key (list-item %) (:checkpoint-id %)) checkpoints))])
+     :edit (map #(rum/with-key (edit-list-item %) (:checkpoint-id %)) checkpoints))])

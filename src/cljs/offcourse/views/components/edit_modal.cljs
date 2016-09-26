@@ -14,7 +14,7 @@
     [:.edit-modal--course-title (:task checkpoint)]]
    [:.edit-modal--section
     [:.edit-modal--action-title "Edit the Resources"]
-    [:.edit-modal--list (item-list :todo (:checkpoints course) nil nil)]]
+    [:.edit-modal--list (item-list :edit (:checkpoints course) nil nil)]]
    [:.edit-modal--section
     [:.edit-modal--actions 
      [(when true (button "Save Course" (partial log/log "Saving Course... or not")))]
