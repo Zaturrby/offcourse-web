@@ -51,5 +51,5 @@
                                        :edit-button (button "Edit this course" 
                                                      (partial respond [:start :edit-mode]))})))
    :overlay         (fnk [course]
-                         (when (and course false)
+                         (when (and course true)
                            (overlay {:edit-modal (edit-modal {:course course})})))})
