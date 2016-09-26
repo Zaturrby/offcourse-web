@@ -4,6 +4,7 @@
             [offcourse.views.components.button :refer [button]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
+            [offcourse.views.containers.overlay :refer [overlay]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
             [shared.protocols.queryable :as qa]
@@ -34,15 +35,19 @@
                          (let [query {:course-id (:course-id course)
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
-   :view-actions         (fnk [] #{:update :fork})
+   :view-actions    (fnk [] #{:update :fork})
    :main            (fnk [checkpoint
                           course
                           #_resource] 
-                         (when checkpoint (checkpoint-content) 
+                         (when checkpoint 
+                           (checkpoint-content 
                             {:viewer (viewer {:resource {:title "Temporary Title" :content "Lorem"}} nil nil)
-                             :meta-widget (meta-widget checkpoint course)}))
+                             :meta-widget (meta-widget checkpoint course)})))
    :dashboard       (fnk [course
                           respond]
                          (when course
                            (dashboard {:main (card course respond)
-                                       :edit-button (button "Edit this course" "none")})))})
+                                       :edit-button (button "Edit this course" "none")})))
+   :overlay         (fnk []
+                         (when true
+                           (overlay)))})
