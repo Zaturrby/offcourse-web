@@ -17,6 +17,7 @@
   (let [user-atom (::user state)
         user (merge user @user-atom)
         valid? (sp/valid? user)]
+  ; (log/log user-atom)
   [:.container
    [:.card
     [:.card--section {:key :user-name}

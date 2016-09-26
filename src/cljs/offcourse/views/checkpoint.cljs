@@ -38,8 +38,9 @@
    :main            (fnk [checkpoint
                           course
                           #_resource] 
-                         (checkpoint-content {:viewer (viewer {:resource {:title "Temporary Title" :content "Lorem"}} nil nil)
-                                              :meta-widget (meta-widget checkpoint course)}))
+                         (when checkpoint (checkpoint-content) 
+                            {:viewer (viewer {:resource {:title "Temporary Title" :content "Lorem"}} nil nil)
+                             :meta-widget (meta-widget checkpoint course)}))
    :dashboard       (fnk [course
                           respond]
                          (when course
