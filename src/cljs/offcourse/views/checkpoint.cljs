@@ -2,8 +2,10 @@
   (:require [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.viewer :refer [viewer meta-widget]]
             [offcourse.views.components.button :refer [button]]
+            [offcourse.views.components.edit-modal :refer [edit-modal]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
+            [offcourse.views.containers.overlay :refer [overlay]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
             [shared.protocols.queryable :as qa]
@@ -52,7 +54,7 @@
                          (let [query {:course-id (:course-id course)
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
-   :view-actions         (fnk [] #{:update :fork})
+   :view-actions    (fnk [] #{:update :fork :start :stop})
    :main            (fnk [checkpoint
                           course
                           resource]
@@ -66,4 +68,8 @@
                           respond]
                          (when course
                            (dashboard {:main (card course respond)
-                                       :edit-button (button "Edit this course" "none")})))})
+                                       :edit-button (button "Edit this course"
+                                                     (partial respond [:start :edit-mode]))})))
+   :overlay         (fnk [course]
+                         (when (and course true)
+                           (overlay {:edit-modal (edit-modal {:course course})})))})
