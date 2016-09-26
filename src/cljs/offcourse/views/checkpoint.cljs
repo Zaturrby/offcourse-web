@@ -49,6 +49,6 @@
                          (when course
                            (dashboard {:main (card course respond)
                                        :edit-button (button "Edit this course" "none")})))
-   :overlay         (fnk []
-                         (when true
-                           (overlay {:edit-modal (edit-modal)})))})
+   :overlay         (fnk [checkpoint]
+                         (when (and checkpoint true)
+                           (overlay {:edit-modal (edit-modal checkpoint)})))})
