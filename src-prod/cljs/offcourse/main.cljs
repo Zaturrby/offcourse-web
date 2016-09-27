@@ -4,13 +4,13 @@
             [offcourse.adapters.github.index :as github]
             [offcourse.core :as core]
             [shared.models.appstate.index :as model]
-            [shared.specs.action :as action]))
+            [shared.specs.core :as specs]))
 
 (defonce app (atom nil))
 
 (defonce appstate-data {:site-title "Offcourse_"
                         :app-mode :view-mode
-                        :actions action/action-types})
+                        :actions specs/action-types})
 
 (defonce appstate (atom (model/create appstate-data)))
 
