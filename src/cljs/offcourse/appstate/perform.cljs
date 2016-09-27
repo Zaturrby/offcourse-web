@@ -65,12 +65,13 @@
 
 (defmethod perform [:update :viewmodel] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
-    (reset! state proposal)
-    (when-let [missing-data (qa/missing-data @state viewmodel)]
-      (ef/respond as [:not-found (query/create missing-data)]))
-    (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
-      (log/error @state (sp/errors @state)))))
+    (when (ck/check as proposal)
+      (reset! state proposal)
+      (when-let [missing-data (qa/missing-data @state viewmodel)]
+        (ef/respond as [:not-found (query/create missing-data)]))
+      (if (sp/valid? proposal)
+        (ef/respond as [:refreshed @state])
+        (log/error @state (sp/errors @state))))))
 
 (defmethod perform [:update :checkpoint] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]

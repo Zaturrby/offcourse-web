@@ -7,7 +7,8 @@
             [shared.protocols.specced :as sp]
             [shared.models.query.index :as query]))
 
-(defmulti react (fn [_ [event-type _ :as event]] event-type))
+(defmulti react (fn [_ [event-type _ :as event]]
+                  event-type))
 
 (defmethod react :granted [{:keys [state] :as as} [_ payload]]
   (let [proposal (ac/perform @state [:add payload])
