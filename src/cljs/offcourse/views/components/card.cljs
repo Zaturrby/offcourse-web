@@ -3,7 +3,7 @@
             [offcourse.views.components.button :refer [button]]
             [rum.core :as rum]
             [shared.protocols.loggable :as log]))
- 
+
 (rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
                 respond]
   (let [{:keys [affordances course-url]} (meta course)
@@ -24,7 +24,7 @@
       [:ul.card--actions
        (when browsable? (button "Browse" course-url))
        (when forkable? (button "Fork" #(respond [:fork course])))]]
-     [:.card--section 
+     [:.card--section
       [:.card--social
        [:.card--social-icons
         [:img.card--social-img {:src "/images/social/t.png"}]

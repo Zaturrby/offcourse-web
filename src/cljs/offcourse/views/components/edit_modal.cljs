@@ -14,24 +14,23 @@
   (let [prop-value (.. event -target -value)]
     (swap! atom #(setval [:checkpoints checkpoint prop-name] prop-value %))))
 
-(rum/defcs edit-modal < (rum/local {} ::course) [state {:keys [course]}]
+(rum/defcs edit-modal < (rum/local {} ::course) [state {:keys [course]} respond]
  (let [course-atom (::course state)
        course (merge course @course-atom)
        valid? (sp/valid? course)]
   [:.edit-modal
    [:.edit-modal--section {:key :title}
     [:.edit-modal--action-title "Edit the Title"]
-    [:input.edit-modal--course-title {:type        :text 
+    [:input.edit-modal--course-title {:type        :text
                                       :value      (:goal course)
                                       :on-change   #(update-prop :goal % course-atom)}]]
    [:.edit-modal--section {:key :tasks}
     [:.edit-modal--action-title "Edit the Resources"]
-    [:.edit-modal--list (edit-list :edit 
-                                  (:checkpoints course) 
+    [:.edit-modal--list (edit-list :edit
+                                  (:checkpoints course)
                                   (partial update-checkpoint course-atom))]]
    [:.edit-modal--section {:key :actions}
-    [:.edit-modal--actions 
+    [:.edit-modal--actions
      [(when true (button "Save Course" (partial log/log "Saving Course... or not")))]
      [(when true (button "Publish Course" (partial log/log "Publishing Course... or not")))]
-     [(when true (button "Cancel" (partial log/log "Canceling... or not")))]]]]))
-   
+     [(when true (button "Cancel" #(respond [:switch-to :view-mode])))]]]]))

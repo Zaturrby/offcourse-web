@@ -11,6 +11,7 @@
 (def graph
   {:container      (fnk [] app)
    :viewmodel      (fnk [[:appstate viewmodel]] viewmodel)
+   :app-mode      (fnk [[:appstate app-mode]] app-mode)
    :viewmodel-name (fnk [viewmodel] (sp/resolve viewmodel))
    :user           (fnk [appstate] (:user appstate))
    :user-name      (fnk [user] (when user (:user-name user)))

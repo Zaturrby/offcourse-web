@@ -80,5 +80,12 @@
       (log/error @state (sp/errors @state)))))
 
 
+(defmethod perform [:switch-to :app-mode] [{:keys [state] :as as} action]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+    (reset! state proposal)
+    (if (sp/valid? proposal)
+      (ef/respond as [:refreshed @state])
+      (log/error @state (sp/errors @state)))))
+
 (defmethod perform :default [as action]
   (log/error (sp/resolve action) "Jan Hein hasn't implemented this action yet! Shame on him!"))
