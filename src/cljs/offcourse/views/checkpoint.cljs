@@ -63,7 +63,9 @@
                             {:viewer (if resource
                                        (viewer {:resource resource} nil nil)
                                        (viewer {:resource fake-resource} nil nil))
-                             :meta-widget (meta-widget checkpoint course)})))
+                             :meta-widget (meta-widget {:checkpoint checkpoint
+                                                        :course course
+                                                        :resource resource})})))
    :dashboard       (fnk [course
                           respond]
                          (when course

@@ -13,7 +13,7 @@
                  :dangerouslySetInnerHTML {:__html (md->html (or content description))}}]]
      [:.loading "This resource couldn't be found... yet..."])])
 
-(rum/defc meta-widget [checkpoint course]
+(rum/defc meta-widget [{:keys [resource checkpoint course]}]
   [:.meta-widget--container
    [:.meta-widget
     [:.meta-widget--section
@@ -26,7 +26,12 @@
        [:h6.meta-widget--title "Source: "]
        [:a {:key   :resource-url
             :href  (:resource-url checkpoint)}
-        [:p.meta-widget--field "(link)"]]]
+        [:p.meta-widget--field (or (:provider-name resource) "(Only link)")]]]
+      [:li.meta-widget--list-item
+       [:h6.meta-widget--title "Publishing date: "]
+       [:a {:key   :resource-url
+            :href  (:resource-url checkpoint)}
+        [:p.meta-widget--field (or (:published resource) "Unknown")]]]
       [:li.meta-widget--list-item 
        [:h6.meta-widget--title "Author: "]
-       [:p.meta-widget--field (clojure.string/capitalize (:curator course))]]]]]])
+       [:p.meta-widget--field (or (:author resource) "Unknown")]]]]]])
