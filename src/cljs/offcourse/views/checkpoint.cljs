@@ -4,7 +4,6 @@
             [offcourse.views.components.button :refer [button]]
             [offcourse.views.components.edit-modal :refer [edit-modal]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
-            [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
             [offcourse.views.containers.overlay :refer [overlay]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
