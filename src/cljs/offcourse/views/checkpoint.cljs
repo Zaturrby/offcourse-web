@@ -58,14 +58,11 @@
    :main            (fnk [checkpoint
                           course
                           resource]
-                         (when checkpoint
-                           (checkpoint-content
-                            {:viewer (if resource
-                                       (viewer {:resource resource} nil nil)
-                                       (viewer {:resource fake-resource} nil nil))
-                             :meta-widget (meta-widget {:checkpoint checkpoint
-                                                        :course course
-                                                        :resource resource})})))
+                         (if resource
+                            (viewer {:resource resource}
+                                    :checkpoint checkpoint nil nil)
+                            (viewer {:resource fake-resource
+                                     :checkpoint checkpoint nil nil})))
    :dashboard       (fnk [course
                           respond]
                          (when course
