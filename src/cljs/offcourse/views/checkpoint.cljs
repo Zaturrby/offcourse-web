@@ -56,9 +56,8 @@
                            (when checkpoint (qa/get appstate query))))
    :view-actions    (fnk [] #{:update :fork :switch-to})
    :main            (fnk [checkpoint
-                          course
                           resource]
-                         (if resource
+                         (if (and resource checkpoint)
                             (viewer {:resource resource}
                                     :checkpoint checkpoint nil nil)
                             (viewer {:resource fake-resource
