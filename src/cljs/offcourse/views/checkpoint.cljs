@@ -4,7 +4,6 @@
             [offcourse.views.components.button :refer [button]]
             [offcourse.views.components.edit-modal :refer [edit-modal]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
-            [offcourse.views.containers.checkpoint-content :refer [checkpoint-content]]
             [offcourse.views.containers.overlay :refer [overlay]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
@@ -56,14 +55,12 @@
                            (when checkpoint (qa/get appstate query))))
    :view-actions    (fnk [] #{:update :fork :switch-to})
    :main            (fnk [checkpoint
-                          course
                           resource]
-                         (when checkpoint
-                           (checkpoint-content
-                            {:viewer (if resource
-                                       (viewer {:resource resource} nil nil)
-                                       (viewer {:resource fake-resource} nil nil))
-                             :meta-widget (meta-widget checkpoint course)})))
+                         (if (and resource checkpoint)
+                            (viewer {:resource resource}
+                                    :checkpoint checkpoint nil nil)
+                            (viewer {:resource fake-resource
+                                     :checkpoint checkpoint nil nil})))
    :dashboard       (fnk [course
                           respond]
                          (when course
