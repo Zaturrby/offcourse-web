@@ -12,7 +12,7 @@
 
 
 (defn handle-response [name [event-type payload]]
-  #_(log/log "QUERY RESPONSE" (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
+  (log/log "QUERY RESPONSE" (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
   #_(event/create [name :not-found {:user-name "yeehaa"}])
   (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
 

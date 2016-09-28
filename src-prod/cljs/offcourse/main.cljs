@@ -21,17 +21,17 @@
 (def query-adapters
   [{:adapter    aws/create
     :name      "query"
-    :resources #{:user :resources}
+    :resources #{:user :resources :resources}
     :endpoint  "https://u3b8lgtti3.execute-api.us-east-1.amazonaws.com/staging/query"}
-   #_{:adapter    github/create
+   {:adapter    github/create
     :name       "html-course"
     :repository {:name         "html-css-javascript"
                  :organization "offcourse"
                  :curator      "charlotte"
-                 :sha          "4f98f9cf8d521dc3bb8c4489d91f6c9468f76c69"}
+                 :sha          "3a8000ac257d6d2d9fad3e889c44c6db232a167d"}
     :resources  #{:course :collection}
     :base-url   "https://api.github.com"}
-   {:adapter    github/create
+   #_{:adapter    github/create
     :name       "bootstrap-data"
     :repository {:name         "clojurescript-course"
                  :organization "offcourse"
