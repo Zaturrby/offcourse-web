@@ -27,7 +27,6 @@
        [:p.meta-widget--field (or (:author resource) "Unknown")]]]]]])
 
 (rum/defc viewer [{:keys [resource checkpoint]} _ _]
-  (log/log resource)
   [:.viewer
    (if-let [{:keys [title description content]} resource]
      [:.viewer--section

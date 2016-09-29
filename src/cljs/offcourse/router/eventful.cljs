@@ -1,12 +1,13 @@
 (ns offcourse.router.eventful
   (:require [bidi.bidi :as bidi]
             [pushy.core :as pushy]
-            [shared.models.viewmodel.index :as viewmodel]
             [shared.protocols.eventful :as ef]
-            [shared.models.action.index :as action]))
+            [shared.models.route-params.index :as route-params]
+            [shared.models.action.index :as action]
+            [shared.protocols.convertible :as cv]))
 
 (defn handle-request [rt {:keys [handler route-params]}]
-  (ef/respond rt [:requested (action/create [:update (viewmodel/create handler route-params)])]))
+  (ef/respond rt [:refreshed (route-params/create handler route-params)]))
 
 (defn restart [{:keys [history] :as rt}]
   (pushy/replace-token! history "/"))

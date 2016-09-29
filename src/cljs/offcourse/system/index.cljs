@@ -47,7 +47,7 @@
                                                :responses          :router-responses
                                                :routes             :routes})
      :appstate-atom          appstate
-     :appstate-triggers      [:granted  :revoked :requested :found :not-found]
+     :appstate-triggers      [:granted  :revoked :refreshed :requested :found :not-found]
      :appstate-responses     [:refreshed :updated :requested :not-found]
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/create :appstate)

@@ -26,8 +26,7 @@
                                                  (let [[org curator hash] (str/split id "::")]
                                                    curator)))
                                           (into #{})))
-   :course-url       (fnk [course routes]
-                          (cv/to-url course routes))
+   :course-url       (fnk [course routes] (cv/to-url course routes))
    :current-user     (fnk [appstate]
                           (when-let [user (:user appstate)] (:user-name user)))
    :course-curator   (fnk [course] (:curator course))
