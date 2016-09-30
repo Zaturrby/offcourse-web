@@ -39,7 +39,7 @@
                   :dangerouslySetInnerHTML {:__html (md->html content)}}]
        [[:article {:key :content
                    :dangerouslySetInnerHTML {:__html (md->html (or description "--- no description ---"))}}]
-        (when description [:p.viewer--cutoff "--- description only ---"])])]
+        (when description [:p.viewer--cutoff {:key :cutoff} "--- description only ---"])])]
      [:.viewer--source-btn (button "View content on original source" resource-url)]]
     [:.viewer--section
      [:.viewer--loading
