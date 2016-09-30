@@ -32,7 +32,7 @@
      [:.viewer--section
       ; [:.viewer--error] error state (needs place)
       [:.viewer--content
-       [:h1.title {:key :title} title]
+       [:h1.title {:key :title} (if title title "No Title")]
        [:article {:key :content
                   :dangerouslySetInnerHTML {:__html (md->html (or content description))}}]]]
      [:.viewer--section
