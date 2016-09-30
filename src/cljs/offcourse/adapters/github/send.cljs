@@ -48,7 +48,6 @@
   (let [c (chan)]
     (GET url
         {:format :json
-         :headers {:Authorization "token 21f584b601ede5e67d08d75b20ada46df4ea491b"}
          :handler #(handle-response c %)})
     c))
 
