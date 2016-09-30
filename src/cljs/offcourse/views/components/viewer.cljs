@@ -26,18 +26,19 @@
        [:h6.meta-widget--title "Author: "]
        [:p.meta-widget--field (or (:author resource) "Unknown")]]]]]])
 
-(rum/defc viewer [{:keys [resource checkpoint]} _ _]
-  (log/log resource)
+(rum/defc viewer [{:keys [resource checkpoint]}]
   [:.viewer
    (if-let [{:keys [title description content]} resource]
      [:.viewer--section
-      [:.viewer--loading
-       [:.viewer--loading-img]]
+      ; [:.viewer--error] error state (needs place)
       [:.viewer--content
        [:h1.title {:key :title} title]
        [:article {:key :content
                   :dangerouslySetInnerHTML {:__html (md->html (or content description))}}]]]
-     [:.loading "This resource couldn't be found... yet..."])
+     [:.viewer--section
+      [:.viewer--loading
+       [:.viewer--loading-img]]
+      [:.viewer--content]])
    [:.viewer--section (meta-widget {:checkpoint checkpoint
                                     :resource resource})]])
 
