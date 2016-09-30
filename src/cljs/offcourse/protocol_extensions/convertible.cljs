@@ -4,8 +4,7 @@
             [shared.models.course.index :as co :refer [Course]]
             [shared.models.viewmodel.index :as viewmodel]
             [shared.protocols.convertible :as cv :refer [Convertible]]
-            [shared.protocols.loggable :as log]
-            [shared.models.route-params.index :as route-params]))
+            [shared.protocols.loggable :as log]))
 
 (extend-protocol Convertible
   Checkpoint

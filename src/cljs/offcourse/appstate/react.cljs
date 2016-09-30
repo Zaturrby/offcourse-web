@@ -6,7 +6,8 @@
             [shared.protocols.eventful :as ef]
             [shared.protocols.specced :as sp]
             [shared.models.query.index :as query]
-            [shared.protocols.convertible :as cv]))
+            [shared.protocols.convertible :as cv]
+            [shared.models.viewmodel.index :as viewmodel]))
 
 (defmulti react (fn [_ [event-type _ :as event]]
                   event-type))
@@ -29,7 +30,7 @@
   (ac/perform as action))
 
 (defmethod react :refreshed [as [_ payload]]
-  (ac/perform as [:update (cv/to-viewmodel payload)]))
+  (ac/perform as [:update (viewmodel/from-route payload)]))
 
 (defmethod react :found [as [_ payload]]
   (ac/perform as [:add payload]))

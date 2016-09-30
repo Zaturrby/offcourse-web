@@ -2,12 +2,12 @@
   (:require [bidi.bidi :as bidi]
             [pushy.core :as pushy]
             [shared.protocols.eventful :as ef]
-            [shared.models.route-params.index :as route-params]
+            [shared.models.route.index :as route]
             [shared.models.action.index :as action]
             [shared.protocols.convertible :as cv]))
 
 (defn handle-request [rt {:keys [handler route-params]}]
-  (ef/respond rt [:refreshed (route-params/create handler route-params)]))
+  (ef/respond rt [:refreshed (route/create handler route-params)]))
 
 (defn restart [{:keys [history] :as rt}]
   (pushy/replace-token! history "/"))
