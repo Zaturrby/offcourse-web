@@ -1,5 +1,6 @@
 (ns offcourse.views.components.viewer
   (:require [markdown.core :refer [md->html]]
+            [offcourse.views.components.button :refer [button]]
             [shared.protocols.loggable :as log]
             [rum.core :as rum]))
 
@@ -22,21 +23,28 @@
        [:a {:key :resource-url
             :href (:resource-url checkpoint)}
         [:p.meta-widget--field (or (:published resource) "Unknown")]]]
-      [:li.meta-widget--list-item 
+      [:li.meta-widget--list-item
        [:h6.meta-widget--title "Author: "]
        [:p.meta-widget--field (or (:author resource) "Unknown")]]]]]])
 
 (rum/defc viewer [{:keys [resource checkpoint]} _ _]
   [:.viewer
-   (if-let [{:keys [title description content]} resource]
-     [:.viewer--section
-      [:.viewer--loading
-       [:.viewer--loading-img]]
-      [:.viewer--content
-       [:h1.title {:key :title} title]
+   (if-let [{:keys [title description content resource-url]} resource]
+    [:.viewer--section
+     ; [:.viewer--error] error state (needs place & logic)
+     [:.viewer--content
+      [:h1.title {:key :title} (or title "--- no title ---")]
+      (if content
        [:article {:key :content
-                  :dangerouslySetInnerHTML {:__html (md->html (or content description))}}]]]
-     [:.loading "This resource couldn't be found... yet..."])
+                  :dangerouslySetInnerHTML {:__html (md->html content)}}]
+       [[:article {:key :content
+                   :dangerouslySetInnerHTML {:__html (md->html (or description "--- no description ---"))}}]
+        (when description [:p.viewer--cutoff {:key :cutoff} "--- description only ---"])])]
+     [:.viewer--source-btn (button "View content on original source" resource-url)]]
+    [:.viewer--section
+     [:.viewer--loading
+      [:.viewer--loading-img]
+      [:.viewer--content]]])
    [:.viewer--section (meta-widget {:checkpoint checkpoint
                                     :resource resource})]])
 
