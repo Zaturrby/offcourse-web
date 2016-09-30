@@ -1,5 +1,6 @@
 (ns offcourse.views.components.viewer
   (:require [markdown.core :refer [md->html]]
+            [offcourse.views.components.button :refer [button]]
             [shared.protocols.loggable :as log]
             [rum.core :as rum]))
 
@@ -28,17 +29,22 @@
 
 (rum/defc viewer [{:keys [resource checkpoint]}]
   [:.viewer
-   (if-let [{:keys [title description content]} resource]
-     [:.viewer--section
-      ; [:.viewer--error] error state (needs place)
-      [:.viewer--content
-       [:h1.title {:key :title} (if title title "No Title")]
+   (if-let [{:keys [title description content resource-url]} resource]
+    [:.viewer--section
+     ; [:.viewer--error] error state (needs place & logic)
+     [:.viewer--content
+      [:h1.title {:key :title} (or title "--- no title ---")]
+      (if content
        [:article {:key :content
-                  :dangerouslySetInnerHTML {:__html (md->html (or content description))}}]]]
-     [:.viewer--section
-      [:.viewer--loading
-       [:.viewer--loading-img]]
-      [:.viewer--content]])
+                  :dangerouslySetInnerHTML {:__html (md->html content)}}]
+       [[:article {:key :content
+                   :dangerouslySetInnerHTML {:__html (md->html (or description "--- no description ---"))}}]
+        (when description [:p.viewer--cutoff "--- description only ---"])])]
+     [:.viewer--source-btn (button "View content on original source" resource-url)]]
+    [:.viewer--section
+     [:.viewer--loading
+      [:.viewer--loading-img]
+      [:.viewer--content]]])
    [:.viewer--section (meta-widget {:checkpoint checkpoint
                                     :resource resource})]])
 
