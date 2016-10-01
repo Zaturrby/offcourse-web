@@ -11,13 +11,13 @@
 (defmethod perform [:sign-in nil] [rt action] nil)
 
 (defmethod perform [:sign-out nil] [rt action]
-  (ef/respond rt [:refreshed (route/create :home-view)]))
+  (ef/respond rt [:refreshed (route/from-params :home-view)]))
 
 (defmethod perform [:save :profile] [rt action]
-  (ef/respond rt [:refreshed (route/create :home-view)]))
+  (ef/respond rt [:refreshed (route/from-params :home-view)]))
 
 (defmethod perform [:create :new-user] [rt action]
-  (ef/respond rt [:refreshed (route/create :user)]))
+  (ef/respond rt [:refreshed (route/from-params :user)]))
 
 (defmethod perform [:go :home] [rt action]
-  (ef/respond rt [:refreshed (route/create :home-view)]))
+  (ef/respond rt [:refreshed (route/from-params :home-view)]))

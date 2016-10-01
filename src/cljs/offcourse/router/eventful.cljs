@@ -7,7 +7,7 @@
             [shared.protocols.convertible :as cv]))
 
 (defn handle-request [rt {:keys [handler route-params]}]
-  (ef/respond rt [:refreshed (route/create handler route-params)]))
+  (ef/respond rt [:refreshed (route/from-params handler route-params)]))
 
 (defn restart [{:keys [history] :as rt}]
   (pushy/replace-token! history "/"))

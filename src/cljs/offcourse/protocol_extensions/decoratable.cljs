@@ -38,6 +38,7 @@
                                                       :user-is-forker? user-is-forker?
                                                       :current-user     current-user}))})
 
+
 (extend-protocol Decoratable
   Checkpoint
   (-decorate [{:keys [task] :as checkpoint} {:keys [selected course]} routes]

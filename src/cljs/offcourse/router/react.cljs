@@ -10,7 +10,7 @@
 (defmethod react :refreshed [{:keys [history routes url-helpers responses]} [_ payload]]
   (let [{:keys [type] :as viewmodel} (-> payload :viewmodel)
         old-url (pushy/get-token history)
-        new-url (cv/to-url viewmodel routes)]
+        new-url (-> viewmodel cv/to-route (cv/to-url routes))]
     (when-not (= old-url new-url)
       (pushy/replace-token! history new-url))))
 
