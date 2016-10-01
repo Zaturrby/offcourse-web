@@ -1,13 +1,8 @@
 (ns offcourse.ui.render
-  (:require [medley.core :as medley]
+  (:require [rum.core :as rum]
             [shared.models.view.index :as view]
-            [shared.protocols.renderable :as rr]
             [shared.protocols.eventful :as ef]
-            [rum.core :as rum]
-            [shared.protocols.specced :as sp]
-            [cljs.spec :as spec]
-            [shared.specs.core :as specs]
-            [shared.protocols.loggable :as log]))
+            [shared.protocols.renderable :as rr]))
 
 (defn -render [view-graph element]
   (let [{:keys [container] :as composition} view-graph

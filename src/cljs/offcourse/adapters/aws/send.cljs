@@ -1,15 +1,11 @@
 (ns offcourse.adapters.aws.send
   (:require [ajax.core :refer [POST]]
             [cljs.core.async :refer [chan]]
-            [shared.models.event.index :as event]
-            [shared.protocols.loggable :as log]
-            [shared.protocols.specced :as sp]
-            [shared.specs.helpers :as sh]
-            [cljs.core.async :as async]
             [clojure.walk :as walk]
-            [cljs.spec :as spec])
+            [shared.models.event.index :as event]
+            [shared.protocols.specced :as sp]
+            [shared.specs.helpers :as sh])
   (:require-macros [cljs.core.async.macros :refer [go]]))
-
 
 (defn handle-response [name [event-type payload]]
   (event/create [name (keyword event-type) (walk/keywordize-keys payload)]))
