@@ -37,9 +37,11 @@
                            (when checkpoint (qa/get appstate query))))
    :view-actions    (fnk [] #{:update :fork :switch-to})
    :main            (fnk [checkpoint
+                          course
                           resource]
-                         (viewer {:resource resource
-                                  :checkpoint checkpoint}))
+                         (when course
+                           (viewer {:resource resource
+                                    :checkpoint checkpoint})))
    :dashboard       (fnk [course
                           respond]
                          (when course

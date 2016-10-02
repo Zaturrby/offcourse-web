@@ -11,11 +11,11 @@
 (def graph
   {:container      (fnk [] app)
    :viewmodel      (fnk [[:appstate viewmodel]] viewmodel)
-   :app-mode      (fnk [[:appstate app-mode]] app-mode)
+   :app-mode       (fnk [[:appstate app-mode]] app-mode)
    :viewmodel-name (fnk [viewmodel] (sp/resolve viewmodel))
    :user           (fnk [appstate] (:user appstate))
    :user-name      (fnk [user] (when user (:user-name user)))
-   :base-actions   (fnk [] #{:sign-in :go :sign-out})
+   :base-actions   (fnk [] #{:go :sign-in :sign-out})
    :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :respond        (fnk [responder actions]
                         (fn [[action-type :as action]] action

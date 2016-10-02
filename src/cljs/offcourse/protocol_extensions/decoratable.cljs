@@ -21,11 +21,11 @@
 
 (def course-meta-graph
   {:tags             (fnk [course] (qa/get course {:tags :all}))
-   :fork-curators      (fnk [course] (->> (:forks course)
-                                          (map (fn [id]
-                                                 (let [[org curator hash] (str/split id "::")]
-                                                   curator)))
-                                          (into #{})))
+   :fork-curators    (fnk [course] (->> (:forks course)
+                                        (map (fn [id]
+                                               (let [[org curator hash] (str/split id "::")]
+                                                 curator)))
+                                        (into #{})))
    :course-url       (fnk [course routes] (cv/to-url course routes))
    :current-user     (fnk [appstate]
                           (when-let [user (:user appstate)] (:user-name user)))
@@ -35,7 +35,7 @@
                           (and current-user (= course-curator current-user)))
    :affordances      (fnk [user-is-curator? current-user user-is-forker?]
                           (compute affordances-graph {:user-is-curator? user-is-curator?
-                                                      :user-is-forker? user-is-forker?
+                                                      :user-is-forker?  user-is-forker?
                                                       :current-user     current-user}))})
 
 
@@ -53,6 +53,7 @@
                                :course-id      course-id}))))
   Course
   (-decorate [{:keys [checkpoints forks curator] :as course} appstate routes]
+    (log/log course)
     (let [course-meta (compute course-meta-graph {:course   course
                                                   :routes   routes
                                                   :appstate appstate})]
