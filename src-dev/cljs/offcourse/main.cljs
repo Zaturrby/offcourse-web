@@ -19,9 +19,9 @@
    :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 
 (def query-adapters
-  [#_{:adapter    aws/create
+  [{:adapter    aws/create
     :name      "query"
-    :resources #{:user :resources :resource}
+    :resources #{#_:user :resources :resource}
     :endpoint  "https://ohtxqsb2a4.execute-api.us-east-1.amazonaws.com/dev/query"}
    {:adapter    github/create
     :name       "html-course"
