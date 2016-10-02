@@ -1,8 +1,7 @@
 (ns offcourse.views.containers.dashboard
-  (:require [rum.core :as rum]
-            [shared.protocols.loggable :as log]))
+  (:require [rum.core :as rum]))
 
-(rum/defc dashboard [{:keys [main edit-button]}]
+(rum/defc dashboard [{:keys [main controls]}]
   [:.dashboard
    [:.dashboard--main main]
-   [:.dashboard--edit edit-button]])
+   [:.dashboard--edit controls]])

@@ -7,20 +7,22 @@
             [shared.protocols.convertible :as cv]
             [shared.protocols.decoratable :as dc :refer [Decoratable]]
             [shared.protocols.queryable :as qa]
-            [shared.protocols.loggable :as log]))
+            [shared.protocols.loggable :as log]
+            [shared.protocols.specced :as sp]))
 
 (defn compute [graph graph-data]
   ((graph/compile graph) graph-data))
 
 (def affordances-graph
-  {:browsable? (fnk [] true)
+  {:browsable? (fnk [viewmodel] (= viewmodel :collection-view))
    :forkable?  (fnk [current-user user-is-curator? user-is-forker?]
                     (and current-user (not user-is-forker?) (not user-is-curator?)))
    :editable?  (fnk [user-is-curator?] user-is-curator?)
    :trackable? (fnk [user-is-curator?] user-is-curator?)})
 
 (def course-meta-graph
-  {:tags             (fnk [course] (qa/get course {:tags :all}))
+  {:viewmodel        (fnk [appstate] (sp/resolve (:viewmodel appstate)))
+   :tags             (fnk [course] (qa/get course {:tags :all}))
    :fork-curators    (fnk [course] (->> (:forks course)
                                         (map (fn [id]
                                                (let [[org curator hash] (str/split id "::")]
@@ -33,9 +35,10 @@
    :user-is-forker?  (fnk [current-user course fork-curators] (contains? fork-curators current-user))
    :user-is-curator? (fnk [current-user course-curator]
                           (and current-user (= course-curator current-user)))
-   :affordances      (fnk [user-is-curator? current-user user-is-forker?]
+   :affordances      (fnk [user-is-curator? current-user user-is-forker? viewmodel]
                           (compute affordances-graph {:user-is-curator? user-is-curator?
                                                       :user-is-forker?  user-is-forker?
+                                                      :viewmodel        viewmodel
                                                       :current-user     current-user}))})
 
 
@@ -53,7 +56,6 @@
                                :course-id      course-id}))))
   Course
   (-decorate [{:keys [checkpoints forks curator] :as course} appstate routes]
-    (log/log course)
     (let [course-meta (compute course-meta-graph {:course   course
                                                   :routes   routes
                                                   :appstate appstate})]

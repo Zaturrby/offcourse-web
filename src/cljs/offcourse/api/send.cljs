@@ -4,7 +4,9 @@
             [shared.protocols.convertible :as cv]
             [shared.protocols.eventful :as ef]
             [shared.protocols.specced :as sp]
-            [shared.protocols.loggable :as log])
+            [shared.protocols.loggable :as log]
+            [shared.protocols.queryable :as qa]
+            [shared.models.payload.index :as payload])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defmulti send (fn [_ [event-type _]] event-type))
@@ -14,8 +16,6 @@
   (doseq [{:keys [resources] :as repository} repositories]
     (when (contains? resources (sp/resolve query))
       (go
-        (let [response (<! (ef/send repository (into [component-name] event)))]
-          (match response
-                 [:found _]  (ef/respond api [:found (-> response cv/to-models)])
-                 [:not-found _]    (ef/respond api [:not-found query])
-                 _ (ef/respond api [:failed query])))))))
+        (if-let [response (<! (qa/fetch repository query))]
+          (ef/respond api [:found (-> response payload/create cv/to-model)])
+          (ef/respond api [:failed query]))))))

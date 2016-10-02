@@ -19,7 +19,7 @@
    :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 
 (def query-adapters
-  [{:adapter    aws/create
+  [#_{:adapter    aws/create
     :name      "query"
     :resources #{:user :resources :resource}
     :endpoint  "https://ohtxqsb2a4.execute-api.us-east-1.amazonaws.com/dev/query"}

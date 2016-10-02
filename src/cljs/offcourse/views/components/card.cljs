@@ -1,8 +1,7 @@
 (ns offcourse.views.components.card
-  (:require [offcourse.views.components.item-list :refer [item-list]]
-            [offcourse.views.components.button :refer [button]]
-            [rum.core :as rum]
-            [shared.protocols.loggable :as log]))
+  (:require [offcourse.views.components.button :refer [button]]
+            [offcourse.views.components.item-list :refer [item-list]]
+            [rum.core :as rum]))
 
 (rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
                 respond]
@@ -22,9 +21,9 @@
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      [:.card--section
       [:ul.card--actions
-       (when browsable? (button "Browse" course-url))
+       #_(when browsable? (button "Browse" course-url))
        (when forkable? (button "Fork" #(respond [:fork course])))]]
-     [:.card--section
+     #_[:.card--section
       [:.card--social
        [:.card--social-icons
         [:img.card--social-img {:src "/images/social/t.png"}]
