@@ -17,7 +17,7 @@
   (ef/respond rt [:refreshed (route/from-params :home-view)]))
 
 (defmethod perform [:create :new-user] [rt action]
-  (ef/respond rt [:refreshed (route/from-params :user)]))
+  (ef/respond rt [:refreshed (route/from-params :signup-view)]))
 
 (defmethod perform [:go :home] [rt action]
   (ef/respond rt [:refreshed (route/from-params :home-view)]))
