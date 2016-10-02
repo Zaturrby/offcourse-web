@@ -80,7 +80,6 @@
         (async/put! c (respond adapter course))))
       c))
 
-
 (defmethod send :collection [adapter event]
   (let [c (chan)]
     (go
