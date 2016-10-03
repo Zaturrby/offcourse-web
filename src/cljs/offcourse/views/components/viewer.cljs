@@ -44,7 +44,8 @@
           (when description [:p.viewer--cutoff {:key :cutoff} "--- only description ---"])])]
        (when-let [video-id (get (re-find youtube-regex resource-url) 1)]
         [:.viewer--video-container
-         [:iframe.viewer--video {:frame-border 0
+         [:iframe.viewer--video {:allow-full-screen true
+                                 :frame-border 0
                                  :src (str "http://www.youtube.com/embed/" video-id)}]])
          
        [:.viewer--source-btn (button "View content on original source" resource-url)]]]
