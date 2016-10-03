@@ -26,8 +26,8 @@
                          (let [query {:course-id    (:course-id course)
                                       :resource-url (:resource-url checkpoint)}]
                            (when checkpoint (qa/get appstate query))))
-   :main            (fnk [checkpoint course resource]
-                         (when course
+   :main            (fnk [course checkpoint resource]
+                         (when (and checkpoint course)
                            (viewer {:resource   resource
                                     :checkpoint checkpoint})))
    :dashboard       (fnk [course respond]
