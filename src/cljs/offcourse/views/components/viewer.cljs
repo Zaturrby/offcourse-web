@@ -27,24 +27,30 @@
        [:h6.meta-widget--title "Author: "]
        [:p.meta-widget--field (or (:author resource) "Unknown")]]]]]])
 
+(def youtube-regex #"(?:http?s?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/(?:watch\?v=)?(.+)")
+
 (rum/defc viewer [{:keys [resource checkpoint]} _ _]
   [:.viewer
    (if-let [{:keys [title description content resource-url]} resource]
-    [:.viewer--section
-     ; [:.viewer--error] error state (needs place & logic)
-     [:.viewer--content
-      [:h1.title {:key :title} (or title "--- no title ---")]
-      (if content
-       [:article {:key :content
-                  :dangerouslySetInnerHTML {:__html (md->html content)}}]
-       [[:article {:key :content
-                   :dangerouslySetInnerHTML {:__html (md->html (or description "--- no description ---"))}}]
-        (when description [:p.viewer--cutoff {:key :cutoff} "--- description only ---"])])]
-     [:.viewer--source-btn (button "View content on original source" resource-url)]]
-    [:.viewer--section
-     [:.viewer--loading
-      [:.viewer--loading-img]
-      [:.viewer--content]]])
+     [:.viewer--section
+      [:.viewer--main
+       [:.viewer--content
+        [:h1.title {:key :title} (or title "--- no title ---")]
+        (if content
+         [:article {:key :content
+                    :dangerouslySetInnerHTML {:__html (md->html content)}}]
+         [[:article {:key :content
+                     :dangerouslySetInnerHTML {:__html (md->html (or description "--- no description ---"))}}]
+          (when description [:p.viewer--cutoff {:key :cutoff} "--- only description ---"])])]
+       (when-let [video-id (get (re-find youtube-regex resource-url) 1)]
+        [:.viewer--video-container
+         [:iframe.viewer--video {:frame-border 0
+                                 :src (str "http://www.youtube.com/embed/" video-id)}]])
+         
+       [:.viewer--source-btn (button "View content on original source" resource-url)]]]
+     [:.viewer--section
+      [:.viewer--loading
+       [:.viewer--loading-img]
+       [:.viewer--main]]])
    [:.viewer--section (meta-widget {:checkpoint checkpoint
                                     :resource resource})]])
-
