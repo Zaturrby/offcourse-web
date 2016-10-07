@@ -10,6 +10,12 @@
     (log/log checkpoint)
     [:.meta-widget--section
      [:ul.meta-widget--list
+      [:li.meta-widget--list-item
+       [:li.button {:key "source"
+                    :data-button-type "textbar"}
+        [:a {:href (:resource-url resource)
+             :target "_black"}
+            "View on Source"]]]
       [:li.meta-widget--list-item {:data-item-type :todo
                                    :key            :task}
        [:h6.meta-widget--title "Task: "]
@@ -50,9 +56,8 @@
         [:.viewer--video-container
          [:iframe.viewer--video {:allow-full-screen true
                                  :frame-border 0
-                                 :src (str "http://www.youtube.com/embed/" video-id)}]])]
-         
-      [:.viewer--source-btn (button "View content on original source" resource-url)]]
+                                 :src (str "http://www.youtube.com/embed/" video-id)}]])]]
+
      [:.viewer--section
       [:.viewer--loading
        [:.viewer--loading-img]
