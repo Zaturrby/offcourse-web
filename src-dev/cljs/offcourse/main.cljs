@@ -22,7 +22,7 @@
   [{:adapter    aws/create
     :name      "query"
     :resources #{#_:user :resources :resource}
-    :endpoint  "https://ohtxqsb2a4.execute-api.us-east-1.amazonaws.com/dev/query"}
+    :endpoint  "https://2lia48xse2.execute-api.us-east-1.amazonaws.com/production/query"}
    {:adapter    github/create
     :name       "html-course"
     :repository {:name         "html-css-javascript"

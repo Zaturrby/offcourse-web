@@ -10,16 +10,15 @@
   (:require-macros [cljs.core.async.macros :refer [go]]
                    [com.rpl.specter.macros :refer [select-first]]))
 
-(defn yaml-file? [path]
+(defn yaml-file? [{:keys [path] :as ref}]
   (re-find #"\.yaml$" path))
 
 (defn tree-url [{:keys [base-url repository]}]
   (let [{:keys [organization name sha]} repository]
     (str base-url "/repos/" organization "/" name "/git/trees/" sha)))
 
-(defn content-url [{:keys [base-url repository]} path]
-  (let [{:keys [organization name sha]} repository]
-    (str base-url "/repos/" organization "/" name "/contents/" path)))
+(defn content-url [{:keys [base-url repository]} {:keys [url path] :as ref}]
+  url)
 
 (defn handle-content [res]
   (->> res
@@ -34,7 +33,7 @@
   (->> tree
        walk/keywordize-keys
        :tree
-       (map :path)
+       (map #(select-keys % [:path :url]))
        (filter yaml-file?)))
 
 (defn handle-response [c res]
@@ -45,7 +44,7 @@
   (let [c (chan)]
     (GET url
         {:format :json
-         :headers {:Authorization "token eb04cebeeff187b5e01d3a0db15c2913fe2f6b05"}
+         :headers {:Authorization "token 705e0fece935cb8196a99fee657987dd09248a45"}
          :handler #(handle-response c %)})
     c))
 
