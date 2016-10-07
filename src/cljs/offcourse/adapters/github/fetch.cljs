@@ -17,9 +17,6 @@
   (let [{:keys [organization name sha]} repository]
     (str base-url "/repos/" organization "/" name "/git/trees/" sha)))
 
-(defn content-url [{:keys [base-url repository]} {:keys [url path] :as ref}]
-  url)
-
 (defn handle-content [res]
   (->> res
        walk/keywordize-keys
@@ -55,8 +52,8 @@
         tree-url (tree-url adapter)]
     (go
       (let [tree (<! (-fetch tree-url))
-            paths (handle-tree tree)
-            content-urls (map #(content-url adapter %) paths)
+            refs (handle-tree tree)
+            content-urls (map :url refs)
             query-chans (async/merge (map -fetch content-urls))
             raw-content (<! (async/into [] query-chans))
             content (map handle-content raw-content)
