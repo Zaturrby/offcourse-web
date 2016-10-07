@@ -41,7 +41,7 @@
   (let [c (chan)]
     (GET url
         {:format :json
-         :headers {:Authorization "token 705e0fece935cb8196a99fee657987dd09248a45"}
+        ;  :headers {:Authorization "token 705e0fece935cb8196a99fee657987dd09248a45"}
          :handler #(handle-response c %)})
     c))
 
@@ -61,7 +61,7 @@
                                   :curator (or (:curator %1) (:curator repository))
                                   :organization (or (:organization %1) (:organization repository))) content)]
         (async/put! c complete)))
-      c))
+    c))
 
 (defmulti fetch (fn [_ query] (sp/resolve query)))
 
@@ -71,7 +71,7 @@
       (let [courses   (<! (fetch-all adapter))
             course    (select-first (paths/course query) courses)]
         (async/put! c course)))
-      c))
+    c))
 
 (defmethod fetch :collection [adapter query]
   (let [c (chan)]
