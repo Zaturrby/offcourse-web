@@ -28,7 +28,7 @@
     :repository {:name         "html-css-javascript"
                  :organization "offcourse"
                  :curator      "charlotte"
-                 :sha          "e8cf2a9181168ecc9b4bc6e21e8dde137f32c268"}
+                 :sha          "750369294d6bda47f8a41abc14bc11a234512413"}
     :resources  #{:course :collection}
     :base-url   "https://api.github.com"}
    #_{:adapter    github/create
@@ -36,7 +36,7 @@
       :repository {:name         "clojurescript-course"
                    :organization "offcourse"
                    :curator      "charlotte"
-                   :sha          "31510c353ec5d24a79b0b8d1a68d4d373d1f2d3f"}
+                   :sha          "fb4052859aafe9451cfd836fc7284807fce12d5e"}
       :resources  #{:course :collection}
       :base-url   "https://api.github.com"}])
 

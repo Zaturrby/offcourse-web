@@ -28,17 +28,17 @@
     :repository {:name         "html-css-javascript"
                  :organization "offcourse"
                  :curator      "charlotte"
-                 :sha          "3a8000ac257d6d2d9fad3e889c44c6db232a167d"}
+                 :sha          "750369294d6bda47f8a41abc14bc11a234512413"}
     :resources  #{:course :collection}
     :base-url   "https://api.github.com"}
    #_{:adapter    github/create
-    :name       "bootstrap-data"
-    :repository {:name         "clojurescript-course"
-                 :organization "offcourse"
-                 :curator      "charlotte"
-                 :sha          "31510c353ec5d24a79b0b8d1a68d4d373d1f2d3f"}
-    :resources  #{:course :collection}
-    :base-url   "https://api.github.com"}])
+      :name       "bootstrap-data"
+      :repository {:name         "clojurescript-course"
+                   :organization "offcourse"
+                   :curator      "charlotte"
+                   :sha          "fb4052859aafe9451cfd836fc7284807fce12d5e"}
+      :resources  #{:course :collection}
+      :base-url   "https://api.github.com"}])
 
 (def adapters
   {:auth auth-adapter
