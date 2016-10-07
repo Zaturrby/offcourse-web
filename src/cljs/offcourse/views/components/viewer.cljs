@@ -11,8 +11,8 @@
     [:.meta-widget--section
      [:ul.meta-widget--list
       [:li.meta-widget--list-item
-       [:li.button {:key "source"
-                    :data-button-type "textbar"}
+       [:div.button {:key "source"
+                     :data-button-type "textbar"}
         [:a {:href (:resource-url resource)
              :target "_black"}
             "View on Source"]]]
