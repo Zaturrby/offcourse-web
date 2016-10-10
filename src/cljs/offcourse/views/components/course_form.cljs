@@ -7,10 +7,10 @@
 
 (defn update-prop [prop-name event atom]
   (let [prop-value (.. event -target -value)]
-    (swap! atom #(assoc % prop-name prop-value))))
+    (swap! atom #(assoc % prop-name prop-value)))
 
-(defn update-checkpoint []
-  ())
+(defn update-course [course-atom course checkpoint]
+  (swap! course-atom #(co/update-checkpoint course checkpoint)))
 
 (def new-checkpoint {:checkpoint-id 4375864
                      :task "New task"
@@ -35,7 +35,7 @@
     [:.edit-modal--action-title "Edit the Resources"]
     [:.edit-modal--list (edit-list :edit
                                   (:checkpoints course)
-                                  (partial update-checkpoint course-atom))]
+                                  #(update-course course-atom course %1))]
     [:.edit-modal--action
       (when true (button "Add resource" #(add-resource course-atom course)))]]
    [:.edit-modal--section {:key :actions}
