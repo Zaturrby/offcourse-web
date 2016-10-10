@@ -19,9 +19,9 @@
 (defn create-checkpoint [course-atom course]
   (swap! course-atom #(co/create-checkpoint course)))
 
-(defn determine-errors [course]
-  (let [errors (:cljs.spec/problems (sp/errors course))]
-    (map #(:path %) errors)))
+(defn determine-errors [course field]
+  (let [errors (:cljs.spec/problems (sp/errors course))]))
+    ; (map #(= (first %) field) (:path %)) errors))
 
 ; (log/log "X" (sp/errors course))
 ; (log/log "XX" (:path (nth (:cljs.spec/problems (sp/errors course)) 0)))
