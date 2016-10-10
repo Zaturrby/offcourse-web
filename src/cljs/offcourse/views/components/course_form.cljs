@@ -13,9 +13,8 @@
 (defn update-checkpoint [course-atom course checkpoint]
   (swap! course-atom #(co/update-checkpoint course checkpoint)))
 
-(defn add-checkpoint [course-atom course]
-  (let [checkpoints (:checkpoints course)]
-    (swap! atom #(co/update-checkpoint course checkpoint))))
+(defn create-checkpoint [course-atom course]
+  (swap! course-atom #(co/create-checkpoint course)))
 
 (rum/defcs course-form < (rum/local {} ::course) [state {:keys [course]} respond]
  (let [course-atom (::course state)
@@ -34,7 +33,7 @@
                                   (:checkpoints course)
                                   #(update-checkpoint course-atom course %1))]
     [:.edit-modal--action
-      (when true (button "Add Checkpoint" #(add-checkpoint course-atom course)))]]
+      (when true (button "Add Checkpoint" #(create-checkpoint course-atom course)))]]
    [:.edit-modal--section {:key :actions}
     [:.edit-modal--actions
      [(when true (button "Save Course" (partial log/log "Saving Course... or not")))]
