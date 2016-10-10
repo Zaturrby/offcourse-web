@@ -8,7 +8,6 @@
 (def views
   {:signup-view     (merge bv/graph su/graph)
    :collection-view (merge bv/graph clv/graph)
-   :new-course-view (merge bv/graph {:view-actions #{}})
    :course-view     (merge bv/graph cpv/graph)
    :checkpoint-view (merge bv/graph cpv/graph)
    :new-course-view (merge bv/graph ncv/graph)})

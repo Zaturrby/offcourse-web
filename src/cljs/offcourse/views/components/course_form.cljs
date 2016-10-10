@@ -3,22 +3,19 @@
             [offcourse.views.components.button :refer [button]]
             [offcourse.views.components.item-list :refer [edit-list]]
             [shared.protocols.specced :as sp]
-            [shared.protocols.loggable :as log]))
+            [shared.protocols.loggable :as log]
+            [shared.models.course.index :as co]))
 
 (defn update-prop [prop-name event atom]
   (let [prop-value (.. event -target -value)]
-    (swap! atom #(assoc % prop-name prop-value)))
+    (swap! atom #(assoc % prop-name prop-value))))
 
-(defn update-course [course-atom course checkpoint]
+(defn update-checkpoint [course-atom course checkpoint]
   (swap! course-atom #(co/update-checkpoint course checkpoint)))
 
-(def new-checkpoint {:checkpoint-id 4375864
-                     :task "New task"
-                     :resource-url "New url"})
-
-(defn add-resource [atom course]
+(defn add-checkpoint [course-atom course]
   (let [checkpoints (:checkpoints course)]
-    (swap! atom #(assoc % :checkpoints (conj checkpoints new-checkpoint)))))
+    (swap! atom #(co/update-checkpoint course checkpoint))))
 
 (rum/defcs course-form < (rum/local {} ::course) [state {:keys [course]} respond]
  (let [course-atom (::course state)
@@ -35,11 +32,10 @@
     [:.edit-modal--action-title "Edit the Resources"]
     [:.edit-modal--list (edit-list :edit
                                   (:checkpoints course)
-                                  #(update-course course-atom course %1))]
+                                  #(update-checkpoint course-atom course %1))]
     [:.edit-modal--action
-      (when true (button "Add resource" #(add-resource course-atom course)))]]
+      (when true (button "Add Checkpoint" #(add-checkpoint course-atom course)))]]
    [:.edit-modal--section {:key :actions}
     [:.edit-modal--actions
      [(when true (button "Save Course" (partial log/log "Saving Course... or not")))]
-     [(when true (button "Publish Course" (partial log/log "Publishing Course... or not")))]
      [(when true (button "Cancel" #(respond [:switch-to :view-mode])))]]]]))
