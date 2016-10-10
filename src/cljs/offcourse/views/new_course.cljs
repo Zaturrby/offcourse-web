@@ -1,17 +1,10 @@
 (ns offcourse.views.new-course
-  (:require [shared.protocols.decoratable :as dc]
-            [offcourse.views.containers.dashboard :refer [dashboard]]
-            [offcourse.views.components.user-form :refer [user-form]]
+  (:require [offcourse.views.components.new-course :refer [new-course]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]))
 
 (def graph
-  {:user         (fnk [appstate] (:user appstate))
-   :auth-token   (fnk [user] (:auth-token user))
-   :main         (fnk [] nil)
-   :view-actions (fnk [] #{:create})
-   :dashboard    (fnk [user
-                       auth-token
-                       respond]
-                      (if auth-token (dashboard {:main (user-form user respond)})
-                          "Please Sign In to start the sign up process..."))})
+  {:empty-course   (fnk [] {:course-id "some-hash"})
+   :view-actions (fnk [] #{})
+   :main         (fnk [empty-course respond] (new-course empty-course respond))
+   :dashboard    (fnk [] nil)})
