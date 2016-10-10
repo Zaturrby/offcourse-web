@@ -21,8 +21,7 @@
 
 (defn determine-errors [course]
   (let [errors (:cljs.spec/problems (sp/errors course))]
-    (for [error errors]
-      (log/log "loop error "(:path error)))))
+    (map #(:path %) errors)))
 
 ; (log/log "X" (sp/errors course))
 ; (log/log "XX" (:path (nth (:cljs.spec/problems (sp/errors course)) 0)))
