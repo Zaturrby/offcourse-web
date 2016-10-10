@@ -19,12 +19,20 @@
 (defn create-checkpoint [course-atom course]
   (swap! course-atom #(co/create-checkpoint course)))
 
+(defn determine-errors [course]
+  (let [errors (:cljs.spec/problems (sp/errors course))]
+    (for [error errors]
+      (log/log "loop error "(:path error)))))
+
+; (log/log "X" (sp/errors course))
+; (log/log "XX" (:path (nth (:cljs.spec/problems (sp/errors course)) 0)))
+
 (rum/defcs course-form < (rum/local {} ::course) [state {:keys [course]} respond]
   (let [course-atom (::course state)
         old-course  course
         course      (merge course @course-atom)
         dirty?      (not= course old-course)
-        valid?      (sp/valid? course)]
+        valid?      (sp/valid? course)])
   [:.course-form
    [:.course-form--section {:key :title}
     [:.course-form--action-title "Edit the Title"]
@@ -42,4 +50,4 @@
    [:.course-form--section {:key :actions}
     [:.course-form--actions
      [(when (and valid? dirty?) (button "Save Course" (partial log/log "Saving Course... or not")))]
-     [(when true (button "Cancel" #(respond [:switch-to :view-mode])))]]]]))
+     [(when true (button "Cancel" #(respond [:switch-to :view-mode])))]]]])
