@@ -13,6 +13,9 @@
 (defn update-checkpoint [course-atom course checkpoint]
   (swap! course-atom #(co/update-checkpoint course checkpoint)))
 
+(defn remove-checkpoint [course-atom course checkpoint]
+  (log/log "Very busy with removing your checkpoint!"))
+
 (defn create-checkpoint [course-atom course]
   (swap! course-atom #(co/create-checkpoint course)))
 
@@ -21,20 +24,21 @@
        course (merge course @course-atom)
        valid? (sp/valid? course)]
   (log/log (:checkpoints course))
-  [:.edit-modal
-   [:.edit-modal--section {:key :title}
-    [:.edit-modal--action-title "Edit the Title"]
-    [:input.edit-modal--course-title {:type        :text
-                                      :value      (:goal course)
-                                      :on-change   #(update-prop :goal % course-atom)}]]
-   [:.edit-modal--section {:key :tasks}
-    [:.edit-modal--action-title "Edit the Resources"]
-    [:.edit-modal--list (edit-list :edit
-                                  (:checkpoints course)
-                                  #(update-checkpoint course-atom course %1))]
-    [:.edit-modal--action
+  [:.course-form
+   [:.course-form--section {:key :title}
+    [:.course-form--action-title "Edit the Title"]
+    [:input.course-form--course-title {:key         "title"
+                                       :type        :text
+                                       :value      (:goal course)
+                                       :on-change   #(update-prop :goal % course-atom)}]]
+   [:.course-form--section {:key :tasks}
+    [:.course-form--action-title "Edit the Resources"]
+    [:.course-form--list (edit-list (:checkpoints course)
+                                   #(update-checkpoint course-atom course %1)
+                                   #(remove-checkpoint course-atom course %1))]
+    [:.course-form--cp-actions
       (when true (button "Add Checkpoint" #(create-checkpoint course-atom course)))]]
-   [:.edit-modal--section {:key :actions}
-    [:.edit-modal--actions
+   [:.course-form--section {:key :actions}
+    [:.course-form--actions
      [(when true (button "Save Course" (partial log/log "Saving Course... or not")))]
      [(when true (button "Cancel" #(respond [:switch-to :view-mode])))]]]]))
