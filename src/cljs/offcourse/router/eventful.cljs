@@ -4,7 +4,8 @@
             [shared.protocols.eventful :as ef]
             [shared.models.route.index :as route]
             [shared.models.action.index :as action]
-            [shared.protocols.convertible :as cv]))
+            [shared.protocols.convertible :as cv]
+            [shared.protocols.loggable :as log]))
 
 (defn handle-request [rt {:keys [handler route-params]}]
   (ef/respond rt [:refreshed (route/from-params handler route-params)]))

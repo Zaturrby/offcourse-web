@@ -1,7 +1,7 @@
 (set-env!
  :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../offcourse-shared" "../offcourse-styles/src"}
  :resource-paths  #{"resources"}
- :checkouts    '[[offcourse/shared              "0.1.0-SNAPSHOT"]]
+ :checkouts    '[[offcourse/shared              "0.4.0-SNAPSHOT"]]
  :dependencies '[[adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.3"          :scope "test"]
                  [adzerk/boot-reload            "0.4.12"         :scope "test"]
@@ -42,7 +42,7 @@
                  [cljsjs/react-dom-server       "15.3.1-0"]
                  [funcool/cuerdas               "0.8.0"]
                  [offcourse/styles              "0.1.8-SNAPSHOT"]
-                 [offcourse/shared              "0.1.0-SNAPSHOT"]
+                 [offcourse/shared              "0.4.0-SNAPSHOT"]
                  [hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]])
 
 (require
