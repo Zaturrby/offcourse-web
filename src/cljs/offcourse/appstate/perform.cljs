@@ -18,13 +18,13 @@
         (ef/respond as [:requested [:save (:user @state)]])
         (log/error @state (sp/errors @state))))))
 
-(defmethod perform [:sign-in nil] [{:keys [state] :as as} [_ viewmodel :as action]]
+(defmethod perform [:sign-in nil] [{:keys [state] :as as} action]
   (ef/respond as [:requested action]))
 
-(defmethod perform [:sign-out nil] [{:keys [state] :as as} [_ viewmodel :as action]]
+(defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
   (ef/respond as [:requested action]))
 
-(defmethod perform [:go :home] [{:keys [state] :as as} [_ viewmodel :as action]]
+(defmethod perform [:go :home] [{:keys [state] :as as} action]
   (ef/respond as [:requested action]))
 
 (defmethod perform [:add :profile] [{:keys [state] :as as} action]
@@ -62,6 +62,15 @@
       (ef/respond as [:not-found (query/create missing-data)]))
     (if (sp/valid? proposal)
       (ef/respond as [:refreshed @state])
+      (log/error @state (sp/errors @state)))))
+
+(defmethod perform [:update :course] [{:keys [state] :as as} action]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+    (reset! state proposal)
+    (when-let [missing-data (qa/missing-data @state viewmodel)]
+      (ef/respond as [:not-found (query/create missing-data)]))
+    (if (sp/valid? proposal)
+      (ef/respond as [:requested [:go :home]])
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:update :viewmodel] [{:keys [state] :as as} action]
