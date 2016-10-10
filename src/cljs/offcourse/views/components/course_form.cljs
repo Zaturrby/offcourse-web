@@ -32,11 +32,12 @@
       [:.course-form--action-title "Edit the Title"]
       [:input.course-form--course-title {:key       "title"
                                          :type      :text
+                                         :placeholder "Course Title"
                                          :data-error (contains? error-paths :goal)
                                          :value     (:goal course)
                                          :on-change #(update-prop :goal % course-atom)}]]
      [:.course-form--section {:key :tasks}
-      [:.course-form--action-title "Edit the Resources"]
+      [:.course-form--action-title "Edit the Checkpoints"]
       [:.course-form--list (edit-list (:checkpoints course)
                                      #(update-checkpoint course-atom course %1)
                                      #(remove-checkpoint course-atom course %1))]
