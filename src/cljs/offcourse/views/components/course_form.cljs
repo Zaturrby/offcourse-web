@@ -19,17 +19,12 @@
 (defn create-checkpoint [course-atom course]
   (swap! course-atom #(co/create-checkpoint course)))
 
-; (defn determine-errors [course field]
-;   (let [errors (:cljs.spec/problems (sp/errors course))]))
-;     ; (map #(= (first %) field) (:path %)) errors))
-
-; (log/log "X" (sp/errors course))
-; (log/log "XX" (:path (nth (:cljs.spec/problems (sp/errors course)) 0)))
-
 (rum/defcs course-form < (rum/local {} ::course) [state {:keys [course]} respond]
   (let [course-atom (::course state)
-        old-course  course
         course      (merge course @course-atom)
+        errors (:cljs.spec/problems (sp/errors course))
+        error-paths (into #{} (map #(-> % :path first) errors))
+        old-course  course
         dirty?      (not= course old-course)
         valid?      (sp/valid? course)]
     [:.course-form
@@ -37,6 +32,7 @@
       [:.course-form--action-title "Edit the Title"]
       [:input.course-form--course-title {:key       "title"
                                          :type      :text
+                                         :data-error (contains? error-paths :goal)
                                          :value     (:goal course)
                                          :on-change #(update-prop :goal % course-atom)}]]
      [:.course-form--section {:key :tasks}
