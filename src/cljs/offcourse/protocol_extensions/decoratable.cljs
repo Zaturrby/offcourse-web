@@ -17,12 +17,13 @@
   {:browsable? (fnk [viewmodel] (= viewmodel :collection-view))
    :forkable?  (fnk [current-user user-is-curator? user-is-forker?]
                     (and current-user (not user-is-forker?) (not user-is-curator?)))
-   :editable?  (fnk [user-is-curator?] user-is-curator?)
+   :editable?  (fnk [user-is-curator?] true #_user-is-curator?)
    :trackable? (fnk [user-is-curator?] user-is-curator?)})
 
 (def course-meta-graph
   {:viewmodel        (fnk [appstate] (sp/resolve (:viewmodel appstate)))
    :tags             (fnk [course] (qa/get course {:tags :all}))
+   :spec             (fnk [course] (-> course meta :spec))
    :fork-curators    (fnk [course] (->> (:forks course)
                                         (map (fn [id]
                                                (let [[org curator hash] (str/split id "::")]
@@ -46,13 +47,16 @@
   Checkpoint
   (-decorate [{:keys [task] :as checkpoint} {:keys [selected course]} routes]
     (let [checkpoint-url  (cv/to-url checkpoint course routes)
+          spec            (-> checkpoint meta :spec)
           course-id       (:course-id course)
           checkpoint-slug (str/slugify task)]
       (if (= selected checkpoint-slug)
         (with-meta checkpoint {:selected       true
+                               :spec           spec
                                :course-id      course-id
                                :checkpoint-url checkpoint-url})
         (with-meta checkpoint {:checkpoint-url checkpoint-url
+                               :spec           spec
                                :course-id      course-id}))))
   Course
   (-decorate [{:keys [checkpoints forks curator] :as course} appstate routes]

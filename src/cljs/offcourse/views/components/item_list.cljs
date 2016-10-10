@@ -23,15 +23,21 @@
    (case list-type
      :todo (map #(rum/with-key (todo-list-item % trackable? respond) (:checkpoint-id %)) checkpoints))])
 
-(rum/defc edit-list-item [checkpoint trackable? handler]
+(rum/defc edit-list-item [checkpoint handler]
     [:li.list--item
       [:.list--item-section
-       [:input.list--course {:type        :text 
+       [:input.list--course {:type        :text
                              :value      (:task checkpoint)
-                             :on-change   #(handler :task % checkpoint)}]
-       [:input.list--url    {:type        :text 
+                             :on-change   (fn [event]
+                                            (let [prop-value (.. event -target -value)
+                                                  checkpoint (assoc-in checkpoint [:task] prop-value)]
+                                              (handler checkpoint)))}]
+       [:input.list--url    {:type        :text
                              :value      (:resource-url checkpoint)
-                             :on-change   #(handler :resource-url checkpoint %)}]]
+                             :on-change   (fn [event]
+                                            (let [prop-value (.. event -target -value)
+                                                  checkpoint (assoc-in checkpoint [:resource-url] prop-value)]
+                                              (handler checkpoint)))}]]
       [:.list--item-section
        [:button.button {:key :add-button
                         :data-button-type (name :icon)
