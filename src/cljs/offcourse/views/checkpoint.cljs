@@ -1,7 +1,7 @@
 (ns offcourse.views.checkpoint
   (:require [offcourse.views.components.button :refer [button]]
             [offcourse.views.components.card :refer [card]]
-            [offcourse.views.components.edit-modal :refer [edit-modal]]
+            [offcourse.views.components.course-form :refer [course-form]]
             [offcourse.views.components.viewer :refer [viewer]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.containers.overlay :refer [overlay]]
@@ -39,4 +39,4 @@
                                                      (button "Edit this course" respond))}))))
    :overlay         (fnk [app-mode course respond]
                          (when (and course (= app-mode :edit-mode))
-                           (overlay (edit-modal {:course course} respond))))})
+                           (overlay (course-form {:course course} respond))))})
