@@ -25,4 +25,4 @@
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))
    :menubar        (fnk [logo actions-panel]
-                        (menubar logo #_actions-panel))})
+                        (menubar logo actions-panel))})
