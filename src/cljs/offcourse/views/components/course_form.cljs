@@ -20,7 +20,6 @@
  (let [course-atom (::course state)
        course (merge course @course-atom)
        valid? (sp/valid? course)]
-  (log/log (:checkpoints course))
   [:.edit-modal
    [:.edit-modal--section {:key :title}
     [:.edit-modal--action-title "Edit the Title"]
