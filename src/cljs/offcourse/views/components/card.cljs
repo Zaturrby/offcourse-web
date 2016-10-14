@@ -8,7 +8,7 @@
  (let [{:keys [affordances course-url]} (meta course)
        {:keys [browsable? forkable? trackable? editable?]} affordances]
   [:.container
-   [:.card
+   [:.card {:on-click #()}
     [:.card--section
      [:a.card--title {:href (-> course meta :course-url)} goal]]
     [:.card--dropdown
