@@ -1,6 +1,7 @@
 (ns offcourse.views.components.auth-form
   (:require [rum.core :as rum]
             [cuerdas.core :as str]
+            [offcourse.views.components.button :refer [button]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
 
@@ -18,11 +19,13 @@
         user (merge user @user-atom)
         valid? (sp/valid? user)]
   ; (log/log user-atom)
-    [:.auth
-      [:.auth--section
-        [:h1.auth--title "Sign up"]]
-      [:.auth--section
-        [:p.auth--text "Step 1 of 2 - Authenticate"]
-        [:.auth--button-container
-          [:.auth--button "Github"]
-          [:.auth--button "Twitter"]]]]))
+    [:.card
+      [:.card--section
+        [:.card--indenter [:h1.card--title "Sign up"]]]
+      [:.card--section
+        [:.card--indenter [:p.card--text "Step 1 of 2 - Authenticate"]]
+        [:.card--divider
+          (button {:button-text "Github"
+                   :button-color "github"} #())
+          (button {:button-text "Twitter"
+                   :button-color "twitter"} #())]]]))
