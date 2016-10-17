@@ -30,5 +30,5 @@
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
    :overlay        (fnk [app-mode]
-                        (when true
+                        (when false
                           (overlay (auth-form))))})
