@@ -35,11 +35,12 @@
       [:.card--section
         [:.card--indenter
           [:p.card--text "What would you like to learn"]]
-        [:input.card--field {:placeholder "Python"}]
-        [:input.card--field {:placeholder "Database"}]
-        [:input.card--field {:placeholder "HTML"}]
-        [:input.card--field {:placeholder "CSS"}]
-        [:input.card--field {:placeholder "Clojure"}]]
+        [:.card--row-wrap
+          [:input.card--field-small {:placeholder "Python"}]
+          [:input.card--field-small {:placeholder "Database"}]
+          [:input.card--field-small {:placeholder "HTML"}]
+          [:input.card--field-small {:placeholder "CSS"}]
+          [:input.card--field-small {:placeholder "Clojure"}]]]
 
       [:.card--section
         [:.card--row-between
