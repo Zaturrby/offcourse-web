@@ -21,7 +21,7 @@
        [:ul.card--row
         (when browsable? (button {:button-text "Browse"} course-url))
         (when forkable? (button {:button-text "Fork"} #(respond [:fork course])))]])
-     (when-let [socialable? false]
+     (when false
       [:.card--section (card-social)])]]]))
 
 (rum/defc cards [{:keys [courses]} respond]
