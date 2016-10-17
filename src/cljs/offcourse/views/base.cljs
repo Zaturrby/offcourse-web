@@ -8,6 +8,7 @@
             [offcourse.views.components.auth-form :refer [auth-form]]
             [offcourse.views.components.user-form :refer [user-form]]
             [offcourse.views.components.edit-profile :refer [edit-profile]]
+            [offcourse.views.components.view-profile :refer [view-profile]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
@@ -31,7 +32,8 @@
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
    :overlay        (fnk [app-mode]
-                        (when true))})
+                        (when true
                           ; (overlay (auth-form))
                           ; (overlay (user-form))))})
                           ; (overlay (edit-profile))))})
+                          (overlay (view-profile))))})
