@@ -4,6 +4,9 @@
             [offcourse.views.components.logo :refer [logo]]
             [offcourse.views.containers.app :refer [app]]
             [offcourse.views.containers.menubar :refer [menubar]]
+            [offcourse.views.containers.overlay :refer [overlay]]
+            [offcourse.views.components.auth-form :refer [auth-form]]
+            [offcourse.views.components.user-form :refer [user-form]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
@@ -25,4 +28,7 @@
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))
    :menubar        (fnk [logo actions-panel]
-                        (menubar logo actions-panel))})
+                        (menubar logo actions-panel))
+   :overlay        (fnk [app-mode]
+                        (when true
+                          (overlay (auth-form))))})
