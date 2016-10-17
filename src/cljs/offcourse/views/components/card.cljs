@@ -19,8 +19,8 @@
      (when forkable?
       [:.card--section
        [:ul.card--actions
-        (when browsable? (button "Browse" course-url))
-        (when forkable? (button "Fork" #(respond [:fork course])))]])
+        (when browsable? (button {:button-text "Browse"} course-url))
+        (when forkable? (button {:button-text "Fork"} #(respond [:fork course])))]])
      (when-let [socialable? false]
       [:.card--section (card-social)])]]]))
 
