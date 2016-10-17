@@ -32,8 +32,8 @@
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
    :overlay        (fnk [app-mode]
-                        (when true
+                        (when true))})
                           ; (overlay (auth-form))
                           ; (overlay (user-form))))})
                           ; (overlay (edit-profile))))})
-                          (overlay (view-profile))))})
+                          ; (overlay (view-profile))))})
