@@ -27,23 +27,36 @@
         old-course  course
         dirty?      (not= course old-course)
         valid?      (sp/valid? course)]
-    [:.course-form
-     [:.course-form--section {:key :title}
-      [:.course-form--action-title "Edit the Title"]
-      (when (contains? error-paths :goal) [:.course-form--error "This field is not correct yet"])
-      [:input.course-form--course-title {:key       "title"
-                                         :type      :text
-                                         :placeholder "Course Title"
-                                         :value     (:goal course)
-                                         :on-change #(update-prop :goal % course-atom)}]]
-     [:.course-form--section {:key :tasks}
-      [:.course-form--action-title "Edit the Resources"]
-      [:.course-form--list (edit-list (:checkpoints course)
-                                     #(update-checkpoint course-atom course %1)
-                                     #(remove-checkpoint course-atom course %1))]
-      [:.course-form--cp-actions
-        (when true (button "Add Checkpoint" #(create-checkpoint course-atom course)))]]
-     [:.course-form--section {:key :actions}
-      [:.course-form--actions
-       [(when (and valid? dirty?) (button "Save Course" #(respond [:update course])))]
-       [(when true (button "Cancel" #(respond [:switch-to :view-mode])))]]]]))
+    [:.card {:data-card-type :wide}
+     [:.card--section
+      [:.card--indenter [:.card--text "Edit the Title"]]
+      (when (contains? error-paths :goal) [:.card--error "This field is not correct yet"])
+      [:input.card--field {:key       "title"
+                           :type      :text
+                           :placeholder "Course Title"
+                           :value     (:goal course)
+                           :on-change #(update-prop :goal % course-atom)}]]
+     [:.card--section
+      [:.card--indenter [:.card--text "Edit the Resources"]]
+      [:.card--padder
+        [:.card--column (edit-list (:checkpoints course)
+                                   #(update-checkpoint course-atom course %1)
+                                   #(remove-checkpoint course-atom course %1))]]
+      [:.card--padder
+        (when true
+          (button {:button-text "Add Checkpoint"}
+                  #(create-checkpoint course-atom course)))]]
+     [:.card--section
+      [:.card--row-between
+       [:.card--row
+         (when true ;(and valid? dirty?)
+           (button {:button-text "Save Course"}
+                   #(respond [:update course])))
+         (when true
+           (button {:button-text "Publish Course"
+                    :button-color "blue"}
+                   #(respond [:update course])))]
+       [(when true
+         (button {:button-text "Cancel"
+                  :button-color "red"}
+                 #(respond [:switch-to :view-mode])))]]]]))

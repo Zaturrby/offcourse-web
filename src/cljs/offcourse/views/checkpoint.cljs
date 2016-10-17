@@ -36,7 +36,9 @@
                            (when course
                              (dashboard {:main     (card course respond)
                                          :controls (when editable?
-                                                     (button {:button-text "Edit this course"} respond))}))))
+                                                     (button {:button-text "Edit this course"
+                                                              :button-width "full"}
+                                                             respond))}))))
    :overlay         (fnk [app-mode course respond]
                          (when (and course (= app-mode :edit-mode))
                            (overlay (course-form {:course course} respond))))})

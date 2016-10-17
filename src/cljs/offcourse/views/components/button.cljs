@@ -20,5 +20,6 @@
   (log/log content)
   [:.button {:key (:button-text content)
                :data-button-color (or (:button-color content) "gray")
-               :data-button-type "textbar"}
+               :data-button-type "textbar"
+               :data-button-width (or (:button-width content) "default")}
    [:a {:on-click action} (:button-text content)]])
