@@ -7,6 +7,7 @@
             [offcourse.views.containers.overlay :refer [overlay]]
             [offcourse.views.components.auth-form :refer [auth-form]]
             [offcourse.views.components.user-form :refer [user-form]]
+            [offcourse.views.components.edit-profile :refer [edit-profile]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
@@ -32,4 +33,5 @@
    :overlay        (fnk [app-mode]
                         (when true
                           ; (overlay (auth-form))
-                          (overlay (user-form))))})
+                          ; (overlay (user-form))))})
+                          (overlay (edit-profile))))})

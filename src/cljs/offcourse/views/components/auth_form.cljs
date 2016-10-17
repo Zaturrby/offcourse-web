@@ -24,7 +24,7 @@
         [:.card--indenter [:h1.card--title "Sign up"]]]
       [:.card--section
         [:.card--indenter [:p.card--text "Step 1 of 2 - Authenticate"]]
-        [:.card--divider
+        [:.card--padder
           (button {:button-text "Github"
                    :button-color "github"} #())
           (button {:button-text "Twitter"

@@ -18,7 +18,7 @@
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      (when forkable?
       [:.card--section
-       [:ul.card--actions
+       [:ul.card--row
         (when browsable? (button {:button-text "Browse"} course-url))
         (when forkable? (button {:button-text "Fork"} #(respond [:fork course])))]])
      (when-let [socialable? false]
