@@ -20,21 +20,18 @@
         valid? (sp/valid? user)]
     [:.card {:data-card-type :wide}
       [:.card--section
-        [:.card--row-between
-          [:.card--indenter
-            [:h1.card--title "Edit your Profile"]]
+        [:.card--row {:data-space-between true}
+          [:h1.card--title {:data-title-indent true} "Edit your Profile"]
           [:.card--link "View Profile"]]]
       [:.card--section {:key :user-name}
-        [:.card--indenter
-          [:p.card--text "Username"]]
+        [:p.card--text  {:data-text-indent true} "Username"]
         [:input.card--field {:placeholder "Username"
                              :value (:user-name user)
                              :auto-focus true
                              :on-change #(update-prop :user-name % user-atom)}]]
 
       [:.card--section
-        [:.card--indenter
-          [:p.card--text "What would you like to learn"]]
+        [:p.card--text {:data-text-indent true} "What would you like to learn"]
         [:.card--row-wrap
           [:input.card--field-small {:placeholder "Python"}]
           [:input.card--field-small {:placeholder "Database"}]
@@ -43,43 +40,44 @@
           [:input.card--field-small {:placeholder "Clojure"}]]]
 
       [:.card--section
-        [:.card--row-between
-          [:.card--indenter
-            [:p.card--text "Add your accounts"]]
+        [:.card--row {:data-space-between true}
+          [:p.card--text {:data-text-indent true} "Add your accounts"]
           [:.card--link-em "What Offcourse will do with your accounts"]]
-        [:.card--padder
-          [:.card--row
-            (button {:button-text "Github"
-                     :button-color "github"}
-                    #())
-            [:.card--v-center [:.card--indenter [:.card--title "Add your Github account"]]]]]
-        [:.card--padder
-          [:.card--row
-            (button {:button-text "Twitter"
-                     :button-color "twitter"}
-                    #())
-            [:.card--v-center [:.card--indenter [:.card--title "Add your Twitter account"]]]]]
-        [:.card--padder
-          [:.card--row
-            (button {:button-text "Linkedin"
-                     :button-color "linkedin"}
-                    #())
-            [:.card--v-center [:.card--indenter [:.card--title "Add your Linkedin account"]]]]]]
+        [:.card--row {:data-top-padded true}
+          (button {:button-text "Github"
+                   :button-color "github"}
+                  #(log/log "Login with Github"))
+          [:.card--title {:data-title-type :disabled
+                          :data-title-indent true}
+            "Add your Github account"]]
+        [:.card--row {:data-top-padded true}
+          (button {:button-text "Twitter"
+                   :button-color "twitter"}
+                  #(log/log "Login with Twitter"))
+          [:.card--title {:data-title-type :disabled
+                          :data-title-indent true}
+            "Add your Twitter account"]]
+        [:.card--row {:data-top-padded true}
+          (button {:button-text "Linkedin"
+                   :button-color "linkedin"}
+                  #(log/log "Login with Linkedin"))
+          [:.card--title {:data-title-type :disabled
+                          :data-title-indent true}
+            "Add your Linkedin account"]]]
 
       [:.card--section
-        [:.card--indenter
-          [:p.card--text "Some cool information about you"]]
+        [:p.card--text {:data-text-indent true} "Some cool information about you"]
         [:input.card--field {:placeholder "Username"}]]
 
       [:.card--section
-        [:.card--indenter
-          [:p.card--text "Your URL"]]
+        [:p.card--text {:data-text-indent true} "Your URL"]
         [:input.card--field {:placeholder "charlottevanoostrum.com"}]]
 
       (when true ;valid?
         [:.card--section
-          [:.card--row-between
-            (button {:button-text "Save Changes"} #(log/log "update user"))
+          [:.card--row {:data-space-between true}
+            (button {:button-text "Save Changes"}
+                    #(log/log "Update user"))
             (button {:button-text "Cancel"
                      :button-color "red"}
-                    #(log/log "close"))]])]))
+                    #(log/log "Close"))]])]))
