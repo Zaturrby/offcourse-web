@@ -2,6 +2,7 @@
   (:require [rum.core :as rum]
             [cuerdas.core :as str]
             [offcourse.views.components.button :refer [button]]
+            [offcourse.views.components.dropdown :refer [dropdown]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
 
@@ -47,7 +48,10 @@
       [:.card--section
         [:.card--row {:data-row-spaced true}
           [:p.card--text {:data-text-indent true} "Add your accounts"]
-          [:.card--link {:data-link-type :em} "What Offcourse will do with your accounts"]]
+          [:.card--link {:data-link-type :em} "What Offcourse will do with your accounts"]
+          (dropdown {:title "Datapolicy"
+                     :text "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                     :shown false})]
         [:.card--row {:data-row-padded true}
           (button {:button-text "Github"
                    :button-color "github"}

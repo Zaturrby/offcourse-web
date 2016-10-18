@@ -22,7 +22,7 @@
       [:.card--section
         [:h1.card--title {:data-title-indent true} "Sign up"]]
       [:.card--section {:key :user-name}
-        [:p.card--text {:data-text-indent true}"Step 2 of 2 - Add an Username"]
+        [:p.card--text {:data-text-indent true} "Step 2 of 2 - Add an Username"]
         [:input.form--field {:placeholder "Username"
                              :value (:user-name user)
                              :auto-focus true
