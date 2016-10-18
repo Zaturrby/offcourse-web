@@ -15,7 +15,7 @@
     [:.card--section
       [:.card--indenter
         [:p.card--text "#Python #Database #HTML #CSS #Clojure"]
-        [:p.card--text "I'm an Information Architect in many ways"]
-        [:p.card--link "charlottevanoostrum.com"]]]
+        [:.card--padder [:p.card--text "I'm an Information Architect in many ways"]]
+        [:.card--padder [:p.card--link "charlottevanoostrum.com"]]]]
     [:.card--section
       (button {:button-text "Follow Charlotte"} #(log/log "Follow"))]])

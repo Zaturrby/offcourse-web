@@ -13,11 +13,11 @@
 (defmethod button :link [content url]
   [:.button {:key (:button-text content)
                :data-button-color (or (:button-color content) "gray")
-               :data-button-type "textbar"}
+               :data-button-type "textbar"
+               :data-button-width (or (:button-width content) "default")}
    [:a {:href url} (:button-text content)]])
 
 (defmethod button :action [content action]
-  (log/log content)
   [:.button {:key (:button-text content)
                :data-button-color (or (:button-color content) "gray")
                :data-button-type "textbar"

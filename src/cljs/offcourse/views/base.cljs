@@ -1,10 +1,11 @@
 (ns offcourse.views.base
   (:require [clojure.set :as set]
-            [offcourse.views.components.actions-panel :refer [actions-panel]]
-            [offcourse.views.components.logo :refer [logo]]
             [offcourse.views.containers.app :refer [app]]
             [offcourse.views.containers.menubar :refer [menubar]]
+            [offcourse.views.components.notifybar :refer [notifybar]]
             [offcourse.views.containers.overlay :refer [overlay]]
+            [offcourse.views.components.actions-panel :refer [actions-panel]]
+            [offcourse.views.components.logo :refer [logo]]
             [offcourse.views.components.auth-form :refer [auth-form]]
             [offcourse.views.components.user-form :refer [user-form]]
             [offcourse.views.components.edit-profile :refer [edit-profile]]
@@ -12,6 +13,10 @@
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
+
+(def notification {:title "Thank you for signing up!"
+                   :link  "You can edit your profile here"
+                   :color "gray"})
 
 (def graph
   {:base-actions   (fnk [] #{:go :sign-in :sign-out})
@@ -31,9 +36,11 @@
    :actions-panel  (fnk [user respond] (actions-panel user respond))
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
+   :notifybar      (fnk [respond])
+                        ; (when true (notifybar notification respond)))
    :overlay        (fnk [app-mode]
                         (when true))})
-                          ; (overlay (auth-form))
+                          ; (overlay (auth-form))))})
                           ; (overlay (user-form))))})
                           ; (overlay (edit-profile))))})
                           ; (overlay (view-profile))))})

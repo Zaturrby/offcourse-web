@@ -19,13 +19,18 @@
         user (merge user @user-atom)
         valid? (sp/valid? user)]
   ; (log/log user-atom)
-    [:.card
+    [:.card {:data-card-type :medium}
       [:.card--section
         [:.card--indenter [:h1.card--title "Sign up"]]]
       [:.card--section
         [:.card--indenter [:p.card--text "Step 1 of 2 - Authenticate"]]
         [:.card--padder
-          (button {:button-text "Github"
-                   :button-color "github"} #())
-          (button {:button-text "Twitter"
-                   :button-color "twitter"} #())]]]))
+          [:.card--row
+            (button {:button-text "Github"
+                     :button-color "github"
+                     :button-width "full"}
+                    #())
+            (button {:button-text "Twitter"
+                     :button-color "twitter"
+                     :button-width "full"}
+                    #())]]]]))

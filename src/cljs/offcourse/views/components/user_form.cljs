@@ -18,7 +18,7 @@
   (let [user-atom (::user state)
         user (merge user @user-atom)
         valid? (sp/valid? user)]
-    [:.card
+    [:.card {:data-card-type :medium}
       [:.card--section
         [:.card--indenter
           [:h1.card--title "Sign up"]]]
