@@ -12,14 +12,14 @@
 
 (defmethod button :link [content url]
   [:.button {:key (:button-text content)
-               :data-button-color (or (:button-color content) "gray")
-               :data-button-type "textbar"
-               :data-button-width (or (:button-width content) "default")}
+             :data-button-color (or (:button-color content) "gray")
+             :data-button-type "textbar"
+             :data-button-width (or (:button-width content) "default")}
    [:a {:href url} (:button-text content)]])
 
 (defmethod button :action [content action]
   [:.button {:key (:button-text content)
-               :data-button-color (or (:button-color content) "gray")
-               :data-button-type "textbar"
-               :data-button-width (or (:button-width content) "default")}
+             :data-button-color (or (:button-color content) "gray")
+             :data-button-type "textbar"
+             :data-button-width (or (:button-width content) "default")}
    [:a {:on-click action} (:button-text content)]])
