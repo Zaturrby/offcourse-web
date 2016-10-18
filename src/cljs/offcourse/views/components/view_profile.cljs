@@ -8,14 +8,17 @@
 (rum/defc view-profile []
   [:.card {:data-card-type :wide}
     [:.card--section
-      [:.card--indenter
-        [:.card--row-between
-          [:h1.card--title "Charlotte"]
-          [:.card--link "Edit Profile"]]]]
+      [:.card--row {:data-row-spaced true}
+          [:h1.card--title {:data-title-indent true} "Charlotte"]
+          [:.card--link "Edit Profile"]]]
     [:.card--section
-      [:.card--indenter
-        [:p.card--text "#Python #Database #HTML #CSS #Clojure"]
-        [:.card--padder [:p.card--text "I'm an Information Architect in many ways"]]
-        [:.card--padder [:p.card--link "charlottevanoostrum.com"]]]]
+      [:p.card--text {:data-text-indent true
+                      :data-text-padded true}
+                     "#Python #Database #HTML #CSS #Clojure"]
+      [:p.card--text {:data-text-indent true
+                      :data-text-padded true}
+                     "I'm an Information Architect in many ways"]
+      [:p.card--text {:data-text-indent true}
+        [:a.card--link "charlottevanoostrum.com"]]]
     [:.card--section
-      (button {:button-text "Follow Charlotte"} #(log/log "Follow"))]])
+      (button {:button-text "Follow Charlotte"} #(log/log "Follow Charlotte"))]])

@@ -20,16 +20,13 @@
         valid? (sp/valid? user)]
     [:.card {:data-card-type :medium}
       [:.card--section
-        [:.card--indenter
-          [:h1.card--title "Sign up"]]]
+        [:h1.card--title {:data-title-indent true} "Sign up"]]
       [:.card--section {:key :user-name}
-        [:.card--indenter
-          [:p.card--text "Step 2 of 2 - Add an Username"]]
-        [:input.card--field {:placeholder "Username"
+        [:p.card--text {:data-text-indent true}"Step 2 of 2 - Add an Username"]
+        [:input.form--field {:placeholder "Username"
                              :value (:user-name user)
                              :auto-focus true
                              :on-change #(update-prop :user-name % user-atom)}]]
       (when true ;valid?
         [:.card--section {:key :actions}
-          [:.actions
-            (button {:button-text "Go!"} #(respond [:create user]))]])]))
+          (button {:button-text "Go!"} #(respond [:create user]))])]))

@@ -8,4 +8,4 @@
       (when (:link notification)
         [:a.notifybar--link (:link notification)])]
     [:.notifybar--section
-       [:.notifybar--link-strong "Close"]]])
+       [:.notifybar--link {:data-link-type :strong} "Close"]]])

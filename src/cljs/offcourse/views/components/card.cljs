@@ -13,7 +13,7 @@
    [:.card {:on-click #()}
     [:.card--section
      [:a.card--title {:href (-> course meta :course-url)} goal]]
-    [:.card--dropdown
+    [:.card--wrapper
      [:.card--section (card-meta course)]
      [:.card--section (item-list :todo checkpoints trackable? respond)]
      (when forkable?

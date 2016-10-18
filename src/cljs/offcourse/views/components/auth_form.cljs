@@ -18,19 +18,17 @@
   (let [user-atom (::user state)
         user (merge user @user-atom)
         valid? (sp/valid? user)]
-  ; (log/log user-atom)
     [:.card {:data-card-type :medium}
       [:.card--section
-        [:.card--indenter [:h1.card--title "Sign up"]]]
+        [:h1.card--title {:data-title-indent true} "Sign up"]]
       [:.card--section
-        [:.card--indenter [:p.card--text "Step 1 of 2 - Authenticate"]]
-        [:.card--padder
-          [:.card--row
-            (button {:button-text "Github"
-                     :button-color "github"
-                     :button-width "full"}
-                    #())
-            (button {:button-text "Twitter"
-                     :button-color "twitter"
-                     :button-width "full"}
-                    #())]]]]))
+        [:p.card--text {:data-text-indent true}"Step 1 of 2 - Authenticate"]
+        [:.card--row {:data-row-padded true}
+          (button {:button-text "Github"
+                   :button-color "github"
+                   :button-width "full"}
+                  #())
+          (button {:button-text "Twitter"
+                   :button-color "twitter"
+                   :button-width "full"}
+                  #())]]]))

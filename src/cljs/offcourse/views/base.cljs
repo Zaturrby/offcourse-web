@@ -37,11 +37,11 @@
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
    :notification   (fnk [appstate] notification)
-   :notifybar      (fnk [notification respond])
-                        ; (when true (notifybar notification respond)))
+   :notifybar      (fnk [notification respond]
+                        (when true (notifybar notification respond)))
    :overlay        (fnk [app-mode]
-                        (when true
+                        (when true))})
                           ; (overlay (auth-form))))})
                           ; (overlay (user-form))))})
-                          (overlay (edit-profile))))})
+                          ; (overlay (edit-profile))))})
                           ; (overlay (view-profile))))})

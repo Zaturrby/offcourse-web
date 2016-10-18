@@ -20,44 +20,49 @@
         valid? (sp/valid? user)]
     [:.card {:data-card-type :wide}
       [:.card--section
-        [:.card--row {:data-space-between true}
+        [:.card--row {:data-row-spaced true}
           [:h1.card--title {:data-title-indent true} "Edit your Profile"]
-          [:.card--link "View Profile"]]]
+          [:.card--link {:data-link-type :strong} "View Profile"]]]
       [:.card--section {:key :user-name}
         [:p.card--text  {:data-text-indent true} "Username"]
-        [:input.card--field {:placeholder "Username"
+        [:input.form--field {:placeholder "Username"
                              :value (:user-name user)
                              :auto-focus true
                              :on-change #(update-prop :user-name % user-atom)}]]
 
       [:.card--section
         [:p.card--text {:data-text-indent true} "What would you like to learn"]
-        [:.card--row-wrap
-          [:input.card--field-small {:placeholder "Python"}]
-          [:input.card--field-small {:placeholder "Database"}]
-          [:input.card--field-small {:placeholder "HTML"}]
-          [:input.card--field-small {:placeholder "CSS"}]
-          [:input.card--field-small {:placeholder "Clojure"}]]]
+        [:.card--row {:data-row-wrap true}
+          [:input.form--field {:data-field-type :half
+                               :placeholder "Python"}]
+          [:input.form--field {:data-field-type :half
+                               :placeholder "Database"}]
+          [:input.form--field {:data-field-type :half
+                               :placeholder "HTML"}]
+          [:input.form--field {:data-field-type :half
+                               :placeholder "CSS"}]
+          [:input.form--field {:data-field-type :half
+                               :placeholder "Clojure"}]]]
 
       [:.card--section
-        [:.card--row {:data-space-between true}
+        [:.card--row {:data-row-spaced true}
           [:p.card--text {:data-text-indent true} "Add your accounts"]
-          [:.card--link-em "What Offcourse will do with your accounts"]]
-        [:.card--row {:data-top-padded true}
+          [:.card--link {:data-link-type :em} "What Offcourse will do with your accounts"]]
+        [:.card--row {:data-row-padded true}
           (button {:button-text "Github"
                    :button-color "github"}
                   #(log/log "Login with Github"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
             "Add your Github account"]]
-        [:.card--row {:data-top-padded true}
+        [:.card--row {:data-row-padded true}
           (button {:button-text "Twitter"
                    :button-color "twitter"}
                   #(log/log "Login with Twitter"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
             "Add your Twitter account"]]
-        [:.card--row {:data-top-padded true}
+        [:.card--row {:data-row-padded true}
           (button {:button-text "Linkedin"
                    :button-color "linkedin"}
                   #(log/log "Login with Linkedin"))
@@ -67,15 +72,15 @@
 
       [:.card--section
         [:p.card--text {:data-text-indent true} "Some cool information about you"]
-        [:input.card--field {:placeholder "Username"}]]
+        [:input.form--field {:placeholder "Username"}]]
 
       [:.card--section
         [:p.card--text {:data-text-indent true} "Your URL"]
-        [:input.card--field {:placeholder "charlottevanoostrum.com"}]]
+        [:input.form--field {:placeholder "charlottevanoostrum.com"}]]
 
       (when true ;valid?
         [:.card--section
-          [:.card--row {:data-space-between true}
+          [:.card--row {:data-row-spaced true}
             (button {:button-text "Save Changes"}
                     #(log/log "Update user"))
             (button {:button-text "Cancel"
