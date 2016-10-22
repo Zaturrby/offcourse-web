@@ -29,7 +29,7 @@
                  :organization "offcourse"
                  :curator      "charlotte"
                  :sha          "cbc89ec5b0417accc46fd41c5e5611cdcc4436f6"}
-                ;  :sha          "2c9c43662e29b54d8e854d48b8a80bfc50a83dd2"}
+                ;  :sha          "e438278961f4f83b587b6fc8413f714ae34682a9"}
     :resources  #{:course :collection}
     :base-url   "https://api.github.com"}
    #_{:adapter    github/create

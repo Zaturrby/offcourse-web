@@ -4,4 +4,4 @@
 (rum/defc menubar [logo actions-panel]
   [:.menubar
    [:.menubar--section logo]
-   [:.menubar--section actions-panel]])
+   [:.menubar--section #_actions-panel]])

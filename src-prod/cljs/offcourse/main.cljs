@@ -28,7 +28,7 @@
     :repository {:name         "html-css-javascript"
                  :organization "offcourse"
                  :curator      "charlotte"
-                 :sha          "e8bdb8fc693b30b2443a8d294622ca4ae99e9441"}
+                 :sha          "e438278961f4f83b587b6fc8413f714ae34682a9"}
     :resources  #{:course :collection}
     :base-url   "https://api.github.com"}
    #_{:adapter    github/create
