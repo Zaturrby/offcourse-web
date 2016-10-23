@@ -5,20 +5,21 @@
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
 
-(rum/defc view-profile []
+(rum/defc view-profile [user respond]
+  (log/log user)
   [:.card {:data-card-type :wide}
     [:.card--section
       [:.card--row {:data-row-spaced true}
-          [:h1.card--title {:data-title-indent true} "Charlotte"]
+          [:h1.card--title {:data-title-indent true} (:full-name user)]
           [:.card--link "Edit Profile"]]]
     [:.card--section
       [:p.card--text {:data-text-indent true
                       :data-text-padded :large}
-                     "#Python #Database #HTML #CSS #Clojure"]
+                     (map #(str %) (:interest user))]
       [:p.card--text {:data-text-indent true
                       :data-text-padded :large}
-                     "I'm an Information Architect in many ways"]
+                     (:description user)]
       [:p.card--text {:data-text-indent true}
-        [:a.card--link "charlottevanoostrum.com"]]]
+        [:a.card--link (:website user)]]]
     [:.card--section
-      (button {:button-text "Follow Charlotte"} #(log/log "Follow Charlotte"))]])
+      (button {:button-text (str "Follow " (:user-name user))} #(log/log "Follow"))]])

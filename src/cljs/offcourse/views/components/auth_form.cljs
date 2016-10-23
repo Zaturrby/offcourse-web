@@ -4,20 +4,8 @@
             [offcourse.views.components.button :refer [button]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
-
-(defn button-title [string]
-  (-> string
-      str/humanize
-      str/titleize))
-
-(defn update-prop [prop-name event atom]
-  (let [user-name (.. event -target -value)]
-    (swap! atom #(assoc % prop-name user-name))))
-
-(rum/defcs auth-form < (rum/local {} ::user) [state user respond]
-  (let [user-atom (::user state)
-        user (merge user @user-atom)
-        valid? (sp/valid? user)]
+            
+(rum/defc auth-form [respond]
     [:.card {:data-card-type :medium}
       [:.card--section
         [:h1.card--title {:data-title-indent true} "Sign up"]]
@@ -33,4 +21,4 @@
           (button {:button-text "Twitter"
                    :button-color "twitter"
                    :button-width "full"}
-                  #())]]]))
+                  #())]]])
