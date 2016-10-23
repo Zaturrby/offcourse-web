@@ -34,15 +34,21 @@
           [:.card--link {:data-link-type :strong} "View Profile"]]]
       [:.card--section {:key :user-name}
         [:p.card--text {:data-text-indent true} "Username"]
-        [:input.form--field {:placeholder "Username"
+        [:input.form--field {:placeholder "Your Username"
                              :value (:user-name user)
+                             :auto-focus true
+                             :on-change #(update-prop :user-name % user-atom)
+                             :data-field-margin true}]
+        [:p.card--text {:data-text-indent true} "Your E-mail"]
+        [:input.form--field {:placeholder "E-mail"
+                             :value (:email user)
                              :auto-focus true
                              :on-change #(update-prop :user-name % user-atom)}]]
 
       [:.card--section
         [:p.card--text {:data-text-indent true} "What would you like to learn"]
         [:.card--row {:data-row-wrap true}
-          ; (map #(rum/with-key 
+          ; (map #(rum/with-key
           ;         [:input.form--field {:data-field-type :half
           ;                              :placeholder "Python"}]
           ;         ())
@@ -73,29 +79,31 @@
                   #(log/log "Login with Github"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
-            "Add your Github account"]]
+            (or (:github user) "Add your Github account")]]
         [:.card--row {:data-row-padded :large}
           (button {:button-text "Twitter"
                    :button-color "twitter"}
                   #(log/log "Login with Twitter"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
-            "Add your Twitter account"]]
+            (or (:twitter user)) "Add your Twitter account"]]
         [:.card--row
           (button {:button-text "Linkedin"
                    :button-color "linkedin"}
                   #(log/log "Login with Linkedin"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
-            "Add your Linkedin account"]]]
+            (or (:linkedin user)) "Add your Linkedin account"]]]
 
       [:.card--section
         [:p.card--text {:data-text-indent true} "Some cool information about you"]
-        [:input.form--field {:placeholder "Username"}]]
+        [:input.form--field {:placeholder "Your Information"
+                             :value (:description user)}]]
 
       [:.card--section
-        [:p.card--text {:data-text-indent true} "Your URL"]
-        [:input.form--field {:placeholder "charlottevanoostrum.com"}]]
+        [:p.card--text {:data-text-indent true} "Your website"]
+        [:input.form--field {:placeholder "Website URL"
+                             :value (:website user)}]]
 
       (when true ;valid?
         [:.card--section
