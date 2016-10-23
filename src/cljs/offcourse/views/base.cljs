@@ -25,7 +25,7 @@
    :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :container      (fnk [] app)
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
-   :app-mode       (fnk [appstate] (-> appstate :app-mode))
+   :app-mode       (fnk [appstate] (keyword "edit-user") #_(-> appstate :app-mode))
    :user           (fnk [appstate] (-> appstate :user))
    :user-name      (fnk [user] (when user (:user-name user)))
    :respond        (fnk [responder actions]
@@ -53,4 +53,4 @@
                         (merge base-overlays view-overlays))
    :overlay        (fnk [app-mode overlays]
                         (when-let [overlay (get overlays app-mode)]
-                          overlay))})
+                          (overlay)))})

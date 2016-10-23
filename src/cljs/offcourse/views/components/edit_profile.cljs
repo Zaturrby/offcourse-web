@@ -18,6 +18,21 @@
 (defn set-dropdown [dropdown-name dropdown-atom]
   (swap! dropdown-atom #(str dropdown-name)))
 
+(rum/defc form-field [interest update-interest]
+  [:input.form--field {:data-field-type :half
+                       :placeholder "Interest"
+                       :value interest}])
+
+(rum/defc form-social [user provider update-provider]
+  [:.card--row {:data-row-padded :small}
+    (button {:button-text (button-title (name provider))
+             :button-color provider}
+            #(log/log "Login with Linkedin"))
+    [:.card--title {:data-title-disabled (if (get user :linkedin) false true)
+                    :data-title-indent true}
+      (or (:linkedin user)) (str "Add your " (button-title (name provider)) " account")]])
+
+
 (rum/defcs edit-profile < (rum/local {} ::user)
                           (rum/local "" ::dropdown)
   [state user respond]
@@ -33,31 +48,27 @@
           [:h1.card--title {:data-title-indent true} "Edit your Profile"]
           [:.card--link {:data-link-type :strong} "View Profile"]]]
       [:.card--section {:key :user-name}
-        [:p.card--text {:data-text-indent true} "Username"]
-        [:input.form--field {:placeholder "Your Username"
+        [:p.card--text {:data-text-indent true} "How would like like to be called"]
+        [:input.form--field {:placeholder "Username"
                              :value (:user-name user)
                              :auto-focus true
                              :on-change #(update-prop :user-name % user-atom)
                              :data-field-margin true}]
-        [:p.card--text {:data-text-indent true} "Your E-mail"]
+        [:p.card--text {:data-text-indent true} "Where can we reach you"]
         [:input.form--field {:placeholder "E-mail"
                              :value (:email user)
-                             :auto-focus true
                              :on-change #(update-prop :user-name % user-atom)}]]
 
       [:.card--section
-        [:p.card--text {:data-text-indent true} "What would you like to learn"]
+        [:p.card--text {:data-text-indent true
+                        :data-text-padded :small}
+                       "What would you like to learn"]
         [:.card--row {:data-row-wrap true}
-          [:input.form--field {:data-field-type :half
-                               :placeholder "Python"}]
-          [:input.form--field {:data-field-type :half
-                               :placeholder "Database"}]
-          [:input.form--field {:data-field-type :half
-                               :placeholder "HTML"}]
-          [:input.form--field {:data-field-type :half
-                               :placeholder "CSS"}]
-          [:input.form--field {:data-field-type :half
-                               :placeholder "Clojure"}]]]
+          (map #(rum/with-key (form-field % (fn [] ()) %) (:interests user)))
+          (button {:button-text "Add Interest"
+                   :button-color "light"
+                   :button-width "full"}
+                  #())]]
 
       [:.card--section
         [:.card--row {:data-row-spaced true
@@ -70,37 +81,20 @@
           (dropdown {:title "Datapolicy"
                      :text "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                      :shown (= dropdown? "data")})]
-        [:.card--row {:data-row-padded :large}
-          (button {:button-text "Github"
-                   :button-color "github"}
-                  #(log/log "Login with Github"))
-          [:.card--title {:data-title-disabled (if (:twitter user) false true)
-                          :data-title-indent true}
-            (or (:github user) "Add your Github account")]]
-        [:.card--row {:data-row-padded :large}
-          (button {:button-text "Twitter"
-                   :button-color "twitter"}
-                  #(log/log "Login with Twitter"))
-          [:.card--title {:data-title-disabled (if (:twitter user) false true)
-                          :data-title-indent true}
-            (or (:twitter user)) "Add your Twitter account"]]
-        [:.card--row
-          (button {:button-text "Linkedin"
-                   :button-color "linkedin"}
-                  #(log/log "Login with Linkedin"))
-          [:.card--title {:data-title-disabled (if (:twitter user) false true)
-                          :data-title-indent true}
-            (or (:linkedin user)) "Add your Linkedin account"]]]
+        (map #(rum/with-key (form-social user % (fn [] ())) %) [:github :twitter :linkedin])]
+
 
       [:.card--section
         [:p.card--text {:data-text-indent true} "Some cool information about you"]
-        [:input.form--field {:placeholder "Your Information"
-                             :value (:description user)}]]
+        [:input.form--field {:placeholder "Information"
+                             :value (:description user)
+                             :on-change #(update-prop :description % user-atom)}]]
 
       [:.card--section
-        [:p.card--text {:data-text-indent true} "Your website"]
+        [:p.card--text {:data-text-indent true} "What place can we visit to get to know you better"]
         [:input.form--field {:placeholder "Website URL"
-                             :value (:website user)}]]
+                             :value (:website user)
+                             :on-change #(update-prop :website % user-atom)}]]
 
       (when true ;valid?
         [:.card--section

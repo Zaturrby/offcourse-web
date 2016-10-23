@@ -12,7 +12,7 @@
   [:ul.actions-panel
    (handler-button "auth" (partial respond [:switch-to :auth]))
    (handler-button "new-user" (partial respond [:switch-to :new-user]))
-   (handler-button "edit-profile" (partial respond [:switch-to :edit-profile]))
+   (handler-button "edit-user" (partial respond [:switch-to :edit-profile]))
    (handler-button "view-profile" (partial respond [:switch-to :view-profile]))
    (if auth-token
      (handler-button "Sign Out" (partial respond [:sign-out]))
