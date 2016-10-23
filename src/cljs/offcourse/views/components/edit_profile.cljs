@@ -25,7 +25,7 @@
           [:h1.card--title {:data-title-indent true} "Edit your Profile"]
           [:.card--link {:data-link-type :strong} "View Profile"]]]
       [:.card--section {:key :user-name}
-        [:p.card--text  {:data-text-indent true} "Username"]
+        [:p.card--text {:data-text-indent true} "Username"]
         [:input.form--field {:placeholder "Username"
                              :value (:user-name user)
                              :auto-focus true

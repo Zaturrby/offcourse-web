@@ -13,10 +13,10 @@
           [:.card--link "Edit Profile"]]]
     [:.card--section
       [:p.card--text {:data-text-indent true
-                      :data-text-padded true}
+                      :data-text-padded :large}
                      "#Python #Database #HTML #CSS #Clojure"]
       [:p.card--text {:data-text-indent true
-                      :data-text-padded true}
+                      :data-text-padded :large}
                      "I'm an Information Architect in many ways"]
       [:p.card--text {:data-text-indent true}
         [:a.card--link "charlottevanoostrum.com"]]]

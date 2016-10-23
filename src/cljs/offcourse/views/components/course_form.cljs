@@ -29,15 +29,19 @@
         valid?      (sp/valid? course)]
     [:.card {:data-card-type :wide}
      [:.card--section
-      [:.card--indenter [:.card--text "Edit the Title"]]
+      [:.card--indenter
+       [:.card--text {:data-text-indent true :data-text-padded true}
+        "Edit the Title"]]
       (when (contains? error-paths :goal) [:.card--error "This field is not correct yet"])
-      [:input.card--field {:key       "title"
+      [:input.form--field {:key       "title"
                            :type      :text
                            :placeholder "Course Title"
                            :value     (:goal course)
                            :on-change #(update-prop :goal % course-atom)}]]
      [:.card--section
-      [:.card--indenter [:.card--text "Edit the Resources"]]
+      [:.card--indenter
+       [:.card--text {:data-text-indent true}
+        "Edit the Resources"]]
       [:.card--padder
         [:.card--column (edit-list (:checkpoints course)
                                    #(update-checkpoint course-atom course %1)
@@ -47,7 +51,7 @@
           (button {:button-text "Add Checkpoint"}
                   #(create-checkpoint course-atom course)))]]
      [:.card--section
-      [:.card--row-between
+      [:.card--row {:data-row-spaced true}
        [:.card--row
          (when true ;(and valid? dirty?)
            (button {:button-text "Save Course"}
