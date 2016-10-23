@@ -38,6 +38,6 @@
                                          :controls (when editable?
                                                      (button {:button-text "Edit this course"
                                                               :button-width "full"}
-                                                             respond))}))))})
-  ;  :overlays       (fnk [overlays course respond]
-  ;                       (merge overlays {:edit-mode (overlay (course-form {:course course} respond))}))})
+                                                             respond))}))))
+   :view-overlays   (fnk [course respond]
+                         {:edit-mode (overlay (course-form {:course course} respond))})})

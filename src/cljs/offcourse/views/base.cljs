@@ -22,12 +22,12 @@
 
 (def graph
   {:base-actions   (fnk [] #{:go :sign-in :sign-out})
+   :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :container      (fnk [] app)
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
-   :app-mode       (fnk [appstate] (keyword "edit-user") #_(-> appstate :app-mode))
+   :app-mode       (fnk [appstate] (-> appstate :app-mode))
    :user           (fnk [appstate] (-> appstate :user))
    :user-name      (fnk [user] (when user (:user-name user)))
-   :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :respond        (fnk [responder actions]
                         (fn [[action-type :as action]] action
                           (if (contains? actions action-type)
@@ -44,10 +44,13 @@
    :notifybar      (fnk [notification respond]
                         (when false (notifybar notification respond)))
 
-   :overlays       (fnk [user respond]
+   :base-overlays  (fnk [user respond]
                         {:auth #(overlay (auth-form user respond))
                          :new-user #(overlay (user-form user respond))
                          :edit-user #(overlay (edit-profile user respond))
                          :view-profile #(overlay (view-profile user respond))})
+   :overlays       (fnk [base-overlays view-overlays]
+                        (merge base-overlays view-overlays))
    :overlay        (fnk [app-mode overlays]
-                        ((get overlays app-mode)))})
+                        (when-let [overlay (get overlays app-mode)]
+                          overlay))})
