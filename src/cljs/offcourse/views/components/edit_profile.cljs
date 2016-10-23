@@ -48,11 +48,8 @@
       [:.card--section
         [:p.card--text {:data-text-indent true} "What would you like to learn"]
         [:.card--row {:data-row-wrap true}
-          ; (map #(rum/with-key
-          ;         [:input.form--field {:data-field-type :half
-          ;                              :placeholder "Python"}]
-          ;         ())
-          ;      checkpoints)
+          [:input.form--field {:data-field-type :half
+                               :placeholder "Python"}]
           [:input.form--field {:data-field-type :half
                                :placeholder "Database"}]
           [:input.form--field {:data-field-type :half
@@ -77,21 +74,21 @@
           (button {:button-text "Github"
                    :button-color "github"}
                   #(log/log "Login with Github"))
-          [:.card--title {:data-title-type :disabled
+          [:.card--title {:data-title-disabled (if (:twitter user) false true)
                           :data-title-indent true}
             (or (:github user) "Add your Github account")]]
         [:.card--row {:data-row-padded :large}
           (button {:button-text "Twitter"
                    :button-color "twitter"}
                   #(log/log "Login with Twitter"))
-          [:.card--title {:data-title-type :disabled
+          [:.card--title {:data-title-disabled (if (:twitter user) false true)
                           :data-title-indent true}
             (or (:twitter user)) "Add your Twitter account"]]
         [:.card--row
           (button {:button-text "Linkedin"
                    :button-color "linkedin"}
                   #(log/log "Login with Linkedin"))
-          [:.card--title {:data-title-type :disabled
+          [:.card--title {:data-title-disabled (if (:twitter user) false true)
                           :data-title-indent true}
             (or (:linkedin user)) "Add your Linkedin account"]]]
 
