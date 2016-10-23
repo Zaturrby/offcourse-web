@@ -15,11 +15,19 @@
   (let [user-name (.. event -target -value)]
     (swap! atom #(assoc % prop-name user-name))))
 
-(rum/defcs edit-profile < (rum/local {} ::user) [state user respond]
+(defn set-dropdown [dropdown-name dropdown-atom]
+  (swap! dropdown-atom #(str dropdown-name)))
+
+(rum/defcs edit-profile < (rum/local {} ::user)
+                          (rum/local "" ::dropdown)
+  [state user respond]
   (let [user-atom (::user state)
         user (merge user @user-atom)
-        valid? (sp/valid? user)]
-    [:.card {:data-card-type :wide}
+        valid? (sp/valid? user)
+        dropdown-atom (::dropdown state)
+        dropdown?     @dropdown-atom]
+    [:.card {:data-card-type :wide
+             :on-click (when (not= dropdown? "") #(set-dropdown "" dropdown-atom))}
       [:.card--section
         [:.card--row {:data-row-spaced true}
           [:h1.card--title {:data-title-indent true} "Edit your Profile"]
@@ -50,10 +58,12 @@
                       :data-row-padded :large}
           [:p.card--text {:data-text-indent true}
                          "Add your accounts"]
-          [:.card--link {:data-link-type :em} "What Offcourse will do with your accounts"]
+          [:.card--link {:data-link-type :em
+                         :on-click #(set-dropdown "data" dropdown-atom)}
+                        "What Offcourse will do with your accounts"]
           (dropdown {:title "Datapolicy"
                      :text "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                     :shown false})]
+                     :shown (= dropdown? "data")})]
         [:.card--row {:data-row-padded :large}
           (button {:button-text "Github"
                    :button-color "github"}

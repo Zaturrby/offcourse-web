@@ -14,6 +14,8 @@
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
 
+; It's derived state, but I might think that's not terrible in this case, because it should be standalone too.
+; When the error is gone, the message should not nessecairly be gone too
 (def notification {:title "Thank you for signing up!"
                    :link  "You can edit your profile here"
                    :color "yellow"})
@@ -31,17 +33,21 @@
                           (if (contains? actions action-type)
                             (responder [:requested action])
                             (log/error action-type (str "invalid action")))))
+
    :logo           (fnk [[:appstate site-title] respond]
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
+
    :notification   (fnk [appstate] notification)
-   :notifybar      (fnk [notification respond])
-                        ; (when true (notifybar notification respond)))
-   :overlay        (fnk [app-mode]
-                        (when true))})
-                          ; (overlay (auth-form))))})
-                          ; (overlay (user-form))))})
-                          ; (overlay (edit-profile))))})
-                          ; (overlay (view-profile))))})
+   :notifybar      (fnk [notification respond]
+                        (when false (notifybar notification respond)))
+
+   :overlays       (fnk [user respond]
+                        {:auth (overlay (auth-form user respond))
+                         :new-user (overlay (user-form user respond))
+                         :edit-user (overlay (edit-profile user respond))
+                         :view-profile (overlay (view-profile user respond))})
+   :overlay        (fnk [app-mode overlays]
+                        (app-mode overlays))})
