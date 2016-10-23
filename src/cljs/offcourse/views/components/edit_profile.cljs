@@ -42,8 +42,11 @@
       [:.card--section
         [:p.card--text {:data-text-indent true} "What would you like to learn"]
         [:.card--row {:data-row-wrap true}
-          [:input.form--field {:data-field-type :half
-                               :placeholder "Python"}]
+          ; (map #(rum/with-key 
+          ;         [:input.form--field {:data-field-type :half
+          ;                              :placeholder "Python"}]
+          ;         ())
+          ;      checkpoints)
           [:input.form--field {:data-field-type :half
                                :placeholder "Database"}]
           [:input.form--field {:data-field-type :half

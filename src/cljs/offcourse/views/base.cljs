@@ -24,7 +24,7 @@
   {:base-actions   (fnk [] #{:go :sign-in :sign-out})
    :container      (fnk [] app)
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
-   :app-mode       (fnk [appstate] (-> appstate :app-mode))
+   :app-mode       (fnk [appstate] (keyword "edit-user") #_(-> appstate :app-mode))
    :user           (fnk [appstate] (-> appstate :user))
    :user-name      (fnk [user] (when user (:user-name user)))
    :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
@@ -45,9 +45,9 @@
                         (when false (notifybar notification respond)))
 
    :overlays       (fnk [user respond]
-                        {:auth (overlay (auth-form user respond))
-                         :new-user (overlay (user-form user respond))
-                         :edit-user (overlay (edit-profile user respond))
-                         :view-profile (overlay (view-profile user respond))})
+                        {:auth #(overlay (auth-form user respond))
+                         :new-user #(overlay (user-form user respond))
+                         :edit-user #(overlay (edit-profile user respond))
+                         :view-profile #(overlay (view-profile user respond))})
    :overlay        (fnk [app-mode overlays]
-                        (app-mode overlays))})
+                        ((get overlays app-mode)))})
