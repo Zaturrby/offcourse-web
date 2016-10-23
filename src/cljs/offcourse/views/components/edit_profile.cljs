@@ -46,27 +46,29 @@
                                :placeholder "Clojure"}]]]
 
       [:.card--section
-        [:.card--row {:data-row-spaced true}
-          [:p.card--text {:data-text-indent true} "Add your accounts"]
+        [:.card--row {:data-row-spaced true
+                      :data-row-padded :large}
+          [:p.card--text {:data-text-indent true}
+                         "Add your accounts"]
           [:.card--link {:data-link-type :em} "What Offcourse will do with your accounts"]
           (dropdown {:title "Datapolicy"
                      :text "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                      :shown false})]
-        [:.card--row {:data-row-padded true}
+        [:.card--row {:data-row-padded :large}
           (button {:button-text "Github"
                    :button-color "github"}
                   #(log/log "Login with Github"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
             "Add your Github account"]]
-        [:.card--row {:data-row-padded true}
+        [:.card--row {:data-row-padded :large}
           (button {:button-text "Twitter"
                    :button-color "twitter"}
                   #(log/log "Login with Twitter"))
           [:.card--title {:data-title-type :disabled
                           :data-title-indent true}
             "Add your Twitter account"]]
-        [:.card--row {:data-row-padded true}
+        [:.card--row
           (button {:button-text "Linkedin"
                    :button-color "linkedin"}
                   #(log/log "Login with Linkedin"))

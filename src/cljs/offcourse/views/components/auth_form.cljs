@@ -22,8 +22,10 @@
       [:.card--section
         [:h1.card--title {:data-title-indent true} "Sign up"]]
       [:.card--section
-        [:p.card--text {:data-text-indent true}"Step 1 of 2 - Authenticate"]
-        [:.card--row {:data-row-padded true}
+        [:p.card--text {:data-text-indent true
+                        :data-text-padded :large}
+                       "Step 1 of 2 - Authenticate"]
+        [:.card--row
           (button {:button-text "Github"
                    :button-color "github"
                    :button-width "full"}
