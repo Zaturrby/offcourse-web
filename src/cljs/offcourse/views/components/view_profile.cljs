@@ -6,7 +6,6 @@
             [shared.protocols.specced :as sp]))
 
 (rum/defc view-profile [user respond]
-  (log/log user)
   [:.card {:data-card-type :wide}
     [:.card--section
       [:.card--row {:data-row-spaced true}
