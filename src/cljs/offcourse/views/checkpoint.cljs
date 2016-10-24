@@ -40,4 +40,4 @@
                                                               :button-width "full"}
                                                              respond))}))))
    :view-overlays   (fnk [course respond]
-                         {:edit-mode (overlay (course-form {:course course} respond))})})
+                         {:edit-mode (overlay (course-form {:course course} respond) respond)})})

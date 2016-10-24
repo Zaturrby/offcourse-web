@@ -45,10 +45,10 @@
                         (when false (notifybar notification respond)))
 
    :base-overlays  (fnk [user respond]
-                        {:auth (overlay (auth-form user respond))
-                         :new-user (overlay (user-form user respond))
-                         :edit-profile (overlay (edit-profile user respond))
-                         :view-profile (overlay (view-profile user respond))})
+                        {:auth (overlay (auth-form user respond) respond)
+                         :new-user (overlay (user-form user respond) respond)
+                         :edit-profile (overlay (edit-profile user respond) respond)
+                         :view-profile (overlay (view-profile user respond) respond)})
    :overlays       (fnk [base-overlays view-overlays]
                         (merge base-overlays view-overlays))
    :overlay        (fnk [app-mode overlays]

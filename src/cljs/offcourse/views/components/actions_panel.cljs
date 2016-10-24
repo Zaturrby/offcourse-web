@@ -10,6 +10,7 @@
 (rum/defc actions-panel [{:keys [user-name auth-token] :as data}
                          respond]
   [:ul.actions-panel
+   (handler-button "view-mode" (partial respond [:switch-to :view-mode]))
    (handler-button "auth" (partial respond [:switch-to :auth]))
    (handler-button "new-user" (partial respond [:switch-to :new-user]))
    (handler-button "edit-user" (partial respond [:switch-to :edit-profile]))
