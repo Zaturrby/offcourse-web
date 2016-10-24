@@ -21,7 +21,7 @@
                    :color "yellow"})
 
 (def graph
-  {:base-actions   (fnk [] #{:go :sign-in :sign-out})
+  {:base-actions   (fnk [] #{:go :sign-in :sign-out :switch-to})
    :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :container      (fnk [] app)
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
@@ -32,7 +32,7 @@
                         (fn [[action-type :as action]]
                           (if (contains? actions action-type)
                             (responder [:requested action])
-                            (log/error action-type (str "invalid action")))))
+                            (log/error action-type (str "Invalid action, catched at graph lvl")))))
 
    :logo           (fnk [[:appstate site-title] respond]
                         (logo {:site-title site-title} respond))
