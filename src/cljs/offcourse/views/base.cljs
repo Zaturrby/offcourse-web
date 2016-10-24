@@ -29,7 +29,7 @@
    :user           (fnk [appstate] (-> appstate :user))
    :user-name      (fnk [user] (when user (:user-name user)))
    :respond        (fnk [responder actions]
-                        (fn [[action-type :as action]] action
+                        (fn [[action-type :as action]]
                           (if (contains? actions action-type)
                             (responder [:requested action])
                             (log/error action-type (str "invalid action")))))
@@ -45,12 +45,12 @@
                         (when false (notifybar notification respond)))
 
    :base-overlays  (fnk [user respond]
-                        {:auth #(overlay (auth-form user respond))
-                         :new-user #(overlay (user-form user respond))
-                         :edit-user #(overlay (edit-profile user respond))
-                         :view-profile #(overlay (view-profile user respond))})
+                        {:auth (overlay (auth-form user respond))
+                         :new-user (overlay (user-form user respond))
+                         :edit-profile (overlay (edit-profile user respond))
+                         :view-profile (overlay (view-profile user respond))})
    :overlays       (fnk [base-overlays view-overlays]
                         (merge base-overlays view-overlays))
    :overlay        (fnk [app-mode overlays]
                         (when-let [overlay (get overlays app-mode)]
-                          (overlay)))})
+                          overlay))})

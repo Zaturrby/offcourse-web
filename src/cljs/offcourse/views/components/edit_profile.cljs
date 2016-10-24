@@ -41,6 +41,7 @@
         valid? (sp/valid? user)
         dropdown-atom (::dropdown state)
         dropdown?     @dropdown-atom]
+    (log/log user)
     [:.card {:data-card-type :wide
              :on-click (when (not= dropdown? "") #(set-dropdown "" dropdown-atom))}
       [:.card--section
@@ -57,7 +58,7 @@
         [:p.card--text {:data-text-indent true} "Where can we reach you"]
         [:input.form--field {:placeholder "E-mail"
                              :value (:email user)
-                             :on-change #(update-prop :user-name % user-atom)}]]
+                             :on-change #(update-prop :email % user-atom)}]]
 
       [:.card--section
         [:p.card--text {:data-text-indent true
