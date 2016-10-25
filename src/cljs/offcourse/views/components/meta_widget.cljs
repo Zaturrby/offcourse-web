@@ -13,7 +13,7 @@
       [:li.meta-widget--list-item
        [:div.button {:key "source"
                      :data-button-type "textbar"}
-        [:a {:href (:resource-url resource)
+        [:a {:href (:resource-url checkpoint)
              :target "_blank"}
             "View on Source"]]]
       [:li.meta-widget--list-item {:data-item-type :todo
