@@ -13,5 +13,6 @@
   (route/resources "/css" {:root "css"})
   (route/resources "/fonts" {:root "fonts"})
   (route/resources "/images" {:root "images"})
+  (route/resources "/etc" {:root "etc"})
   (GET "/" [] (-> (ok index-page) (content-type "text/html")))
   (route/not-found (-> (ok index-page) (content-type "text/html"))))

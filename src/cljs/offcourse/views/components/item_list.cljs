@@ -20,31 +20,31 @@
 
 (rum/defc item-list [list-type checkpoints trackable? respond]
   [:ul.list {:data-list-type (name list-type)}
-   (case list-type
-     :todo (map #(rum/with-key (todo-list-item % trackable? respond) (:checkpoint-id %)) checkpoints))])
+    (case list-type
+      :todo (map #(rum/with-key (todo-list-item % trackable? respond) (:checkpoint-id %)) checkpoints))])
 
 (rum/defc edit-list-item [checkpoint update-handler remove-handler]
   [:li.list--item
     [:.list--item-section
-     [:input.list--course {:type        :text
-                           :value      (:task checkpoint)
-                           :placeholder "Task"
-                           :on-change   (fn [event]
-                                          (let [prop-value (.. event -target -value)
-                                                checkpoint (assoc-in checkpoint [:task] prop-value)]
-                                            (update-handler checkpoint)))}]
-     [:input.list--url    {:type        :text
-                           :value      (:resource-url checkpoint)
-                           :placeholder "URL"
-                           :on-change   (fn [event]
-                                          (let [prop-value (.. event -target -value)
-                                                checkpoint (assoc-in checkpoint [:resource-url] prop-value)]
-                                            (update-handler checkpoint)))}]]
+      [:input.list--course {:type        :text
+                            :placeholder "Task Name"
+                            :value      (:task checkpoint)
+                            :on-change   (fn [event]
+                                           (let [prop-value (.. event -target -value)
+                                                 checkpoint (assoc-in checkpoint [:task] prop-value)]
+                                             (update-handler checkpoint)))}]
+      [:input.list--url    {:type        :text
+                            :placeholder "Resource URL"
+                            :value      (:resource-url checkpoint)
+                            :on-change   (fn [event]
+                                           (let [prop-value (.. event -target -value)
+                                                 checkpoint (assoc-in checkpoint [:resource-url] prop-value)]
+                                             (update-handler checkpoint)))}]]
     [:.list--item-section
-     [:button.button {:key :add-button
-                      :data-button-type (name :icon)
-                      :on-click #(remove-handler checkpoint)} "x"]]])
+      [:button.button {:key :add-button
+                       :data-button-type (name :icon)
+                       :on-click #(remove-handler checkpoint)} "x"]]])
 
 (rum/defc edit-list [checkpoints update-handler remove-handler]
   [:ul.list {:data-list-type :edit}
-   (map #(rum/with-key (edit-list-item % update-handler remove-handler) (:checkpoint-id %)) checkpoints)])
+    (map #(rum/with-key (edit-list-item % update-handler remove-handler) (:checkpoint-id %)) checkpoints)])

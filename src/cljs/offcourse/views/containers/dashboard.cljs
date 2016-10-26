@@ -4,4 +4,3 @@
 (rum/defc dashboard [{:keys [main controls]}]
   [:.dashboard
    [:.dashboard--main main]])
-  ;  [:.dashboard--edit controls]])
