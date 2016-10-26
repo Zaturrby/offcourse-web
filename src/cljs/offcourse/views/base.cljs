@@ -2,7 +2,7 @@
   (:require [clojure.set :as set]
             [offcourse.views.containers.app :refer [app]]
             [offcourse.views.containers.menubar :refer [menubar]]
-            [offcourse.views.components.notifybar :refer [notifybar]]
+            [offcourse.views.components.flash :refer [flash]]
             [offcourse.views.containers.overlay :refer [overlay]]
             [offcourse.views.components.actions-panel :refer [actions-panel]]
             [offcourse.views.components.logo :refer [logo]]
@@ -33,17 +33,14 @@
                           (if (contains? actions action-type)
                             (responder [:requested action])
                             (log/error action-type (str "Invalid action, catched at graph lvl")))))
-
    :logo           (fnk [[:appstate site-title] respond]
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))
    :menubar        (fnk [logo actions-panel]
                         (menubar logo actions-panel))
-
    :notification   (fnk [appstate] notification)
-   :notifybar      (fnk [notification respond]
-                        (when false (notifybar notification respond)))
-
+   :flash          (fnk [notification respond]
+                        (when false (flash notification respond)))
    :base-overlays  (fnk [user respond]
                         {:auth (overlay (auth-form user respond) respond)
                          :new-user (overlay (user-form user respond) respond)

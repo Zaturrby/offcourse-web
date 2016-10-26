@@ -1,7 +1,7 @@
-(ns offcourse.views.components.notifybar
+(ns offcourse.views.components.flash
   (:require [rum.core :as rum]))
 
-(rum/defc notifybar [notification respond]
+(rum/defc flash [notification respond]
   [:.notifybar {:data-notify-color (:color notification)}
     [:.notifybar--section
       [:.notifybar--subtitle (:title notification)]

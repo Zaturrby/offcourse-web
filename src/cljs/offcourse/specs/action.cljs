@@ -1,6 +1,6 @@
 (ns offcourse.specs.action
   (:require [cljs.spec :as spec]
-            [shared.specs.action :refer [action-spec]]
+            [shared.specs.action :as action :refer [action-spec]]
             [shared.specs.viewmodel :as viewmodel]
             [shared.specs.course :as course]
             [shared.specs.resource :as resource]
@@ -8,14 +8,15 @@
             [shared.specs.base :as base]
             [shared.specs.bookmark :as bookmark]
             [shared.specs.checkpoint :as checkpoint]
-            [shared.specs.user :as user]))
+            [shared.specs.profile :as profile]
+            [shared.specs.auth :as auth]))
 
 (spec/def ::app-modes base/valid-modes)
-(spec/def ::action-types base/valid-actions)
+(spec/def ::action-types action/types)
 
 (defmethod action-spec :create [_]
   (spec/tuple ::action-types (spec/or :new-user #{:new-user}
-                                      :profile ::user/profile )))
+                                      :profile ::profile/profile )))
 
 (defmethod action-spec :update [_]
   (spec/tuple ::action-types (spec/or :viewmodel  ::viewmodel/viewmodel
@@ -23,7 +24,7 @@
                                       :checkpoint ::checkpoint/checkpoint)))
 
 (defmethod action-spec :save [_]
-  (spec/tuple ::action-types (spec/or :profile ::user/profile)))
+  (spec/tuple ::action-types (spec/or :profile ::profile/profile)))
 
 
 (defmethod action-spec :sign-in [_]
@@ -42,10 +43,9 @@
 (defmethod action-spec :fork [_]
   (spec/tuple ::action-types (spec/or :course      ::course/course)))
 
-
 (defmethod action-spec :add [_]
-  (spec/tuple ::action-types (spec/or  :credentials ::user/credentials
-                                       :profile     ::user/profile
+  (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials
+                                       :profile     ::profile/profile
                                        :course      ::course/course
                                        :courses     (spec/* ::course/course)
                                        :resources   ::resource/resources)))

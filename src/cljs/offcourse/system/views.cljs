@@ -5,4 +5,5 @@
 
 (def views
   {:collection-view (merge bv/graph clv/graph)
+   :course-view     (merge bv/graph cpv/graph)
    :checkpoint-view (merge bv/graph cpv/graph)})
