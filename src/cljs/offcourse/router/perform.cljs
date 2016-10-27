@@ -8,6 +8,8 @@
 
 (defmulti perform (fn [rt action] (sp/resolve action)))
 
+(defmethod perform [:authenticate nil] [rt action] nil)
+
 (defmethod perform [:sign-in nil] [rt action] nil)
 
 (defmethod perform [:sign-out nil] [rt action]

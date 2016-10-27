@@ -1,7 +1,8 @@
 (ns offcourse.system.index
   (:require [com.stuartsierra.component :as component]
-            [offcourse.api.index :as api]
-            [offcourse.appstate.index :as appstate]
+            [offcourse.query.index :as query]
+            [offcourse.command.index :as command]
+            [offcourse.conductor.index :as conductor]
             [offcourse.auth.index :as auth]
             [offcourse.router.index :as router]
             [offcourse.protocol-extensions.decoratable]
@@ -18,24 +19,33 @@
 (defn system [appstate adapters]
   (let [channels plumbing/channels]
     (component/system-map
-     :repositories           (map connect-to-repository (:query adapters))
-     :api-channels           (:api channels)
-     :api-triggers           [:not-found]
-     :api-responses          [:found :not-found :failed]
-     :api                    (component/using (api/create :api)
-                                              {:channels     :api-channels
-                                               :triggers     :api-triggers
-                                               :responses    :api-responses
+     :repositories               (map connect-to-repository (:query adapters))
+     :adapter                    (connect-to-repository (:command adapters))
+     :command-channels           (:command channels)
+     :command-triggers           [:requested]
+     :command-responses          [:signed-in]
+     :command                    (component/using (command/create :command)
+                                                {:channels     :command-channels
+                                                 :triggers     :command-triggers
+                                                 :responses    :command-responses
+                                                 :adapter      :adapter})
+     :query-channels           (:query channels)
+     :query-triggers           [:not-found]
+     :query-responses          [:found :not-found :failed]
+     :query                    (component/using (query/create :query)
+                                              {:channels     :query-channels
+                                               :triggers     :query-triggers
+                                               :responses    :query-responses
                                                :repositories :repositories})
      :auth-channels           (:auth channels)
      :auth-triggers           [:requested]
      :auth-responses          [:granted :revoked]
-     :auth-config             (:auth adapters)
+     :auth-provider           (:auth adapters)
      :auth                    (component/using (auth/create :auth)
                                                {:channels  :auth-channels
                                                 :triggers  :auth-triggers
                                                 :responses :auth-responses
-                                                :config    :auth-config})
+                                                :provider  :auth-provider})
 
      :routes                 routes/table
      :router-triggers        [:refreshed :requested]
@@ -47,13 +57,13 @@
                                                :responses          :router-responses
                                                :routes             :routes})
      :appstate-atom          appstate
-     :appstate-triggers      [:granted  :revoked :refreshed :requested :found :not-found]
-     :appstate-responses     [:refreshed :updated :requested :not-found]
-     :appstate-channels      (:appstate channels)
-     :appstate               (component/using (appstate/create :appstate)
-                                              {:channels  :appstate-channels
-                                               :triggers  :appstate-triggers
-                                               :responses :appstate-responses
+     :conductor-triggers      [:granted  :revoked :refreshed :requested :found :not-found]
+     :conductor-responses     [:refreshed :updated :requested :not-found]
+     :conductor-channels      (:conductor channels)
+     :conductor               (component/using (conductor/create :conductor)
+                                              {:channels  :conductor-channels
+                                               :triggers  :conductor-triggers
+                                               :responses :conductor-responses
                                                :state     :appstate-atom})
      :views                  views
      :ui-triggers            [:refreshed]

@@ -27,6 +27,9 @@
   (spec/tuple ::action-types (spec/or :profile ::profile/profile)))
 
 
+(defmethod action-spec :authenticate [_]
+  (spec/tuple ::action-types))
+
 (defmethod action-spec :sign-in [_]
   (spec/tuple ::action-types))
 

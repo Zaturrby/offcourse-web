@@ -1,4 +1,4 @@
-(ns offcourse.appstate.check
+(ns offcourse.conductor.check
   (:require [shared.protocols.specced :as sp]
             [shared.protocols.loggable :as log]))
 

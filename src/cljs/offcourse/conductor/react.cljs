@@ -1,5 +1,5 @@
-(ns offcourse.appstate.react
-  (:require [offcourse.appstate.check :as ck]
+(ns offcourse.conductor.react
+  (:require [offcourse.conductor.check :as ck]
             [shared.protocols.actionable :as ac]
             [shared.protocols.loggable :as log]
             [shared.protocols.queryable :as qa]
@@ -12,12 +12,9 @@
 (defmulti react (fn [_ [event-type _ :as event]] event-type))
 
 (defmethod react :granted [{:keys [state] :as as} [_ payload]]
-  (let [proposal (ac/perform @state [:add payload])
-        user     (:user proposal)
-        token    (:auth-token user)]
+  (let [proposal (ac/perform @state [:add payload])]
     (reset! state proposal)
-    (when token
-      (ef/respond as [:not-found (query/create user)]))))
+    (ef/respond as [:requested [:sign-in]])))
 
 (defmethod react :revoked [{:keys [state] :as as} [_ payload]]
   (let [proposal (ac/perform @state [:add payload])]

@@ -1,4 +1,4 @@
-(ns offcourse.appstate.redirect
+(ns offcourse.conductor.redirect
   (:require [shared.protocols.responsive :as qa]
             [shared.models.event.index :as event]
             [shared.models.viewmodel.index :as viewmodel]))

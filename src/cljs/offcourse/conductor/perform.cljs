@@ -1,6 +1,6 @@
-(ns offcourse.appstate.perform
+(ns offcourse.conductor.perform
   (:require [shared.protocols.specced :as sp]
-            [offcourse.appstate.check :as ck]
+            [offcourse.conductor.check :as ck]
             [shared.protocols.eventful :as ef]
             [shared.protocols.loggable :as log]
             [shared.protocols.queryable :as qa]
@@ -19,7 +19,7 @@
         (log/error @state (sp/errors @state))))))
 
 (defmethod perform [:sign-in nil] [{:keys [state] :as as} action]
-  (ef/respond as [:requested action]))
+  (ef/respond as [:requested [:authenticate]]))
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
   (ef/respond as [:requested action]))

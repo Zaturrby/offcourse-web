@@ -1,11 +1,11 @@
-(ns offcourse.appstate.index
+(ns offcourse.conductor.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.appstate.react :as react-impl]
-            [offcourse.appstate.perform :as perform-impl]
+            [offcourse.conductor.react :as react-impl]
+            [offcourse.conductor.perform :as perform-impl]
             [shared.protocols.actionable :refer [Actionable]]
             [shared.protocols.eventful :as ef :refer [Eventful]]))
 
-(defrecord Appstate []
+(defrecord Conductor []
   Lifecycle
   (start   [as] (ef/listen as))
   (stop    [as] (ef/mute as))
@@ -18,4 +18,4 @@
   (-listen [as] (ef/listen as)))
 
 (defn create [name] (-> {:component-name name}
-                        map->Appstate))
+                        map->Conductor))
