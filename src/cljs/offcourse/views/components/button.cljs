@@ -11,15 +11,17 @@
 (defmulti button (fn [content payload] (first (spec/conform ::button-type payload))))
 
 (defmethod button :link [content url]
-  [:.button {:key (:button-text content)
-             :data-button-color (or (:button-color content) "gray")
-             :data-button-type "textbar"
-             :data-button-width (or (:button-width content) "default")}
-   [:a {:href url} (:button-text content)]])
+  [:a.button {:key (:button-text content)
+              :data-button-color (or (:button-color content) "gray")
+              :data-button-type "textbar"
+              :href url
+              :data-button-width (or (:button-width content) "default")}
+   [:p  (:button-text content)]])
 
 (defmethod button :action [content action]
   [:.button {:key (:button-text content)
              :data-button-color (or (:button-color content) "gray")
              :data-button-type "textbar"
+             :on-click action
              :data-button-width (or (:button-width content) "default")}
-   [:a {:on-click action} (:button-text content)]])
+   [:a  (:button-text content)]])

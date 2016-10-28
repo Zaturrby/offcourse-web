@@ -25,14 +25,13 @@
     :sign-up (go
                (let [{:keys [token response]} (<! (-sign-in provider))
                      profile (js->clj response :keywordize-keys true)]
-                 (when token (.setItem js/localStorage "auth-token" token))
                  (ef/respond auth [:granted (credentials/create {:auth-token token
                                                                  :auth-profile profile})])))
     :authenticate (go
-                    (let [{:keys [token response]} (<! (-sign-in provider))]
-                      (when token (.setItem js/localStorage "auth-token" token))
-                      (ef/respond auth [:granted (credentials/create {:auth-token token})])))
+                    (let [{:keys [token response]} (<! (-sign-in provider))
+                          profile (js->clj response :keywordize-keys true)]
+                      (ef/respond auth [:granted (credentials/create {:auth-token token
+                                                                      :auth-profile profile})])))
     :sign-out (do
-                (.removeItem js/localStorage "auth-token")
                 (ef/respond auth [:revoked (credentials/create {:auth-token nil})]))
     nil))

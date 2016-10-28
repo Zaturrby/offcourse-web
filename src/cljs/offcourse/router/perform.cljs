@@ -4,7 +4,8 @@
             [shared.models.action.index :as action]
             [shared.models.viewmodel.index :as viewmodel]
             [shared.protocols.specced :as sp]
-            [shared.models.route.index :as route]))
+            [shared.models.route.index :as route]
+            [shared.protocols.convertible :as cv]))
 
 (defmulti perform (fn [rt action] (sp/resolve action)))
 

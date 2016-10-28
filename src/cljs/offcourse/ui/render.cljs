@@ -2,7 +2,8 @@
   (:require [rum.core :as rum]
             [shared.models.view.index :as view]
             [shared.protocols.eventful :as ef]
-            [shared.protocols.renderable :as rr]))
+            [shared.protocols.renderable :as rr]
+            [shared.protocols.loggable :as log]))
 
 (defn -render [view-graph element]
   (let [{:keys [container] :as composition} view-graph

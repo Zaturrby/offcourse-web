@@ -57,7 +57,7 @@
                                                :responses          :router-responses
                                                :routes             :routes})
      :appstate-atom          appstate
-     :conductor-triggers      [:granted  :revoked :refreshed :requested :found :not-found]
+     :conductor-triggers      [:granted  :revoked :refreshed :requested :found :not-found :signed-in]
      :conductor-responses     [:refreshed :updated :requested :not-found]
      :conductor-channels      (:conductor channels)
      :conductor               (component/using (conductor/create :conductor)

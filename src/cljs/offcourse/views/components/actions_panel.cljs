@@ -7,7 +7,7 @@
   [:li.actions-panel--link {:on-click #(respond)}
    button-text])
 
-(rum/defc actions-panel [{:keys [user-name auth-token] :as data}
+(rum/defc actions-panel [{:keys [user-name credentials] :as data}
                          respond]
   [:ul.actions-panel
    (handler-button "view-mode" (partial respond [:switch-to :view-mode]))
@@ -15,6 +15,6 @@
    (handler-button "new-user" (partial respond [:switch-to :new-user]))
    (handler-button "edit-user" (partial respond [:switch-to :edit-profile]))
    (handler-button "view-profile" (partial respond [:switch-to :view-profile]))
-   (if auth-token
+   (if credentials
      (handler-button "Sign Out" (partial respond [:sign-out]))
      (handler-button "Sign In" (partial respond [:sign-in])))])

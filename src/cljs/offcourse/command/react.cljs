@@ -12,9 +12,13 @@
 (defmulti react (fn [_ [_ action]] (sp/resolve action)))
 
 (defmethod react :authenticate [])
+(defmethod react :go [])
+(defmethod react :sign-out [])
 
 (defmethod react :sign-in
   [{:keys [component-name adapter] :as service} [_ action :as event]]
-  (let [auth-token (some-> event meta :credentials :auth-token)]
-    (go
-      (log/log "R" (async/<! (ac/request adapter (with-meta action {:auth-token auth-token})))))))
+  (go
+    (let [auth-token (some-> event meta :credentials :auth-token)
+          request (ac/request adapter (with-meta action {:auth-token auth-token}))
+          {:keys [accepted denied]} (async/<! request)]
+      (when accepted (ef/respond service [:signed-in (-> accepted payload/create)])))))

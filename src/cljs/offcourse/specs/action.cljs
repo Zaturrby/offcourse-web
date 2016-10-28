@@ -46,6 +46,10 @@
 (defmethod action-spec :fork [_]
   (spec/tuple ::action-types (spec/or :course      ::course/course)))
 
+
+(defmethod action-spec :remove [_]
+  (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials)))
+
 (defmethod action-spec :add [_]
   (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials
                                        :profile     ::profile/profile

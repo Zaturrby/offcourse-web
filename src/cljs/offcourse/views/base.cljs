@@ -27,7 +27,6 @@
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
    :app-mode       (fnk [appstate] (-> appstate :app-mode))
    :user           (fnk [appstate] (-> appstate :user))
-   :user-name      (fnk [user] (when user (:user-name user)))
    :respond        (fnk [responder actions]
                         (fn [[action-type :as action]]
                           (if (contains? actions action-type)

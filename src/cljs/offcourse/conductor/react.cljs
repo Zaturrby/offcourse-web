@@ -16,8 +16,11 @@
     (reset! state proposal)
     (ef/respond as [:requested [:sign-in]])))
 
+(defmethod react :signed-in [{:keys [state] :as as} [_ payload]]
+  (ac/perform as [:add payload]))
+
 (defmethod react :revoked [{:keys [state] :as as} [_ payload]]
-  (let [proposal (ac/perform @state [:add payload])]
+  (let [proposal (ac/perform @state [:remove payload])]
     (when (sp/valid? proposal)
       (reset! state proposal)
       (ef/respond as [:requested [:go :home]]))))

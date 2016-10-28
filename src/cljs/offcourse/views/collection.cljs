@@ -17,7 +17,7 @@
 (def graph
   {:view-actions   (fnk [] #{:toggle :fork :update})
    :collection     (fnk [viewmodel] (get-in viewmodel [:collection]))
-   :courses        (fnk [appstate user-name viewmodel collection routes]
+   :courses        (fnk [appstate viewmodel collection routes]
                         (->> (:courses appstate)
                              (map #(dc/decorate %1 appstate routes))
                              (filter-courses collection)))
