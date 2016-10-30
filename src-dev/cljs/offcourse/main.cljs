@@ -21,7 +21,6 @@
    :name      "aws-command"
    :endpoint  "https://akd5yk8kih.execute-api.us-east-1.amazonaws.com/dev/command"})
 
-
 (def query-adapters
   [{:adapter    aws/create
     :name      "aws-query"
