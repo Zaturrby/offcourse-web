@@ -7,7 +7,6 @@
 (rum/defc meta-widget [{:keys [resource checkpoint]}]
   [:.meta-widget--container
    [:.meta-widget
-    (log/log checkpoint)
     [:.meta-widget--section
      [:ul.meta-widget--list
       [:li.meta-widget--list-item

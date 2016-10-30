@@ -41,7 +41,6 @@
         valid? (sp/valid? user)
         dropdown-atom (::dropdown state)
         dropdown?     @dropdown-atom]
-    (log/log user)
     [:.card {:data-card-type :wide
              :on-click (when (not= dropdown? "") #(set-dropdown "" dropdown-atom))}
       [:.card--section

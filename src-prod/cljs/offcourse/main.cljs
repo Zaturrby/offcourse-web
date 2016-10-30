@@ -18,6 +18,11 @@
   {:domain   "yeehaa.eu.auth0.com"
    :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 
+(def command-adapter
+ {:adapter    aws/create
+  :name      "aws-command"
+  :endpoint  "https://c5ut0y5m28.execute-api.us-east-1.amazonaws.com/dev/command"})
+
 (def query-adapters
   [{:adapter    aws/create
     :name      "query"
@@ -30,19 +35,11 @@
                  :curator      "charlotte"
                  :sha          "e438278961f4f83b587b6fc8413f714ae34682a9"}
     :resources  #{:course :collection}
-    :base-url   "https://api.github.com"}
-   #_{:adapter    github/create
-      :name       "bootstrap-data"
-      :repository {:name         "clojurescript-course"
-                   :organization "offcourse"
-                   :curator      "charlotte"
-                   :sha          "fb4052859aafe9451cfd836fc7284807fce12d5e"}
-      :resources  #{:course :collection}
-      :base-url   "https://api.github.com"}])
+    :base-url   "https://api.github.com"}])
 
 (def adapters
   {:auth auth-adapter
-   :command nil
+   :command command-adapter
    :query query-adapters})
 
 (defn get-appstate [] (clj->js @appstate))
