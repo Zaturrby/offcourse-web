@@ -9,7 +9,8 @@
             [shared.specs.bookmark :as bookmark]
             [shared.specs.checkpoint :as checkpoint]
             [shared.specs.profile :as profile]
-            [shared.specs.auth :as auth]))
+            [shared.specs.auth :as auth]
+            [shared.specs.identity :as identity]))
 
 (spec/def ::app-modes base/valid-modes)
 (spec/def ::action-types action/types)
@@ -53,6 +54,7 @@
 (defmethod action-spec :add [_]
   (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials
                                        :profile     ::profile/profile
+                                       :identity    ::identity/identity
                                        :course      ::course/course
                                        :courses     (spec/* ::course/course)
                                        :resources   ::resource/resources)))

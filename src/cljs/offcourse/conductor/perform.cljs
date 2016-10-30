@@ -7,8 +7,7 @@
             [shared.protocols.actionable :as ac]
             [shared.models.query.index :as query]))
 
-(defmulti perform (fn [as action]
-                    (sp/resolve action)))
+(defmulti perform (fn [as action] (sp/resolve action)))
 
 (defmethod perform [:create :profile] [{:keys [state] :as as} [_ profile]]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state [:add profile])]
@@ -31,7 +30,7 @@
 (defmethod perform [:go :home] [{:keys [state] :as as} action]
   (ef/respond as [:requested action]))
 
-(defmethod perform [:add :profile] [{:keys [state] :as as} action]
+(defmethod perform [:add :identity] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
