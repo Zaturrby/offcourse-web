@@ -21,15 +21,15 @@
     (let [auth-token (some-> event meta :credentials :auth-token)
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)
-          not-found true
-          failed true]
+          not-found false
+          failed false]
       (when accepted  (ef/respond service [:signed-in (-> accepted payload/create)]))
-      (when not-found (ef/respond service [:not-found request]))
+      (when not-found (ef/respond service [:not-found action]))
       (when failed    (ef/respond service [:failed request])))))
 
       ; It feels rational like this, three different actions for the three cases
       ; 1. accepted: It's accepted and a payload is created and send to the conductor
-      ; 2. not-found: It's processed by the API but did not turn up a user, request is send
+      ; 2. not-found: It's processed by the API but did not turn up a user, the action is send
       ;    back for introspection. The conductor will followup with the creation of a new identity
       ;    and trigger the action [:switch-to sign-up].
       ; 3. failed: Something went wrong with the connection, the API was not reached.
@@ -37,4 +37,13 @@
 
 (defmethod react :sign-up
   [{:keys [component-name adapter] :as service} [_ action :as event]])
-      ; Todo: Send the full identity and the auth-profile])
+      ; Stub:
+      ; This will receive the sign-up event from the conductor. It will receive as
+      ; as payload the identity and the profile. This should be enough to bootstrap the
+      ; user.
+
+      ; This will function will have many possible responses.
+      ; 1. created (everything went okee)
+      ; 2. user-name-taken (chosen username is not available)
+      ; 3. auth-profile-taken (for instance trough fast resubmission)
+      ; 4. failed (connection failed)

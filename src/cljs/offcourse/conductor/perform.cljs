@@ -17,11 +17,15 @@
         (ef/respond as [:requested [:save (:user @state)]])
         (log/error @state (sp/errors @state))))))
 
-(defmethod perform [:sign-in nil] [{:keys [state] :as as} action]
-  (ef/respond as [:requested [:authenticate]]))
-
 (defmethod perform [:authenticate :provider] [{:keys [state] :as as} action]
   (ef/respond as [:requested [:authenticate (second action)]]))
+
+(defmethod perform [:sign-up nil] [{:keys [state] :as as} action])
+  ; Stub:
+  ; Here the sign-up flow really starts. This reacts to the views and will get the
+  ; identity with a username as payload. The profile will be retrieved from the appstate,
+  ; as it's put there by the not-found action. Lastly this will call
+  ; [:requested [:sign-up identity profile]] to the start the command component.
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
