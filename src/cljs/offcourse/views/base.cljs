@@ -21,7 +21,7 @@
                    :color "yellow"})
 
 (def graph
-  {:base-actions   (fnk [] #{:go :sign-in :sign-out :switch-to})
+  {:base-actions   (fnk [] #{:go :authenticate :sign-out :switch-to})
    :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :container      (fnk [] app)
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
