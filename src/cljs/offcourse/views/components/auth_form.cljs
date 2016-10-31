@@ -4,7 +4,7 @@
             [offcourse.views.components.button :refer [button]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
-            
+
 (rum/defc auth-form [respond]
     [:.card {:data-card-type :medium}
       [:.card--section
@@ -17,7 +17,7 @@
           (button {:button-text "Github"
                    :button-color "github"
                    :button-width "full"}
-                  #())
+                  #(respond [:sign-in :github]))
           (button {:button-text "Twitter"
                    :button-color "twitter"
                    :button-width "full"}

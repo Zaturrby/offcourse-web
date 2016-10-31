@@ -41,7 +41,7 @@
    :flash          (fnk [notification respond]
                         (when false (flash notification respond)))
    :base-overlays  (fnk [user respond]
-                        {:auth (overlay (auth-form user respond) respond)
+                        {:auth (overlay (auth-form respond) respond)
                          :new-user (overlay (user-form user respond) respond)
                          :edit-profile (overlay (edit-profile user respond) respond)
                          :view-profile (overlay (view-profile user respond) respond)})
