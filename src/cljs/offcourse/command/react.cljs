@@ -20,7 +20,21 @@
   (go
     (let [auth-token (some-> event meta :credentials :auth-token)
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
-          {:keys [accepted denied]} (async/<! request)]
-      (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
-      (when true (ef/respond service [:requested [:switch-to :new-user]])) ; (Todo JH: Replace true with correct no-user check)
-      (when denied (log/log "Request to database failed, flash should be triggered")))))
+          {:keys [accepted denied]} (async/<! request)
+          not-found true
+          failed true]
+      (when accepted  (ef/respond service [:signed-in (-> accepted payload/create)]))
+      (when not-found (ef/respond service [:not-found request]))
+      (when failed    (ef/respond service [:failed request])))))
+
+      ; It feels rational like this, three different actions for the three cases
+      ; 1. accepted: It's accepted and a payload is created and send to the conductor
+      ; 2. not-found: It's processed by the API but did not turn up a user, request is send
+      ;    back for introspection. The conductor will followup with the creation of a new identity
+      ;    and trigger the action [:switch-to sign-up].
+      ; 3. failed: Something went wrong with the connection, the API was not reached.
+      ;    Flash should be triggered to notify the user that this catastrophe has happened.
+
+(defmethod react :sign-up
+  [{:keys [component-name adapter] :as service} [_ action :as event]])
+      ; Todo: Send the full identity and the auth-profile])
