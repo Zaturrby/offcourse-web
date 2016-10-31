@@ -21,4 +21,6 @@
     (let [auth-token (some-> event meta :credentials :auth-token)
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)]
-      (when accepted (ef/respond service [:signed-in (-> {:user-name "charlotte"} payload/create)])))))
+      (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
+      (when true (ef/respond service [:requested [:switch-to :new-user]])) ; (Todo JH: Replace true with correct no-user check)
+      (when denied (log/log "Request to database failed, flash should be triggered")))))
