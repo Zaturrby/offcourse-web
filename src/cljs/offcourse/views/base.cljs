@@ -31,7 +31,7 @@
                         (fn [[action-type :as action]]
                           (if (contains? actions action-type)
                             (responder [:requested action])
-                            (log/error action-type (str "Invalid action, catched at graph lvl")))))
+                            (log/error action-type (str "Invalid action for this view")))))
    :logo           (fnk [[:appstate site-title] respond]
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))

@@ -21,4 +21,4 @@
           (button {:button-text "Twitter"
                    :button-color "twitter"
                    :button-width "full"}
-                  #())]]])
+                  #(respond [:sign-in :twitter]))]]])

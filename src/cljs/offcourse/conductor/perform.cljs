@@ -20,6 +20,9 @@
 (defmethod perform [:sign-in nil] [{:keys [state] :as as} action]
   (ef/respond as [:requested [:authenticate]]))
 
+(defmethod perform [:sign-in :provider] [{:keys [state] :as as} action]
+  (ef/respond as [:requested [:authenticate (second action)]]))
+
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)

@@ -10,6 +10,8 @@
 
 (defmethod perform [:authenticate nil] [rt action] nil)
 
+(defmethod perform [:authenticate :provider] [rt action] nil)
+
 (defmethod perform [:sign-in nil] [rt action] nil)
 
 (defmethod perform [:sign-out nil] [rt action]
