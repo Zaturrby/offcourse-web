@@ -21,26 +21,29 @@
     (let [auth-token (some-> event meta :credentials :auth-token)
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)
-          not-found false
+          not-found true
           failed false]
-      (when accepted  (ef/respond service [:signed-in (-> accepted payload/create)]))
-      (when not-found (ef/respond service [:not-found action]))
+      (when #_accepted false (ef/respond service [:signed-in (-> accepted payload/create)]))
+      (when not-found (ef/respond service [:not-found (-> (second action) payload/create)]))
       (when failed    (ef/respond service [:failed action])))))
 
       ; It feels rational like this, three different actions for the three cases
-      ; 1. accepted: It's accepted and a payload is created and send to the conductor
-      ; 2. not-found: It's processed by the API but did not turn up a user, the action is send
+      ; 1. accepted: It's accepted and a payload is created and send to the conductor (sign-in happy path)
+      ; 2. not-found: sign-up: It's processed by the API but did not turn up a user, the action is send
       ;    back for introspection. The conductor will followup with the creation of a new identity
       ;    and trigger the action [:switch-to sign-up].
       ; 3. failed: Something went wrong with the connection, the API was not reached.
       ;    Flash should be triggered to notify the user that this catastrophe has happened.
 
+      ; Steps
+      ; 1. Give not-found credentials as a payload.
+
 (defmethod react :sign-up
   [{:keys [component-name adapter] :as service} [_ action :as event]])
-      ; Stub:
+
       ; This will receive the sign-up event from the conductor. It will receive as
       ; as payload the identity and the profile. This should be enough to bootstrap the
-      ; user.
+      ; user. Which will be decomposed from the identity and the profile.
 
       ; This will function will have many possible responses.
       ; 1. created (everything went okee)

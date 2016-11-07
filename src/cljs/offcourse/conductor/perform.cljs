@@ -110,6 +110,7 @@
 (defmethod perform [:switch-to :app-mode] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
+    (log/log "Haiii i'm switch to")
     (if (sp/valid? proposal)
       (ef/respond as [:refreshed @state])
       (log/error @state (sp/errors @state)))))

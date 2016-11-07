@@ -35,7 +35,9 @@
    :logo           (fnk [[:appstate site-title] respond]
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))
-   :menubar        (fnk [logo actions-panel]
+   :menubar        (fnk [logo actions-panel appstate]
+                        (log/log "menubar")
+                        (log/log appstate)
                         (menubar logo actions-panel))
    :notification   (fnk [appstate] notification)
    :flash          (fnk [notification respond]

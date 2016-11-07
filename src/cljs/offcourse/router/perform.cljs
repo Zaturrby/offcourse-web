@@ -12,7 +12,7 @@
 
 (defmethod perform [:authenticate :provider] [rt action] nil)
 
-(defmethod perform [:sign-in nil] [rt action] nil)
+(defmethod perform [:sign-in :credentials] [rt action] nil)
 
 (defmethod perform [:sign-out nil] [rt action]
   (ef/respond rt [:refreshed (route/from-params :home-view)]))
@@ -25,3 +25,5 @@
 
 (defmethod perform [:go :home] [rt action]
   (ef/respond rt [:refreshed (route/from-params :home-view)]))
+
+(defmethod perform :default [])

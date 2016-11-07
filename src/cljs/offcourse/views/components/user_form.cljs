@@ -29,4 +29,7 @@
                              :on-change #(update-prop :user-name % user-atom)}]]
       (when true ;valid?
         [:.card--section {:key :actions}
-          (button {:button-text "Go!"} #(respond [:create user]))])]))
+          (button {:button-text "Go!"} #(respond [:sign-up user]))])]))
+
+          ; This action should update the identity in the appstate
+          ; and it should trigger the sign-up flow
