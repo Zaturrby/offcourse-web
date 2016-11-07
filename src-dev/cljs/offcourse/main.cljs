@@ -38,8 +38,8 @@
     :repository {:name         "html-css-javascript"
                  :organization "offcourse"
                  :curator      "charlotte"
-                ;  :sha          "cbc89ec5b0417accc46fd41c5e5611cdcc4436f6"
-                 :sha          "e438278961f4f83b587b6fc8413f714ae34682a9"}
+                 :sha          "a536adef54e0fff0471dedc54f8ff338162c8c29"}
+                ;  :sha          "6f8cabb16ad74380704df08ecb29d1c117ac7ed2"}
     :resources  #{:course :collection}
     :base-url   "https://api.github.com"}])
 

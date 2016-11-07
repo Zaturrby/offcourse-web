@@ -59,7 +59,7 @@
             content (map handle-content raw-content)
             complete (map #(assoc %1
                                   :curator (or (:curator %1) (:curator repository))
-                                  :organization (or (:organization %1) (:organization repository))) content)]
+                                  :repository (or (:organization %1) (:organization repository))) content)]
         (async/put! c complete)))
     c))
 
