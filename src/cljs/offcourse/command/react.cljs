@@ -25,7 +25,7 @@
           failed false]
       (when accepted  (ef/respond service [:signed-in (-> accepted payload/create)]))
       (when not-found (ef/respond service [:not-found action]))
-      (when failed    (ef/respond service [:failed request])))))
+      (when failed    (ef/respond service [:failed action])))))
 
       ; It feels rational like this, three different actions for the three cases
       ; 1. accepted: It's accepted and a payload is created and send to the conductor
