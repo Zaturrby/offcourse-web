@@ -23,25 +23,14 @@
 (def command-adapter
   {:adapter    aws/create
    :name      "aws-command"
-   :endpoint  "https://c5ut0y5m28.execute-api.us-east-1.amazonaws.com/dev/command"})
+   :endpoint  "https://akd5yk8kih.execute-api.us-east-1.amazonaws.com/dev/command"})
+
 
 (def query-adapters
   [{:adapter    aws/create
     :name      "aws-query"
-    :resources #{#_:user :resources :resource}
-    :endpoint  "https://2lia48xse2.execute-api.us-east-1.amazonaws.com/production/query"}
-   {:adapter    aws/create
-    :name      "command"
-    :endpoint  "https://c5ut0y5m28.execute-api.us-east-1.amazonaws.com/dev/debug"}
-   {:adapter    github/create
-    :name       "html-course"
-    :repository {:name         "html-css-javascript"
-                 :organization "offcourse"
-                 :curator      "charlotte"
-                 :sha          "a536adef54e0fff0471dedc54f8ff338162c8c29"}
-                ;  :sha          "6f8cabb16ad74380704df08ecb29d1c117ac7ed2"}
-    :resources  #{:course :collection}
-    :base-url   "https://api.github.com"}])
+    :resources #{:collection :course :resource}
+    :endpoint  "https://akd5yk8kih.execute-api.us-east-1.amazonaws.com/dev/query"}])
 
 (def adapters
   {:auth auth-adapter

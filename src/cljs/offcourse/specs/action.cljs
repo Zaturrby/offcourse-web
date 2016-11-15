@@ -57,4 +57,5 @@
                                        :identity    ::identity/identity
                                        :course      ::course/course
                                        :courses     (spec/* ::course/course)
-                                       :resources   ::resource/resources)))
+                                       :resource    ::resource/resource
+                                       :resources   (spec/* ::resource/resource))))

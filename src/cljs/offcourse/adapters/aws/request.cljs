@@ -14,7 +14,6 @@
     :else {:denied nil}))
 
 (defn handle-error [{:keys [status response] :as payload}]
-  (log/log "x" payload)
   {:denied nil})
 
 (defn request [{:keys [name endpoint]} [action-type payload :as action]]

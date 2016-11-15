@@ -44,6 +44,13 @@
       (ef/respond as [:refreshed @state])
       ((ef/respond as [:refreshed @state])log/error @state (sp/errors @state)))))
 
+(defmethod perform [:add :resource] [{:keys [state] :as as} action]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+    (reset! state proposal)
+    (if (sp/valid? proposal)
+      (ef/respond as [:refreshed @state])
+      (log/error @state (sp/errors @state)))))
+
 (defmethod perform [:add :resources] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)

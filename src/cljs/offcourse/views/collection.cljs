@@ -6,7 +6,8 @@
             [shared.protocols.loggable :as log]))
 
 (defn filter-courses [{:keys [collection-name collection-type]} courses]
-  (case collection-type
+  courses
+  #_(case collection-type
     "curators" (filter (fn [course]
                          (= collection-name (:curator course))) courses)
     "flags" (filter (fn [course]

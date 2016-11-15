@@ -51,19 +51,8 @@
  '[adzerk.boot-reload            :refer [reload]]
  '[powerlaces.boot-cljs-devtools :refer [cljs-devtools]]
  '[org.martinklepsch.boot-garden :refer [garden]]
- '[crisptrutski.boot-cljs-test   :refer [exit! test-cljs]]
  '[pandeiro.boot-http            :refer [serve]]
  '[hashobject.boot-s3            :refer :all])
-
-(deftask testing []
-  (merge-env! :resource-paths #{"test"})
-  identity)
-
-(deftask auto-test []
-  (comp (testing)
-        (watch)
-        (speak)
-        (test-cljs)))
 
 (deftask css []
   (set-env! :source-paths #(conj % "src/clj"))
@@ -90,11 +79,6 @@
         (cljs)
         (css)
         (target)))
-
-(deftask test []
-  (comp (testing)
-        (test-cljs)
-        (exit!)))
 
 (deftask build []
   (set-env! :source-paths #(conj % "src-prod/cljs"))

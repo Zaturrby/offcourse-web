@@ -8,21 +8,16 @@
             [shared.protocols.loggable :as log])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn handle-response [name [event-type payload]]
-  (if (= event-type "found")
-    (walk/keywordize-keys payload)
-    false))
+(defn handle-response [name payload]
+  (walk/keywordize-keys payload))
 
 (defn fetch [{:keys [name endpoint]} query]
+  (log/log "X" (.stringify js/JSON (clj->js query)))
   (let [c (chan)
         auth-token ""]
     (POST endpoint
         {:headers {:Authorization (str "Bearer " auth-token)}
-         :params {:event-type :not-found
-                  :query-type (sp/resolve query)
-                  :query (if (sh/one? query)
-                           query
-                           (map clj->js query))}
+         :params query
          :format :json
          :handler #(go (>! c (handle-response name %)))})
     c))
