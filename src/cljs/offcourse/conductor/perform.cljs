@@ -20,12 +20,8 @@
 (defmethod perform [:authenticate :provider] [{:keys [state] :as as} action]
   (ef/respond as [:requested [:authenticate (second action)]]))
 
-(defmethod perform [:sign-up nil] [{:keys [state] :as as} action])
-  ; Stub:
-  ; Here the sign-up flow really starts. This reacts to the views and will get the
-  ; identity with a username as payload. The profile will be retrieved from the appstate,
-  ; as it's put there by the not-found action. Lastly this will call
-  ; [:requested [:sign-up identity profile]] to the start the command component.
+(defmethod perform [:sign-up :raw-user] [{:keys [state] :as conductor} action]
+  (ef/respond conductor [:requested [:sign-up (second action)]]))
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
@@ -110,10 +106,9 @@
 (defmethod perform [:switch-to :app-mode] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
-    (log/log "Haiii i'm switch to")
     (if (sp/valid? proposal)
       (ef/respond as [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform :default [as action]
-  (log/error (sp/resolve action) "Jan Hein hasn't implemented this action yet! Shame on him!"))
+  (log/error (sp/resolve action) "Conductor: Jan Hein hasn't implemented this action yet! Shame on him!"))

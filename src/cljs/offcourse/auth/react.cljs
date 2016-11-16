@@ -22,11 +22,6 @@
 
 (defmethod react :requested [{:keys [config provider] :as auth} [_ action]]
   (case (first action)
-    :sign-up (go
-               (let [{:keys [token response]} (<! (-sign-in provider))
-                     profile (js->clj response :keywordize-keys true)]
-                 (ef/respond auth [:granted (credentials/create {:auth-token token
-                                                                 :auth-profile profile})])))
     :authenticate (go
                     (let [{:keys [token response]} (<! (-sign-in provider))
                           profile (js->clj response :keywordize-keys true)]

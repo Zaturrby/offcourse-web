@@ -3,6 +3,7 @@
             [cuerdas.core :as str]
             [offcourse.views.components.button :refer [button]]
             [shared.protocols.loggable :as log]
+            [shared.specs.raw :as specs]
             [shared.protocols.specced :as sp]))
 
 (defn button-title [string]
@@ -29,7 +30,4 @@
                              :on-change #(update-prop :user-name % user-atom)}]]
       (when true ;valid?
         [:.card--section {:key :actions}
-          (button {:button-text "Go!"} #(respond [:sign-up user]))])]))
-
-          ; This action should update the identity in the appstate
-          ; and it should trigger the sign-up flow
+          (button {:button-text "Go!"} #(respond [:sign-up (with-meta {:user-name (:user-name user) :auth-profile (:auth-profile (:credentials user))} {:spec ::specs/user})]))])]))

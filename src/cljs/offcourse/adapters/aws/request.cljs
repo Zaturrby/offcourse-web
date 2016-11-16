@@ -11,7 +11,7 @@
 (defn handle-response [{:keys [statusCode body] :as payload}]
   (condp = statusCode
     202 {:accepted body}
-    :else {:denied nil}))
+    :else {:denied true}))
 
 (defn handle-error [{:keys [status response] :as payload}]
   {:denied nil})
@@ -21,7 +21,8 @@
         auth-token (some-> action meta :auth-token)]
     (POST endpoint
           {:headers (when auth-token {:Authorization auth-token})
-           :params {:action-type action-type}
+           :params {:action-type action-type
+                    :payload payload}
            :format :json
            :handler #(go (>! c (handle-response (walk/keywordize-keys %))))
            :error-handler #(go (>! c (handle-error (walk/keywordize-keys %))))})

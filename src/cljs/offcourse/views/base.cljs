@@ -21,7 +21,7 @@
                    :color "yellow"})
 
 (def graph
-  {:base-actions   (fnk [] #{:go :authenticate :sign-out :switch-to})
+  {:base-actions   (fnk [] #{:go :authenticate :sign-out :switch-to :sign-up})
    :actions        (fnk [base-actions view-actions] (set/union base-actions view-actions))
    :container      (fnk [] app)
    :viewmodel      (fnk [appstate] (-> appstate :viewmodel))
@@ -36,8 +36,8 @@
                         (logo {:site-title site-title} respond))
    :actions-panel  (fnk [user respond] (actions-panel user respond))
    :menubar        (fnk [logo actions-panel appstate]
-                        (log/log "menubar")
-                        (log/log appstate)
+                        ; (log/log "menubar")
+                        ; (log/log appstate)
                         (menubar logo actions-panel))
    :notification   (fnk [appstate] notification)
    :flash          (fnk [notification respond]
