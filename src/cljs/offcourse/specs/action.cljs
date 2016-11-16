@@ -21,12 +21,12 @@
 
 (defmethod action-spec :update [_]
   (spec/tuple ::action-types (spec/or :viewmodel  ::viewmodel/viewmodel
+                                      :revision   #{:revision}
                                       :course     ::course/course
-                                      :checkpoint ::checkpoint/checkpoint)))
+                                      :checkpoint map?)))
 
 (defmethod action-spec :save [_]
   (spec/tuple ::action-types (spec/or :profile ::profile/profile)))
-
 
 (defmethod action-spec :authenticate [_]
   (spec/tuple ::action-types))
@@ -45,11 +45,12 @@
 
 
 (defmethod action-spec :fork [_]
-  (spec/tuple ::action-types (spec/or :course      ::course/course)))
-
+  (spec/tuple ::action-types (spec/or :course      ::course/course
+                                      :identity    ::identity/identity)))
 
 (defmethod action-spec :remove [_]
-  (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials)))
+  (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials
+                                       :checkpoint ::checkpoint/checkpoint)))
 
 (defmethod action-spec :add [_]
   (spec/tuple ::action-types (spec/or  :credentials ::auth/credentials
@@ -57,5 +58,6 @@
                                        :identity    ::identity/identity
                                        :course      ::course/course
                                        :courses     (spec/* ::course/course)
+                                       :new-checkpoint #{:new-checkpoint}
                                        :resource    ::resource/resource
                                        :resources   (spec/* ::resource/resource))))

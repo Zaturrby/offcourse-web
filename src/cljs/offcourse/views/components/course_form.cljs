@@ -5,20 +5,21 @@
             [offcourse.views.components.dropdown :refer [dropdown]]
             [shared.protocols.specced :as sp]
             [shared.protocols.loggable :as log]
-            [shared.models.course.index :as co]))
+            [shared.models.course.index :as co]
+            [shared.protocols.actionable :as ac]))
 
 (defn update-prop [prop-name event atom]
   (let [prop-value (.. event -target -value)]
     (swap! atom #(assoc % prop-name prop-value))))
 
 (defn update-checkpoint [course-atom course checkpoint]
-  (swap! course-atom #(co/update-checkpoint course checkpoint)))
+  (swap! course-atom #(ac/perform course [:update checkpoint])))
 
 (defn remove-checkpoint [course-atom course checkpoint]
-  (swap! course-atom #(co/remove-checkpoint course checkpoint)))
+  (swap! course-atom #(ac/perform course [:remove checkpoint])))
 
 (defn create-checkpoint [course-atom course]
-  (swap! course-atom #(co/create-checkpoint course)))
+  (swap! course-atom #(ac/perform course [:add :new-checkpoint])))
 
 (defn set-dropdown [dropdown-name dropdown-atom]
   (swap! dropdown-atom #(str dropdown-name)))
