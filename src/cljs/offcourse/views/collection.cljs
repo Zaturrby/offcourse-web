@@ -16,7 +16,7 @@
                      (set/superset? (-> course meta :tags) #{collection-name})) courses)))
 
 (def graph
-  {:view-actions   (fnk [] #{:toggle :fork :update})
+  {:view-actions   (fnk [] #{:toggle :fork :update :switch-to})
    :collection     (fnk [viewmodel] (get-in viewmodel [:collection]))
    :courses        (fnk [appstate viewmodel collection routes]
                         (->> (:courses appstate)

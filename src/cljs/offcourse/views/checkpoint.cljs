@@ -7,7 +7,8 @@
             [offcourse.views.containers.overlay :refer [overlay]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.decoratable :as dc]
-            [shared.protocols.queryable :as qa]))
+            [shared.protocols.queryable :as qa]
+            [shared.protocols.loggable :as log]))
 
 (def graph
   {:view-actions    (fnk [] #{:update :fork :switch-to})
@@ -31,13 +32,11 @@
                            (viewer {:resource   resource
                                     :checkpoint checkpoint})))
    :dashboard       (fnk [course respond]
-                         (let [editable? (-> course meta :affordances :editable?)
-                               respond   (partial respond [:switch-to :edit-mode])]
+                         (let [editable? (-> course meta :affordances :editable?)]
                            (when course
                              (dashboard {:main     (card course respond)
-                                         :controls (when editable?
-                                                     (button {:button-text "Edit this course"
-                                                              :button-width "full"}
-                                                             respond))}))))
+                                         :controls (when editable? (button {:button-text "Edit"
+                                                                            :button-width "full"}
+                                                                           #(respond [:switch-to :edit-mode])))}))))
    :view-overlays   (fnk [course respond]
                          {:edit-mode (overlay (course-form {:course course} respond) respond)})})

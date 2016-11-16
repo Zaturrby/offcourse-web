@@ -16,6 +16,10 @@
     [:.card--wrapper
      [:.card--section (card-meta course)]
      [:.card--section (item-list :todo checkpoints trackable? respond)]
+     #_(when editable?
+       [:.card--section
+        [:ul.card--row
+         (button {:button-text "Edit"} #(respond [:switch-to :edit-mode]))]])
      (when forkable?
       [:.card--section
        [:ul.card--row

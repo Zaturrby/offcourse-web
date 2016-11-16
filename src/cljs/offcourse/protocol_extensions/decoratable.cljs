@@ -16,8 +16,8 @@
 (def affordances-graph
   {:browsable? (fnk [viewmodel] (= viewmodel :collection-view))
    :forkable?  (fnk [current-user user-is-curator? user-is-forker?]
-                    true #_(and current-user (not user-is-forker?) (not user-is-curator?)))
-   :editable?  (fnk [user-is-curator?] true #_user-is-curator?)
+                    (and current-user (not user-is-forker?) (not user-is-curator?)))
+   :editable?  (fnk [user-is-curator?] user-is-curator?)
    :trackable? (fnk [user-is-curator?] user-is-curator?)})
 
 (def course-meta-graph

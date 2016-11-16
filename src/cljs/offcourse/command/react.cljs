@@ -21,4 +21,4 @@
     (let [auth-token (some-> event meta :credentials :auth-token)
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)]
-      (when accepted (ef/respond service [:signed-in (-> accepted payload/create)])))))
+      (when accepted (ef/respond service [:signed-in (-> {:user-name "charlotte"} payload/create)])))))

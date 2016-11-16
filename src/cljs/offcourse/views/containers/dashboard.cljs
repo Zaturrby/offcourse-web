@@ -3,4 +3,5 @@
 
 (rum/defc dashboard [{:keys [main controls]}]
   [:.dashboard
-   [:.dashboard--main main]])
+   [:.dashboard--main main]
+   [:.dashboard--buttons controls]])
