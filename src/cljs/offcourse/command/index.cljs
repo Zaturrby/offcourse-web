@@ -1,17 +1,18 @@
 (ns offcourse.command.index
   (:require [com.stuartsierra.component :as lc :refer [Lifecycle]]
             [offcourse.command.react :as react]
-            [shared.protocols.eventful :as ef :refer [Eventful]]))
+            [shared.protocols.eventful :refer [Eventful]]
+            [offcourse.system.service :as service]))
 
 (defrecord Command []
   Lifecycle
-  (start [service] (ef/listen service))
-  (stop [service] (ef/mute service))
+  (start [service] (service/listen service))
+  (stop [service] (service/mute service))
   Eventful
-  (-respond [service event] (ef/respond service event))
+  (-respond [service event] (service/respond service event))
   (-react [service event] (react/react service event))
-  (-mute [service] (ef/mute service))
-  (-listen [service] (ef/listen service)))
+  (-mute [service] (service/mute service))
+  (-listen [service] (service/listen service)))
 
 (defn create [name] (-> {:component-name name}
                         map->Command))
