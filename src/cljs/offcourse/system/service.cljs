@@ -12,8 +12,7 @@
       (when (contains? (into #{} triggers) type) (ef/react this event))
       (recur))))
 
-(defn respond
-  [{:keys [channels component-name state responses] :as this} [status payload]]
+(defn respond [{:keys [channels component-name state] :as this} [status payload]]
   (let [credentials (when state (-> @state :user :credentials))
         payload     (with-meta payload (merge (meta payload) {:credentials credentials}))
         response    (event/create [component-name status payload])]
@@ -21,12 +20,10 @@
       (async/put! (:output channels) #_response (log/pipe response))
       (log/error response (sp/errors response)))))
 
-(defn listen
-  [{:keys [channels component-name reactions] :as this}]
+(defn listen [this]
   (assoc this :listener (listener this)))
 
-(defn mute
-  [{:keys [channels] :as this}]
+(defn mute [{:keys [channels] :as this}]
   (do
     (async/close! (:input channels))
     (dissoc :listener this)))

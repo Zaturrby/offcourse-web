@@ -1,7 +1,7 @@
 (ns offcourse.conductor.redirect
   (:require [shared.protocols.responsive :as qa]
             [shared.models.event.index :as event]
-            [shared.models.viewmodel.index :as viewmodel]))
+            [offcourse.models.viewmodel.index :as viewmodel]))
 
 (defmulti redirect (fn [as destination & _] destination))
 

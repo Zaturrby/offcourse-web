@@ -3,7 +3,7 @@
             [offcourse.adapters.aws.index :as aws]
             [offcourse.adapters.github.index :as github]
             [offcourse.core :as core]
-            [shared.models.appstate.index :as model]
+            [offcourse.models.appstate.index :as model]
             [shared.specs.core :as specs]))
 
 (defonce app (atom nil))

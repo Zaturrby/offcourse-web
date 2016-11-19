@@ -7,7 +7,7 @@
             [shared.protocols.specced :as sp]
             [shared.models.query.index :as query]
             [shared.protocols.convertible :as cv]
-            [shared.models.viewmodel.index :as viewmodel]))
+            [offcourse.models.viewmodel.index :as viewmodel]))
 
 (defmulti react (fn [_ [event-type _ :as event]] event-type))
 

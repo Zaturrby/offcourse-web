@@ -18,7 +18,7 @@
   (-listen [rt] (ef-impl/listen rt))
   (-react [rt event] (react-impl/react rt event))
   (-mute [rt] (ef-impl/mute rt))
-  (-respond [rt event] nil))
+  (-respond [rt event] (service/respond rt event)))
 
 (defn create [name] (-> {:component-name name}
                         map->Router))

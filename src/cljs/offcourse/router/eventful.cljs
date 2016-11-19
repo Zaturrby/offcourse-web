@@ -2,7 +2,7 @@
   (:require [bidi.bidi :as bidi]
             [pushy.core :as pushy]
             [shared.protocols.eventful :as ef]
-            [shared.models.route.index :as route]
+            [offcourse.models.route.index :as route]
             [shared.models.action.index :as action]
             [shared.protocols.convertible :as cv]
             [offcourse.system.service :as service]

@@ -1,6 +1,6 @@
 (ns offcourse.ui.render
   (:require [rum.core :as rum]
-            [shared.models.view.index :as view]
+            [offcourse.models.view.index :as view]
             [shared.protocols.eventful :as ef]
             [shared.protocols.renderable :as rr]
             [shared.protocols.loggable :as log]))

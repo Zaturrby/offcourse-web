@@ -1,6 +1,6 @@
 (ns offcourse.adapters.github.fetch
   (:require [ajax.core :refer [GET]]
-            [shared.models.appstate.paths :as paths]
+            [shared.paths.index :as paths]
             [cljs.core.async :as async :refer [<! chan]]
             cljsjs.js-yaml
             [clojure.walk :as walk]
