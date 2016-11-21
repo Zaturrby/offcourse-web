@@ -3,8 +3,9 @@
             [offcourse.protocol-extensions.decoratable]
             [offcourse.protocol-extensions.loggable]
             [offcourse.protocol-extensions.convertible]
-            [offcourse.specs.event]
-            [offcourse.specs.action]))
+            [offcourse.specs.index]
+            [cljs.spec :as spec]
+            [shared.protocols.loggable :as log]))
 
 (defn app [appstate adapters]
   (system appstate adapters))

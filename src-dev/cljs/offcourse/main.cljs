@@ -2,16 +2,13 @@
   (:require [com.stuartsierra.component :as component]
             cljsjs.auth0-lock
             [offcourse.adapters.aws.index :as aws]
-            [offcourse.adapters.github.index :as github]
             [offcourse.core :as core]
-            [offcourse.models.appstate.index :as model]
-            [shared.specs.core :as specs]))
+            [offcourse.models.appstate.index :as model]))
 
 (defonce app (atom nil))
 
 (defonce appstate-data {:site-title "Offcourse_"
-                        :app-mode :viewing
-                        :actions specs/action-types})
+                        :app-mode :viewing})
 
 (defonce appstate (atom (model/create appstate-data)))
 

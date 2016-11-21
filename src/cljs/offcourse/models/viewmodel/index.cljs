@@ -3,7 +3,6 @@
             [shared.protocols.queryable :refer [Queryable]]
             [offcourse.models.viewmodel.missing-data :as md-impl]
             [offcourse.models.viewmodel.to-route :refer [to-route]]
-            [shared.specs.viewmodel :as specs]
             [shared.protocols.specced :as sp]
             [shared.protocols.loggable :as log]
             [cljs.spec :as spec]))
@@ -15,7 +14,7 @@
   (-to-route [this] (to-route this)))
 
 (defn create [vm]
-  (with-meta (map->Viewmodel vm) {:spec ::specs/viewmodel}))
+  (with-meta (map->Viewmodel vm) {:spec :offcourse/viewmodel}))
 
 (defmulti from-route (fn [params] (sp/resolve params)))
 

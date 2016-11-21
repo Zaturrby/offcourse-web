@@ -2,7 +2,6 @@
   (:require [shared.protocols.loggable :as log]
             [shared.protocols.convertible :refer [Convertible]]
             [offcourse.models.route.to-url :refer [to-url]]
-            [offcourse.specs.route :as specs]
             [bidi.bidi :as bidi]))
 
 (defn- override [params]
@@ -12,7 +11,7 @@
 
 (defn create [raw-route]
   (-> raw-route
-      (with-meta {:spec ::specs/route})
+      (with-meta {:spec :offcourse/route})
       override))
 
 (defmulti from-params (fn [handler params] (if params :params :handler)))

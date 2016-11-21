@@ -1,6 +1,5 @@
 (ns offcourse.models.appstate.index
-  (:require [shared.specs.core :as specs]
-            [offcourse.specs.appstate :as as-specs]
+  (:require [shared.specs.action :as specs]
             [shared.protocols.actionable :refer [Actionable]]
             [shared.protocols.queryable :refer [Queryable]]
             [offcourse.models.appstate.missing-data :as md]
@@ -15,8 +14,7 @@
   (-missing-data [as query] (md/missing-data as query)))
 
 (defn create [appstate]
-  (-> {:site-title "Offcourse_"
-       :actions    specs/action-types}
+  (-> {:site-title "Offcourse_"}
       (merge appstate)
       map->Appstate
-      (with-meta {:spec ::as-specs/appstate})))
+      (with-meta {:spec :offcourse/appstate})))

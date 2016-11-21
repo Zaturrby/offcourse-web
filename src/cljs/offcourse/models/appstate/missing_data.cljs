@@ -4,7 +4,6 @@
             [shared.models.query.index :as query]
             [shared.protocols.queryable :as qa]
             [cljs.spec :as spec]
-            [shared.specs.core :as specs]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]
             [shared.models.bookmark.index :as bookmark]

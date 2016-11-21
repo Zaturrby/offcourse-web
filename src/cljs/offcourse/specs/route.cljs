@@ -1,30 +1,25 @@
 (ns offcourse.specs.route
-  (:require [cljs.spec :as spec]
-            [shared.specs.base :as base]
-            [shared.specs.collection :as collection]
-            [shared.specs.course :as course]
-            [shared.specs.checkpoint :as checkpoint]))
+  (:require [cljs.spec :as spec]))
 
-(spec/def ::organization (spec/nilable ::base/organization))
-
-(spec/def ::course     (spec/keys :req-un [::base/curator ::course/course-slug]
-                                  :opt-un [::organization]))
-
-(spec/def ::checkpoint (spec/keys :req-un [::checkpoint/checkpoint-slug ::base/curator
-                                           ::course/course-slug]
-                                  :opt-un [::organization]))
 
 (spec/def ::home-view nil?)
 (spec/def ::signup-view nil?)
 (spec/def ::new-course-view nil?)
+(spec/def :route/organization (spec/nilable :base/organization))
 
-(spec/def ::home       (spec/keys :req-un [::home-view]))
-(spec/def ::sign-up    (spec/keys :req-un [::signup-view]))
-(spec/def ::new-course (spec/keys :req-un [::new-course-view]))
+(spec/def :route/course     (spec/keys :req-un [:course/curator :course/course-slug]
+                                       :opt-un [:route/organization]))
+(spec/def :route/checkpoint (spec/keys :req-un [:checkpoint/checkpoint-slug :course/curator
+                                                :course/course-slug]
+                                       :opt-un [:route/organization]))
+(spec/def :route/collection :offcourse/collection)
+(spec/def :route/home       (spec/keys :req-un [::home-view]))
+(spec/def :route/sign-up    (spec/keys :req-un [::signup-view]))
+(spec/def :route/new-course (spec/keys :req-un [::new-course-view]))
 
-(spec/def ::route      (spec/or :home-view       ::home
-                                :signup-view     ::sign-up
-                                :new-course-view ::new-course
-                                :collection-view ::collection/collection
-                                :checkpoint-view ::checkpoint
-                                :course-view     ::course))
+(spec/def :route/valid (spec/or :home-view       :route/home
+                                :signup-view     :route/sign-up
+                                :new-course-view :route/new-course
+                                :collection-view :route/collection
+                                :checkpoint-view :route/checkpoint
+                                :course-view     :route/course))
