@@ -13,8 +13,15 @@
   (-get [as query] (get/get as query))
   (-missing-data [as query] (md/missing-data as query)))
 
+(def defaults {:site-title "APP_"
+               :app-mode   :viewing
+               :user       nil
+               :courses    []
+               :resources  []
+               :profiles   []})
+
 (defn create [appstate]
-  (-> {:site-title "Offcourse_"}
+  (-> defaults
       (merge appstate)
       map->Appstate
       (with-meta {:spec :offcourse/appstate})))

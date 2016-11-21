@@ -22,11 +22,10 @@
   (-> store (assoc :viewmodel viewmodel)))
 
 (defmethod perform [:sign-out nil] [store [_ payload]]
-  (dissoc store :user))
+  (assoc store :user nil))
 
 (defmethod perform [:add :credentials] [store [_ payload]]
   (assoc-in store [:user :credentials] (select-keys payload [:auth-token])))
-
 
 (defmethod perform [:add :identity] [store [_ payload]]
   (update-in store [:user] #(merge %1 payload)))

@@ -7,8 +7,7 @@
 
 (defonce app (atom nil))
 
-(defonce appstate-data {:site-title "Offcourse_"
-                        :app-mode :viewing})
+(defonce appstate-data {:site-title "Offcourse_"})
 
 (defonce appstate (atom (model/create appstate-data)))
 

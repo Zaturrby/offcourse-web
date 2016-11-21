@@ -21,6 +21,7 @@
 (spec/def :offcourse/payload   :payload/frontend)
 (spec/def :offcourse/action    :action/valid)
 (spec/def :offcourse/event     :event/valid)
+(spec/def :offcourse/user      map?)
 
 (spec/def :query/viewmodel     :viewmodel/query)
 (spec/def :query/tags          (spec/keys :req-un [::tags]))
