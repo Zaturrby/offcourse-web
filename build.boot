@@ -1,7 +1,6 @@
 (set-env!
- :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../shared" "../styles/src"}
+ :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../styles/src"}
  :resource-paths  #{"resources"}
- :checkouts    '[[offcourse/shared              "0.4.0-SNAPSHOT"]]
  :dependencies '[[adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.3"          :scope "test"]
                  [adzerk/boot-reload            "0.4.12"         :scope "test"]
@@ -16,6 +15,7 @@
                  [binaryage/dirac               "0.6.3"          :scope "test"]
                  [powerlaces/boot-cljs-devtools "0.1.1"          :scope "test"]
                  [boot-codox                    "0.9.6"          :scope "test"]
+                 [hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]
                  [org.martinklepsch/boot-garden "1.3.2-0"]
                  [metosin/ring-http-response    "0.8.0"]
                  [com.stuartsierra/component    "0.3.1"]
@@ -42,8 +42,7 @@
                  [cljsjs/react-dom-server       "15.3.1-0"]
                  [funcool/cuerdas               "0.8.0"]
                  [offcourse/styles              "0.1.8-SNAPSHOT"]
-                 [offcourse/shared              "0.4.0-SNAPSHOT"]
-                 [hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]])
+                 [offcourse/shared              "0.5.0"]])
 
 (require
  '[adzerk.boot-cljs              :refer [cljs]]
