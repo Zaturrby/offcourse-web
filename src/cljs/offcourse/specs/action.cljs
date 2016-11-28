@@ -10,6 +10,9 @@
 (defmethod action-spec :sign-in [_]
   (spec/tuple :offcourse/actions))
 
+(defmethod action-spec :sign-up [_]
+  (spec/tuple :offcourse/actions (spec/or :user :offcourse/user)))
+
 (defmethod action-spec :sign-out [_]
   (spec/tuple :offcourse/actions))
 

@@ -20,7 +20,7 @@
 (defmethod perform [:authenticate :provider] [{:keys [state] :as as} action]
   (ef/respond as [:requested [:authenticate (second action)]]))
 
-(defmethod perform [:sign-up :raw-user] [{:keys [state] :as conductor} action]
+(defmethod perform [:sign-up :user] [{:keys [state] :as conductor} action]
   (ef/respond conductor [:requested [:sign-up (second action)]]))
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} action]

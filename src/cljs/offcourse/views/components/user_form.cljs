@@ -29,5 +29,5 @@
                              :on-change #(update-prop :user-name % user-atom)}]]
       (when true ;valid?
         [:.card--section {:key :actions}
-          (button {:button-text "Go!"})])]))
-          ; #(respond [:sign-up (with-meta {:user-name (:user-name user) :auth-profile (:auth-profile (:credentials user))} {:spec ::specs/user})])])]))
+          (button {:button-text "Go!"}
+                  #(respond [:sign-up user]))])]))
