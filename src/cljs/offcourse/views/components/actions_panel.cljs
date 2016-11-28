@@ -17,4 +17,4 @@
    #_(handler-button "view-profile" (partial respond [:switch-to :view-profile]))
    (if credentials
      (handler-button "Sign Out" (partial respond [:sign-out]))
-     (handler-button "Sign In" (partial respond [:sign-in])))])
+     (handler-button "Sign In" #(respond [:switch-to :auth])))])

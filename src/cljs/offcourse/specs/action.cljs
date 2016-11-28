@@ -5,7 +5,7 @@
 (def action (spec/multi-spec action-spec :action-type))
 
 (defmethod action-spec :authenticate [_]
-  (spec/tuple :offcourse/actions))
+  (spec/tuple :offcourse/actions (spec/or :provider #{:github})))
 
 (defmethod action-spec :sign-in [_]
   (spec/tuple :offcourse/actions))
@@ -15,7 +15,7 @@
 
 (defmethod action-spec :create [_]
   (spec/tuple :offcourse/actions (spec/or :new-user #{:new-user}
-                                          :profile :offcourse/profile )))
+                                          :profile :offcourse/profile)))
 
 (defmethod action-spec :update [_]
   (spec/tuple :offcourse/actions (spec/or :viewmodel  :offcourse/viewmodel

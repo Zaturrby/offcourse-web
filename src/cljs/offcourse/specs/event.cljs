@@ -10,11 +10,13 @@
 (spec/def :event-payload/found       (spec/or :course      :offcourse/course
                                               :courses     (spec/coll-of :offcourse/course)
                                               :resource    :offcourse/resource))
+(spec/def :event-payload/not-found   (spec/or :query       :offcourse/query
+                                              :payload     :offcourse/payload))
 (spec/def :event-payload/auth        (spec/or :credentials :offcourse/credentials))
 (spec/def :event-payload/signed-in   (spec/or :identity    :offcourse/identity))
 
 (defmethod event-spec :requested [_] (spec/tuple ::event-type :offcourse/action))
-(defmethod event-spec :not-found [_] (spec/tuple ::event-type :offcourse/query))
+(defmethod event-spec :not-found [_] (spec/tuple ::event-type :event-payload/not-found))
 (defmethod event-spec :refreshed [_] (spec/tuple ::event-type :event-payload/refreshed))
 (defmethod event-spec :found     [_] (spec/tuple ::event-type :event-payload/found))
 (defmethod event-spec :granted   [_] (spec/tuple ::event-type :event-payload/auth))

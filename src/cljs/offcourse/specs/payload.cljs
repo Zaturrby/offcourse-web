@@ -4,4 +4,5 @@
 (spec/def :payload/frontend (spec/or :resource        :offcourse/resource
                                      :course          :offcourse/course
                                      :courses         (spec/coll-of :offcourse/course)
-                                     :resources       (spec/coll-of :offcourse/resource)))
+                                     :resources       (spec/coll-of :offcourse/resource)
+                                     :credentials     :offcourse/credentials))
