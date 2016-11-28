@@ -17,11 +17,13 @@
         (ef/respond as [:requested [:save (:user @state)]])
         (log/error @state (sp/errors @state))))))
 
-(defmethod perform [:authenticate :provider] [{:keys [state] :as as} action]
-  (ef/respond as [:requested [:authenticate (second action)]]))
+(defmethod perform [:authenticate :provider] [{:keys [state] :as conductor} action]
+  (ef/respond conductor [:requested [:authenticate (second action)]])
+  (ac/perform conductor [:switch-to :view-mode]))
 
 (defmethod perform [:sign-up :user] [{:keys [state] :as conductor} action]
-  (ef/respond conductor [:requested [:sign-up (second action)]]))
+  (ef/respond conductor [:requested [:sign-up (second action)]])
+  (ac/perform conductor [:switch-to :view-mode]))
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]

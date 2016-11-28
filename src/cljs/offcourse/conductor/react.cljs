@@ -16,8 +16,9 @@
     (reset! state proposal)
     (ef/respond as [:requested [:sign-in]])))
 
-(defmethod react :signed-in [{:keys [state] :as as} [_ payload]]
-  (ac/perform as [:add payload]))
+(defmethod react :signed-in [{:keys [state] :as conductor} [_ payload]]
+  (ac/perform conductor [:add payload])
+  (ac/perform conductor [:switch-to :view-mode]))
 
 (defmethod react :revoked [{:keys [state] :as as} [_ payload]]
   (let [proposal (ac/perform @state [:remove payload])]

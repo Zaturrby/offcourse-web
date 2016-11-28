@@ -29,7 +29,7 @@
   (go
     (let [auth-token (some-> action meta :credentials :auth-token)
           auth-profile (some-> action second :credentials :auth-profile)
-          user-name (some-> action second :username)
+          user-name (some-> action second :user-name)
           action [(first action) {:user-name user-name :auth-profile auth-profile}]
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)]
