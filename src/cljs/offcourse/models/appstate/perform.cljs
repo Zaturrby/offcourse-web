@@ -25,7 +25,7 @@
   (assoc store :user nil))
 
 (defmethod perform [:add :credentials] [store [_ payload]]
-  (assoc-in store [:user :credentials] (select-keys payload [:auth-token])))
+  (assoc-in store [:user :credentials] (select-keys payload [:auth-token :auth-profile])))
 
 (defmethod perform [:add :identity] [store [_ payload]]
   (update-in store [:user] #(merge %1 payload)))
