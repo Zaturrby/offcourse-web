@@ -43,7 +43,7 @@
                  [cljsjs/react-dom-server       "15.3.1-0"]
                  [funcool/cuerdas               "0.8.0"]
                  [offcourse/styles              "0.1.8-SNAPSHOT"]
-                 [offcourse/shared              "0.5.1-SNAPSHOT"]])
+                 [offcourse/shared              "0.5.1"]])
 
 (require
  '[adzerk.boot-cljs              :refer [cljs]]
