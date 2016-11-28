@@ -7,14 +7,14 @@
             [shared.protocols.actionable :as ac]
             [shared.models.query.index :as query]))
 
-(defmulti perform (fn [as action] (sp/resolve action)))
+(defmulti perform (fn [conductor action] (sp/resolve action)))
 
-(defmethod perform [:create :profile] [{:keys [state] :as as} [_ profile]]
+(defmethod perform [:create :profile] [{:keys [state] :as conductor} [_ profile]]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state [:add profile])]
-    (when (ck/check as proposal)
+    (when (ck/check conductor proposal)
       (reset! state proposal)
       (if (sp/valid? @state)
-        (ef/respond as [:requested [:save (:user @state)]])
+        (ef/respond conductor [:requested [:save (:user @state)]])
         (log/error @state (sp/errors @state))))))
 
 (defmethod perform [:authenticate :provider] [{:keys [state] :as conductor} action]
@@ -25,92 +25,92 @@
   (ef/respond conductor [:requested [:sign-up (second action)]])
   (ac/perform conductor [:switch-to :view-mode]))
 
-(defmethod perform [:sign-out nil] [{:keys [state] :as as} action]
+(defmethod perform [:sign-out nil] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:go :home] [{:keys [state] :as as} action]
-  (ef/respond as [:requested action]))
+(defmethod perform [:go :home] [{:keys [state] :as conductor} action]
+  (ef/respond conductor [:requested action]))
 
-(defmethod perform [:add :identity] [{:keys [state] :as as} action]
+(defmethod perform [:add :identity] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:fork :course] [{:keys [state] :as as} action]
+(defmethod perform [:fork :course] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
-      ((ef/respond as [:refreshed @state])log/error @state (sp/errors @state)))))
-
-(defmethod perform [:add :resource] [{:keys [state] :as as} action]
-  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
-    (reset! state proposal)
-    (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:add :resources] [{:keys [state] :as as} action]
+(defmethod perform [:add :resource] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:add :courses] [{:keys [state] :as as} action]
+(defmethod perform [:add :resources] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:add :course] [{:keys [state] :as as} action]
+(defmethod perform [:add :courses] [{:keys [state] :as conductor} action]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+    (reset! state proposal)
+    (if (sp/valid? proposal)
+      (ef/respond conductor [:refreshed @state])
+      (log/error @state (sp/errors @state)))))
+
+(defmethod perform [:add :course] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (when-let [missing-data (qa/missing-data @state viewmodel)]
-      (ef/respond as [:not-found (query/create missing-data)]))
+      (ef/respond conductor [:not-found (query/create missing-data)]))
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:update :course] [{:keys [state] :as as} action]
+(defmethod perform [:update :course] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (when-let [missing-data (qa/missing-data @state viewmodel)]
-      (ef/respond as [:not-found (query/create missing-data)]))
+      (ef/respond conductor [:not-found (query/create missing-data)]))
     (if (sp/valid? proposal)
-      (ef/respond as [:requested [:go :home]])
+      (ef/respond conductor [:requested [:go :home]])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:update :viewmodel] [{:keys [state] :as as} action]
+(defmethod perform [:update :viewmodel] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
-    (when (ck/check as proposal)
+    (when (ck/check conductor proposal)
       (reset! state proposal)
       (when-let [missing-data (qa/missing-data @state viewmodel)]
-        (ef/respond as [:not-found (query/create missing-data)]))
+        (ef/respond conductor [:not-found (query/create missing-data)]))
       (if (sp/valid? proposal)
-        (ef/respond as [:refreshed @state])
+        (ef/respond conductor [:refreshed @state])
         (log/error @state (sp/errors @state))))))
 
-(defmethod perform [:update :checkpoint] [{:keys [state] :as as} action]
+(defmethod perform [:update :checkpoint] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:switch-to :app-mode] [{:keys [state] :as as} action]
+(defmethod perform [:switch-to :app-mode] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond as [:refreshed @state])
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform :default [as action]
+(defmethod perform :default [conductor action]
   (log/error (sp/resolve action) "Conductor: Jan Hein hasn't implemented this action yet! Shame on him!"))

@@ -11,29 +11,28 @@
 
 (defmulti react (fn [_ [event-type _ :as event]] event-type))
 
-(defmethod react :granted [{:keys [state] :as as} [_ payload]]
+(defmethod react :granted [{:keys [state] :as conductor} [_ payload]]
   (let [proposal (ac/perform @state [:add payload])]
     (reset! state proposal)
-    (ef/respond as [:requested [:sign-in]])))
+    (ef/respond conductor [:requested [:sign-in]])))
 
 (defmethod react :signed-in [{:keys [state] :as conductor} [_ payload]]
-  (ac/perform conductor [:add payload])
-  (ac/perform conductor [:switch-to :view-mode]))
+  (ac/perform conductor [:add payload]))
 
-(defmethod react :revoked [{:keys [state] :as as} [_ payload]]
+(defmethod react :revoked [{:keys [state] :as conductor} [_ payload]]
   (let [proposal (ac/perform @state [:remove payload])]
     (when (sp/valid? proposal)
       (reset! state proposal)
-      (ef/respond as [:requested [:go :home]]))))
+      (ef/respond conductor [:requested [:go :home]]))))
 
-(defmethod react :requested [as [_ action]]
-  (ac/perform as action))
+(defmethod react :requested [conductor [_ action]]
+  (ac/perform conductor action))
 
-(defmethod react :refreshed [as [_ payload]]
-  (ac/perform as [:update (viewmodel/from-route payload)]))
+(defmethod react :refreshed [conductor [_ payload]]
+  (ac/perform conductor [:update (viewmodel/from-route payload)]))
 
-(defmethod react :found [as [_ payload]]
-  (ac/perform as [:add payload]))
+(defmethod react :found [conductor [_ payload]]
+  (ac/perform conductor [:add payload]))
 
 (defmethod react :not-found [{:keys [state] :as conductor} [_ payload]]
   (when (= :credentials (sp/resolve payload))
