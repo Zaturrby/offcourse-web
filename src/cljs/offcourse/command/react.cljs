@@ -16,19 +16,22 @@
 (defmethod react :sign-out [])
 
 (defmethod react :sign-in
-  [{:keys [component-name adapter] :as service} [_ action :as event]]
+  [{:keys [component-name adapter] :as service} [_ action]]
   (go
-    (let [credentials (some-> event meta :credentials)
+    (let [credentials (some-> action meta :credentials)
           request (ac/request adapter (with-meta action credentials))
           {:keys [accepted denied] :as res} (async/<! request)]
-      (when #_accepted false (ef/respond service [:signed-in (-> accepted payload/create)]))
-      (when #_denied true (ef/respond service [:not-found (payload/create credentials)])))))
+      (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
+      (when denied (ef/respond service [:not-found (payload/create credentials)])))))
 
 (defmethod react :sign-up
-  [{:keys [component-name adapter] :as service} [_ action :as event]]
+  [{:keys [component-name adapter] :as service} [_ action]]
   (go
-    (let [auth-token (some-> event meta :credentials :auth-token)
+    (let [auth-token (some-> action meta :credentials :auth-token)
+          auth-profile (some-> action second :credentials :auth-profile)
+          user-name (some-> action second :username)
+          action [(first action) {:user-name user-name :auth-profile auth-profile}]
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)]
-      (when #_accepted false (ef/respond service [:signed-in (-> accepted payload/create)]))
-      (when #_denied true (ef/respond service [:requested [:switch-to :view-mode]])))))
+      (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
+      (when denied (ef/respond service [:requested [:switch-to :view-mode]])))))

@@ -14,7 +14,7 @@
     :else {:denied true}))
 
 (defn handle-error [{:keys [status response] :as payload}]
-  {:denied nil})
+  {:denied true})
 
 (defn request [{:keys [name endpoint]} [action-type payload :as action]]
   (let [c (chan)
