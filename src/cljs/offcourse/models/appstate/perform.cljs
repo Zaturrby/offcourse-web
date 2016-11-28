@@ -46,7 +46,7 @@
 ;; replace charlotte with real user here
 
 (defmethod perform [:fork :course] [{:keys [courses user] :as store} [_ course]]
-  (let [{:keys [original fork]} (ac/perform course [:fork {:user-name "charlotte"}])
+  (let [{:keys [original fork]} (ac/perform course [:fork {:user-name (:user-name user)}])
         store                   (setval [:courses (paths/course course)] original store)]
     (-> store
         (add fork))))
