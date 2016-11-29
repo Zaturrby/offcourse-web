@@ -85,7 +85,7 @@
     (when-let [missing-data (qa/missing-data @state viewmodel)]
       (ef/respond conductor [:not-found (query/create missing-data)]))
     (if (sp/valid? proposal)
-      (ef/respond conductor [:requested [:go :home]])
+      (ac/perform conductor [:switch-to :view-mode])
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:update :viewmodel] [{:keys [state] :as conductor} action]
