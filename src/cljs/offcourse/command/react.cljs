@@ -34,4 +34,13 @@
           request (ac/request adapter (with-meta action {:auth-token auth-token}))
           {:keys [accepted denied]} (async/<! request)]
       (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
-      (when denied (ef/respond service [:requested [:switch-to :view-mode]])))))
+      (when denied (ef/respond service [:failed [:command :sign-up]])))))
+
+(defmethod react :update
+  [{:keys [component-name adapter] :as service} [_ action]]
+  (go
+    (let [credentials (some-> action meta :credentials)
+          request (ac/request adapter (with-meta action credentials))
+          {:keys [accepted denied] :as res} (async/<! request)]
+      (when accepted (ef/respond service [:succeded [:command :update]]))
+      (when denied (ef/respond service [:failed [:command :update]])))))
