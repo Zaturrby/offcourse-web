@@ -12,7 +12,7 @@
   (walk/keywordize-keys payload))
 
 (defn fetch [{:keys [name endpoint]} query]
-  (log/log "X" (.stringify js/JSON (clj->js query)))
+  ; (log/log "X" (.stringify js/JSON (clj->js query)))
   (let [c (chan)
         auth-token ""]
     (POST endpoint
