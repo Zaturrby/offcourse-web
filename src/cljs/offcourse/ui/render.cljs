@@ -14,13 +14,13 @@
 (defmulti render (fn [_ [event-type _]] event-type))
 
 (defmethod render :refreshed [{:keys [views container routes] :as rd}
-                             [_ payload]]
+                              [_ payload]]
   (let [view       (view/create {:appstate    payload
                                  :responder   (partial ef/respond rd)
                                  :routes      routes})
-        view-graph (rr/render view views)
-        viewmodel  (:viewmodel view-graph)
-        actions    (:actions view-graph)]
+        view-graph (rr/render view views)]
+    (log/log "UI Render")
+    (log/log view-graph)
     (-render view-graph container)
     (ef/respond rd [:rendered])))
 
