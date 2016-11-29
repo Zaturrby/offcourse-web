@@ -36,7 +36,7 @@
       (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
       (when denied (ef/respond service [:failed [:command :sign-up]])))))
 
-(defmethod react :update
+(defmethod react :update ; perhaps add course?
   [{:keys [component-name adapter] :as service} [_ action]]
   (go
     (let [credentials (some-> action meta :credentials)
