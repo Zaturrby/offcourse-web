@@ -19,8 +19,6 @@
                                  :responder   (partial ef/respond rd)
                                  :routes      routes})
         view-graph (rr/render view views)]
-    (log/log "UI Render")
-    (log/log view-graph)
     (-render view-graph container)
     (ef/respond rd [:rendered])))
 

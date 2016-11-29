@@ -14,10 +14,10 @@
   ((graph/compile graph) graph-data))
 
 (def affordances-graph
-  {:browsable? (fnk [viewmodel] (= viewmodel :collection-view))
-   :forkable?  (fnk [current-user user-is-curator? user-is-forker?]
-                    (and current-user (not user-is-forker?) (not user-is-curator?)))
-   :editable?  (fnk [user-is-curator?] user-is-curator?)
+  {:browsable? (fnk [viewmodel] true)
+   :forkable?  (fnk [current-user user-is-curator? user-is-forker? viewmodel]
+                    (and current-user (not user-is-forker?) (not user-is-curator?) (not= viewmodel :collection-view)))
+   :editable?  (fnk [user-is-curator? viewmodel] (and user-is-curator? (not= viewmodel :collection-view)))
    :trackable? (fnk [user-is-curator?] user-is-curator?)})
 
 (def course-meta-graph
@@ -64,7 +64,9 @@
                                                   :routes   routes
                                                   :appstate appstate})]
       (some-> course
-              (assoc :checkpoints (map #(dc/decorate %1 {:selected (:checkpoint-slug %)
-                                                         :course course} routes)
+              (assoc :checkpoints (map #(dc/decorate %1
+                                                     {:selected (:checkpoint-slug %)
+                                                      :course course}
+                                                     routes)
                                        checkpoints))
               (with-meta course-meta)))))
