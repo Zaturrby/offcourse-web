@@ -43,10 +43,9 @@
 (defmethod perform [:add :resources] [store [_ resources]]
   (reduce add store resources))
 
-;; replace charlotte with real user here
-
-(defmethod perform [:fork :course] [{:keys [courses user] :as store} [_ course]]
+(defmethod perform [:fork :course] [{:keys [courses user viewmodel] :as store} [_ course]]
   (let [{:keys [original fork]} (ac/perform course [:fork {:user-name (:user-name user)}])
+        store                   (setval [:viewmodel :course] (cv/to-query fork) store)
         store                   (setval [:courses (paths/course course)] original store)]
     (-> store
         (add fork))))
