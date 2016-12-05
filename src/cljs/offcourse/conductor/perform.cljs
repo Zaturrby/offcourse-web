@@ -43,10 +43,13 @@
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:fork :course] [{:keys [state] :as conductor} action]
-  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+  (let [course (second action)
+        {:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond conductor [:refreshed @state])
+      (do
+        (ef/respond conductor [:requested [:add course]])
+        (ef/respond conductor [:refreshed @state]))
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:add :resource] [{:keys [state] :as conductor} action]
@@ -86,8 +89,8 @@
       (ef/respond conductor [:not-found (query/create missing-data)]))
     (if (sp/valid? proposal)
       (do
-        (ac/perform conductor [:switch-to :view-mode])
-        (ef/respond conductor [:requested action]))
+        (ac/perform conductor [:switch-to :view-mode]) ; no side effect, can be done on appstate lvl
+        (ef/respond conductor [:requested [:add (second action)]]))
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:update :viewmodel] [{:keys [state] :as conductor} action]

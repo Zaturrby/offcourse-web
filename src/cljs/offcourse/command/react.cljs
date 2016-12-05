@@ -36,11 +36,11 @@
       (when accepted (ef/respond service [:signed-in (-> accepted payload/create)]))
       (when denied (ef/respond service [:failed [:command :sign-up]])))))
 
-(defmethod react :update ; perhaps add course?
+(defmethod react :add
   [{:keys [component-name adapter] :as service} [_ action]]
   (go
     (let [credentials (some-> action meta :credentials)
           request (ac/request adapter (with-meta action credentials))
           {:keys [accepted denied] :as res} (async/<! request)]
-      (when accepted (ef/respond service [:succeded [:command :update]]))
-      (when denied (ef/respond service [:failed [:command :update]])))))
+      (when accepted (log/log [:succeded [:message accepted]]))
+      (when denied (ef/respond service [:failed [:message denied]])))))
