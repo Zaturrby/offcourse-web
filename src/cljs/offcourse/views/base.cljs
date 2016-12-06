@@ -10,6 +10,7 @@
             [offcourse.views.components.user-form :refer [user-form]]
             [offcourse.views.components.edit-profile :refer [edit-profile]]
             [offcourse.views.components.view-profile :refer [view-profile]]
+            [offcourse.views.components.course-form :refer [course-form]]
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
@@ -44,7 +45,8 @@
                         {:auth (overlay (auth-form respond) respond)
                          :new-user (overlay (user-form user respond) respond)
                          :edit-profile (overlay (edit-profile user respond) respond)
-                         :view-profile (overlay (view-profile user respond) respond)})
+                         :view-profile (overlay (view-profile user respond) respond)
+                         :curate-mode (overlay (course-form nil respond) respond)})
    :overlays       (fnk [base-overlays view-overlays]
                         (merge base-overlays view-overlays))
    :overlay        (fnk [app-mode overlays]

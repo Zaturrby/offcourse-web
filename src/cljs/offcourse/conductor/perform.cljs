@@ -107,7 +107,10 @@
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond conductor [:refreshed @state])
+      (do
+        (ef/respond conductor [:refreshed @state])
+        (log/log "Following error in appstate perform:")
+        (ef/respond conductor [:requested [:add course]]))
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:switch-to :app-mode] [{:keys [state] :as conductor} action]
