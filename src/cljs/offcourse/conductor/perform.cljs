@@ -5,6 +5,7 @@
             [shared.protocols.loggable :as log]
             [shared.protocols.queryable :as qa]
             [shared.protocols.actionable :as ac]
+            [shared.protocols.convertible :as cv]
             [shared.models.query.index :as query]))
 
 (defmulti perform (fn [conductor action] (sp/resolve action)))
@@ -47,8 +48,12 @@
         {:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (do
-        (ef/respond conductor [:requested [:add course]])
+      (let [new-state     @state
+            user-name     (-> new-state :user :user-name)
+            course-query  (cv/to-query course)
+            fork-query    (dissoc (assoc course-query :curator user-name) :course-id)
+            fork          (qa/get new-state fork-query)]
+        (ef/respond conductor [:requested [:add fork]])
         (ef/respond conductor [:refreshed @state]))
       (log/error @state (sp/errors @state)))))
 
@@ -108,9 +113,9 @@
     (reset! state proposal)
     (if (sp/valid? proposal)
       (do
-        (ef/respond conductor [:refreshed @state])
-        (log/log "Following error in appstate perform:")
-        (ef/respond conductor [:requested [:add course]]))
+        (ef/respond conductor [:refreshed @state]))
+        ; (log/log "Following error in appstate perform:"))
+        ; (ef/respond conductor [:requested [:add course]]))
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:switch-to :app-mode] [{:keys [state] :as conductor} action]
