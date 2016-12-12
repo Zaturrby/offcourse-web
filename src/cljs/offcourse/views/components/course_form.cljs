@@ -36,6 +36,7 @@
         valid?        (sp/valid? course)
         dropdown-atom (::dropdown state)
         dropdown?     @dropdown-atom]
+    (log/log course)
     [:.card {:data-card-type :wide
              :on-click (when (not= dropdown? "") #(set-dropdown "" dropdown-atom))}
       [:.card--section
