@@ -2,7 +2,8 @@
   (:require [plumbing.graph :as graph]
             [rum.core :as rum]
             [shared.protocols.renderable :refer [Renderable]]
-            [shared.protocols.specced :as sp]))
+            [shared.protocols.specced :as sp]
+            [shared.protocols.loggable :as log]))
 
 (defrecord View []
   Renderable
