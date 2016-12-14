@@ -3,15 +3,11 @@
             [offcourse.adapters.aws.index :as aws]
             [offcourse.adapters.github.index :as github]
             [offcourse.core :as core]
-            [offcourse.models.appstate.index :as model]
-            [shared.specs.core :as specs]))
+            [offcourse.models.appstate.index :as model]))
 
 (defonce app (atom nil))
 
-(defonce appstate-data {:site-title "Offcourse_"
-                        :app-mode :view-mode
-                        :actions specs/action-types})
-
+(defonce appstate-data {:site-title "Offcourse_"})
 (defonce appstate (atom (model/create appstate-data)))
 
 (def auth-adapter
