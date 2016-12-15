@@ -51,4 +51,6 @@
                                            :resource       :offcourse/resource
                                            :new-checkpoint #{:new-checkpoint}
                                            :courses        (spec/coll-of :offcourse/course)
-                                           :resources      (spec/coll-of :offcourse/resource))))
+                                           :resources      (spec/coll-of :offcourse/resource)
+                                           :meta           #(= %1 :meta)
+                                           :id             #(= %1 :id))))
