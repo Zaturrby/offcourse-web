@@ -37,7 +37,7 @@
         dropdown-atom (::dropdown state)
         dropdown?     @dropdown-atom]
     (log/log course)
-    (log/log (sp/errors course))
+    (log/log (or (sp/errors course) "CORRECT!"))
     [:.card {:data-card-type :wide
              :on-click (when (not= dropdown? "") #(set-dropdown "" dropdown-atom))}
       [:.card--section
@@ -79,16 +79,13 @@
      [:.card--section
        [:.card--row {:data-row-spaced true}
          [:.card--row
-           (when true ;(and valid? dirty?)
+           (when true ; (and valid? dirty?)
              (button {:button-text "Save Course"}
-                     #(let [prepared-course (-> course
-                                                (ac/perform [:add :meta])
-                                                (ac/perform [:add :id]))]
-                           (respond [:update prepared-course]))))
+                     #(respond [:create course])))
            (when true
              (button {:button-text "Publish Course"
                       :button-color "blue"}
-                     #(respond [:update (course)])))]
+                     #(respond [:update course])))]
          [(when true
            (button {:button-text "Cancel"
                     :button-color "red"}

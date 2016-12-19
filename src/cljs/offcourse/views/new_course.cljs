@@ -7,15 +7,14 @@
             [shared.models.checkpoint.index :as cp-model]))
 
 (def graph
-  {:view-actions    (fnk [] #{:update})
+  {:view-actions    (fnk [] #{:create :update})
    :view-overlays   (fnk [] {})
    :new-course      (fnk [appstate]
                          (let [curator (-> appstate :user :user-name)]
                            (when curator
-                             (-> {:curator curator
-                                  :repository "offcourse"}
+                             (-> {:curator curator}
                                  course-model/map->Course
-                                 (with-meta {:spec :offcourse/course})))))
+                                 (with-meta {:spec :offcourse/new-course})))))
    :main            (fnk [new-course respond]
                          (if new-course
                            (overlay (course-form {:course new-course} respond))

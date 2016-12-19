@@ -17,9 +17,9 @@
   (spec/tuple :offcourse/actions))
 
 (defmethod action-spec :create [_]
-  (spec/tuple :offcourse/actions (spec/or :new-user #{:new-user}
-                                          :profile :offcourse/profile)))
-
+  (spec/tuple :offcourse/actions (spec/or :new-user   #{:new-user}
+                                          :profile    :offcourse/profile
+                                          :course     :offcourse/new-course)))
 (defmethod action-spec :update [_]
   (spec/tuple :offcourse/actions (spec/or :viewmodel  :offcourse/viewmodel
                                           :course     :offcourse/course
