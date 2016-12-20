@@ -11,37 +11,12 @@
 
 (defmulti perform (fn [conductor action] (sp/resolve action)))
 
-(defmethod perform [:create :profile] [{:keys [state] :as conductor} [_ profile]]
-  (let [{:keys [viewmodel] :as proposal} (ac/perform @state [:add profile])]
-    (when (ck/check conductor proposal)
-      (reset! state proposal)
-      (if (sp/valid? @state)
-        (ef/respond conductor [:requested [:save (:user @state)]])
-        (log/error @state (sp/errors @state))))))
-
-(defmethod perform [:create :new-course] [{:keys [state] :as conductor} [_ new-course]]
-  (let [proposal (ac/perform @state [:create new-course])]
-    (reset! state proposal)
-    (if (sp/valid? @state)
-      (let [new-state     @state
-            course-slug   (str/slugify (:goal new-course))
-            curator       (:curator new-course)
-            course-query  (query/create {:course-slug course-slug
-                                         :curator curator})
-            course        (qa/get new-state course-query)]
-          (ef/respond conductor [:requested [:add course]])
-          (ef/respond conductor [:refreshed @state]))
-      (log/error @state (sp/errors @state)))))
-
-(defmethod perform [:create :course] [{:keys [state] :as conductor} [_ course]]
-  (ac/perform conductor [:update course]))
-
-(defmethod perform [:authenticate :provider] [{:keys [state] :as conductor} action]
-  (ef/respond conductor [:requested [:authenticate (second action)]])
+(defmethod perform [:authenticate :provider] [{:keys [state] :as conductor} [_ provider]]
+  (ef/respond conductor [:requested [:authenticate provider]])
   (ac/perform conductor [:switch-to :view-mode]))
 
-(defmethod perform [:sign-up :user] [{:keys [state] :as conductor} action]
-  (ef/respond conductor [:requested [:sign-up (second action)]])
+(defmethod perform [:sign-up :user] [{:keys [state] :as conductor} [_ user]]
+  (ef/respond conductor [:requested [:sign-up user]])
   (ac/perform conductor [:switch-to :view-mode]))
 
 (defmethod perform [:sign-out nil] [{:keys [state] :as conductor} action]
@@ -54,25 +29,18 @@
 (defmethod perform [:go :home] [{:keys [state] :as conductor} action]
   (ef/respond conductor [:requested action]))
 
-(defmethod perform [:add :identity] [{:keys [state] :as conductor} action]
+(defmethod perform [:switch-to :app-mode] [{:keys [state] :as conductor} action]
   (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
       (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:fork :course] [{:keys [state] :as conductor} action]
-  (let [course (second action)
-        {:keys [viewmodel] :as proposal} (ac/perform @state action)]
+(defmethod perform [:add :identity] [{:keys [state] :as conductor} action]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (let [new-state     @state
-            user-name     (-> new-state :user :user-name)
-            course-query  (cv/to-query course)
-            fork-query    (dissoc (assoc course-query :curator user-name) :course-id)
-            fork          (qa/get new-state fork-query)]
-        (ef/respond conductor [:requested [:add fork]])
-        (ef/respond conductor [:refreshed @state]))
+      (ef/respond conductor [:refreshed @state])
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform [:add :resource] [{:keys [state] :as conductor} action]
@@ -138,11 +106,43 @@
           (ef/respond conductor [:refreshed @state]))
       (log/error @state (sp/errors @state)))))
 
-(defmethod perform [:switch-to :app-mode] [{:keys [state] :as conductor} action]
-  (let [{:keys [viewmodel] :as proposal} (ac/perform @state action)]
+(defmethod perform [:create :profile] [{:keys [state] :as conductor} [_ profile]]
+  (let [{:keys [viewmodel] :as proposal} (ac/perform @state [:add profile])]
+    (when (ck/check conductor proposal)
+      (reset! state proposal)
+      (if (sp/valid? @state)
+        (ef/respond conductor [:requested [:save (:user @state)]])
+        (log/error @state (sp/errors @state))))))
+
+(defmethod perform [:create :new-course] [{:keys [state] :as conductor} [_ new-course]]
+  (let [proposal (ac/perform @state [:create new-course])]
+    (reset! state proposal)
+    (if (sp/valid? @state)
+      (let [new-state     @state
+            course-slug   (str/slugify (:goal new-course))
+            curator       (:curator new-course)
+            course-query  (query/create {:course-slug course-slug
+                                         :curator curator})
+            course        (qa/get new-state course-query)]
+          (ef/respond conductor [:requested [:add course]])
+          (ef/respond conductor [:requested [:go :home]]))
+      (log/error @state (sp/errors @state)))))
+
+(defmethod perform [:create :course] [{:keys [state] :as conductor} [_ course]]
+  (ac/perform conductor [:update course]))
+
+(defmethod perform [:fork :course] [{:keys [state] :as conductor} action]
+  (let [course (second action)
+        {:keys [viewmodel] :as proposal} (ac/perform @state action)]
     (reset! state proposal)
     (if (sp/valid? proposal)
-      (ef/respond conductor [:refreshed @state])
+      (let [new-state     @state
+            user-name     (-> new-state :user :user-name)
+            course-query  (cv/to-query course)
+            fork-query    (dissoc (assoc course-query :curator user-name) :course-id)
+            fork          (qa/get new-state fork-query)]
+        (ef/respond conductor [:requested [:add fork]])
+        (ef/respond conductor [:refreshed @state]))
       (log/error @state (sp/errors @state)))))
 
 (defmethod perform :default [conductor action]
