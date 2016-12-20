@@ -63,7 +63,7 @@
 (defmethod perform [:add :course] [store [_ course]]
   (add store course))
 
-(defmethod perform [:create :course] [store [_ new-course]]
+(defmethod perform [:create :new-course] [store [_ new-course]]
   (let [course (-> new-course
                    (with-meta {:spec :offcourse/course})
                    (assoc :repository "offcourse")

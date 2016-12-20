@@ -19,7 +19,7 @@
         (ef/respond conductor [:requested [:save (:user @state)]])
         (log/error @state (sp/errors @state))))))
 
-(defmethod perform [:create :course] [{:keys [state] :as conductor} [_ new-course]]
+(defmethod perform [:create :new-course] [{:keys [state] :as conductor} [_ new-course]]
   (let [proposal (ac/perform @state [:create new-course])]
     (reset! state proposal)
     (if (sp/valid? @state)
@@ -28,11 +28,13 @@
             curator       (:curator new-course)
             course-query  (query/create {:course-slug course-slug
                                          :curator curator})
-            something     (log/log course-query)
             course        (qa/get new-state course-query)]
           (ef/respond conductor [:requested [:add course]])
           (ef/respond conductor [:refreshed @state]))
       (log/error @state (sp/errors @state)))))
+
+(defmethod perform [:create :course] [{:keys [state] :as conductor} [_ course]]
+  (ac/perform conductor [:update course]))
 
 (defmethod perform [:authenticate :provider] [{:keys [state] :as conductor} action]
   (ef/respond conductor [:requested [:authenticate (second action)]])

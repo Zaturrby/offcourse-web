@@ -11,7 +11,7 @@
             [shared.protocols.loggable :as log]))
 
 (def graph
-  {:view-actions    (fnk [] #{:update :fork :switch-to})
+  {:view-actions    (fnk [] #{:create :update :fork :switch-to})
    :checkpoint-data (fnk [viewmodel] (some-> viewmodel :checkpoint))
    :course-data     (fnk [viewmodel] (-> viewmodel :course))
    :course          (fnk [appstate course-data routes]

@@ -28,20 +28,18 @@
                          (rum/local "" ::dropdown)
   [state {:keys [course]} respond]
   (let [course-atom   (::course state)
+        old-course    course
         course        (merge course @course-atom)
         errors        (:cljs.spec/problems (sp/errors course))
         error-paths   (into #{} (map #(-> % :path first) errors))
-        old-course     course
         dirty?        (not= course old-course)
         valid?        (sp/valid? course)
         dropdown-atom (::dropdown state)
         dropdown?     @dropdown-atom]
-    (log/log course)
-    (log/log (or (sp/errors course) "CORRECT!"))
     [:.card {:data-card-type :wide
              :on-click (when (not= dropdown? "") #(set-dropdown "" dropdown-atom))}
       [:.card--section
-        [:h1.card--title {:data-title-indent true} "Curate a course"]]
+        [:h1.card--title {:data-title-indent true} "Save a course"]]
       [:.card--section
         [:.card--row {:data-row-spaced true
                       :data-row-padded :small}
@@ -79,10 +77,10 @@
      [:.card--section
        [:.card--row {:data-row-spaced true}
          [:.card--row
-           (when true ; (and valid? dirty?)
+           (when (and valid? dirty?)
              (button {:button-text "Save Course"}
                      #(respond [:create course])))
-           (when true
+           (when false
              (button {:button-text "Publish Course"
                       :button-color "blue"}
                      #(respond [:update course])))]
