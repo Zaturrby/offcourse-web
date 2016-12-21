@@ -28,14 +28,14 @@
     [:.list--item-section
       [:input.list--course {:type        :text
                             :placeholder "Task Name"
-                            :value      (:task checkpoint)
+                            :value        (or (:task checkpoint) "")
                             :on-change   (fn [event]
                                            (let [prop-value (.. event -target -value)
                                                  checkpoint (assoc-in checkpoint [:task] prop-value)]
                                              (update-handler checkpoint)))}]
       [:input.list--url    {:type        :text
                             :placeholder "Resource URL"
-                            :value      (:resource-url checkpoint)
+                            :value       (or (:resource-url checkpoint) "")
                             :on-change   (fn [event]
                                            (let [prop-value (.. event -target -value)
                                                  checkpoint (assoc-in checkpoint [:resource-url] prop-value)]

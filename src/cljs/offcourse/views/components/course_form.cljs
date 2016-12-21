@@ -56,7 +56,7 @@
                              :type      :text
                              :placeholder "Goal"
                              :auto-focus true
-                             :value     (:goal course)
+                             :value     (or (:goal course) "")
                              :on-change #(update-prop :goal % course-atom)}]]
       [:.card--section
         [:.card--row {:data-row-spaced true
