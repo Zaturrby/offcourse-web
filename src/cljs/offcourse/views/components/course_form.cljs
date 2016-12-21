@@ -55,6 +55,7 @@
         [:input.form--field {:key       "title"
                              :type      :text
                              :placeholder "Goal"
+                             :auto-focus true
                              :value     (:goal course)
                              :on-change #(update-prop :goal % course-atom)}]]
       [:.card--section

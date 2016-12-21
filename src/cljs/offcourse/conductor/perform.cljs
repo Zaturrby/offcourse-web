@@ -120,7 +120,7 @@
     (if (sp/valid? @state)
       (let [new-state     @state
             course-slug   (str/slugify (:goal new-course))
-            curator       (:curator new-course)
+            curator       (str/slugify (:curator new-course))
             course-query  (query/create {:course-slug course-slug
                                          :curator curator})
             course        (qa/get new-state course-query)]
