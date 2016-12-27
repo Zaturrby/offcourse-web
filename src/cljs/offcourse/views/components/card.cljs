@@ -3,6 +3,7 @@
             [offcourse.views.components.card-meta :refer [card-meta]]
             [offcourse.views.components.item-list :refer [item-list]]
             [offcourse.views.components.card-social :refer [card-social]]
+            [cljsjs.react-grid-layout]
             [rum.core :as rum]))
 
 (rum/defc card [{:keys [course-id goal course-slug checkpoints curator] :as course}
@@ -24,5 +25,16 @@
      (when false
       [:.card--section (card-social)])]]]))
 
+(def Grid (js/React.createFactory js/ReactGridLayout))
+
+(defn div [props subcomp] (js/React.createElement "div" (clj->js props) subcomp))
+
 (rum/defc cards [{:keys [courses]} respond]
-  [:.cards (map #(rum/with-key (card % respond) (:course-id %)) courses)])
+  (Grid #js {:className="cards"
+             :cols 12
+             :rowHeight 30
+             :width 1200}
+        [(div {:key 1
+               :data-grid {:i "a" :x 0 :y 0 :w 1 :h 2 :static true}}
+              (map #(rum/with-key (card % respond) (:course-id %)) courses))]))
+

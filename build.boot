@@ -1,5 +1,5 @@
 (set-env!
- :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj" "../offcourse-styles/src"}
+ :source-paths    #{"src/cljs" "src-dev/cljs" "src/clj"}
  :checkouts     '[[offcourse/shared             "0.5.10"]
                   [offcourse/styles              "0.5.0-SNAPSHOT"]]
  :resource-paths  #{"resources"}
@@ -42,6 +42,7 @@
                  [cljsjs/react                  "15.3.1-0"]
                  [cljsjs/react-dom              "15.3.1-0"]
                  [cljsjs/react-dom-server       "15.3.1-0"]
+                 [cljsjs/react-grid-layout      "0.13.7-0"]
                  [funcool/cuerdas               "0.8.0"]
                  [offcourse/styles              "0.5.0-SNAPSHOT"]
                  [offcourse/shared              "0.5.10"]])
