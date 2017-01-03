@@ -8,12 +8,12 @@
 (defn filter-courses [{:keys [collection-name collection-type]} courses]
   courses
   #_(case collection-type
-    "curators" (filter (fn [course]
-                         (= collection-name (:curator course))) courses)
-    "flags" (filter (fn [course]
-                      (set/superset? (into #{} (:flags course)) #{collection-name})) courses)
-    "tags" (filter (fn [course]
-                     (set/superset? (-> course meta :tags) #{collection-name})) courses)))
+     "curators" (filter (fn [course]
+                          (= collection-name (:curator course))) courses)
+     "flags" (filter (fn [course]
+                       (set/superset? (into #{} (:flags course)) #{collection-name})) courses)
+     "tags" (filter (fn [course]
+                      (set/superset? (-> course meta :tags) #{collection-name})) courses)))
 
 (def graph
   {:view-actions   (fnk [] #{:toggle :fork :update :switch-to})
@@ -23,5 +23,7 @@
                              (map #(dc/decorate %1 appstate routes))
                              (filter-courses collection)))
    :main            (fnk [courses respond]
-                         (cards {:courses courses} respond))
+                        (when (not= '() courses)
+                          (log/log "running cards!")
+                          (cards {:courses courses} respond)))
    :view-overlays   (fnk [] {})})

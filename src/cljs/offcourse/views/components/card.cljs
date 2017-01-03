@@ -10,7 +10,8 @@
                 respond]
  (let [{:keys [affordances course-url]} (meta course)
        {:keys [browsable? forkable? trackable? editable?]} affordances]
-  [:.container
+  [:.container {:key 1
+                :data-grid {:i course-id :x 0 :y 0 :w 1 :h 2 :static true}}
    [:.card {:on-click #()}
     [:.card--section
      [:a.card--title {:href (-> course meta :course-url)} goal]]
@@ -25,16 +26,33 @@
      (when false
       [:.card--section (card-social)])]]]))
 
-(def Grid (js/React.createFactory js/ReactGridLayout))
+(defn grid [props subcomp]
+           (js/console.log props subcomp)
+           (js/React.createElement
+             js/ReactGridLayout
+             (clj->js props)
+             subcomp))
 
-(defn div [props subcomp] (js/React.createElement "div" (clj->js props) subcomp))
+(defn wrapper [props subcomp] (js/React.createElement "div" (clj->js props) subcomp))
 
 (rum/defc cards [{:keys [courses]} respond]
-  (Grid #js {:className="cards"
+  (grid #js {:className "cards"
              :cols 12
              :rowHeight 30
              :width 1200}
-        [(div {:key 1
+    [(wrapper {:key 1
                :data-grid {:i "a" :x 0 :y 0 :w 1 :h 2 :static true}}
-              (map #(rum/with-key (card % respond) (:course-id %)) courses))]))
+          (map #(rum/with-key (card % respond) (:course-id %)) courses))]))
+    ; [:div {:key "02"} "Hi"]
+      ; [(wrapper #js {} "hi")]))
+    ; (map #(rum/with-key (wrapper #js {} (card % respond)) (:course-id %)) courses)))
 
+
+
+
+;   (Grid #js {:className "cards"
+;              :cols 12
+;              :rowHeight 30
+;              :width 1200
+;              :children testdiv}))
+;         ;
