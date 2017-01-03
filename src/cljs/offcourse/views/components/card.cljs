@@ -40,19 +40,8 @@
              :cols 12
              :rowHeight 30
              :width 1200}
+    ; [:div {:key "02"} "Test"] ; Old failing case
     [(wrapper {:key 1
                :data-grid {:i "a" :x 0 :y 0 :w 1 :h 2 :static true}}
-          (map #(rum/with-key (card % respond) (:course-id %)) courses))]))
-    ; [:div {:key "02"} "Hi"]
-      ; [(wrapper #js {} "hi")]))
-    ; (map #(rum/with-key (wrapper #js {} (card % respond)) (:course-id %)) courses)))
-
-
-
-
-;   (Grid #js {:className "cards"
-;              :cols 12
-;              :rowHeight 30
-;              :width 1200
-;              :children testdiv}))
-;         ;
+              (map #(rum/with-key (card % respond) (:course-id %)) courses))])) ; Undesirable due to container
+    ; (map #(rum/with-key (wrapper #js {} (card % respond)) (:course-id %)) courses))) ; Not working, map returns 'something' that grid doesn't understand
