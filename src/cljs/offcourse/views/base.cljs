@@ -14,9 +14,7 @@
             [plumbing.core :refer-macros [fnk]]
             [shared.protocols.loggable :as log]
             [shared.protocols.specced :as sp]))
-
-; It's derived state, but I might think that's not terrible in this case, because it should be standalone too.
-; When the error is gone, the message should not nessecairly be gone too
+            
 (def notification {:title "Thank you for signing up!"
                    :link  "You can edit your profile here"
                    :color "yellow"})
@@ -40,7 +38,7 @@
                         (menubar logo actions-panel))
    :notification   (fnk [appstate] notification)
    :flash          (fnk [notification respond]
-                        (when false (flash notification respond)))
+                        (when true (flash notification respond)))
    :base-overlays  (fnk [user respond]
                         {:auth (overlay (auth-form respond) respond)
                          :new-user (overlay (user-form user respond) respond)
