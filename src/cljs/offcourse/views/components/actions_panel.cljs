@@ -16,18 +16,9 @@
         [:input.actions-panel--search {:placeholder "Enter your search"}]
         [:a.actions-panel--search-btn "Search"]]]
    (if credentials
-     [(handler-button "Sign Out" (partial respond [:sign-out]))
-      [:li.actions-panel--item {:key "new-course"}
-       [:a.actions-panel--link {:href "/courses/new"}
-                               "New Course"]]]
-     (handler-button "Sign In" #(respond [:switch-to :auth])))])
-
-
-
-
-     ;
-    ;  #_(handler-button "view-mode" (partial respond [:switch-to :view-mode]))
-    ;  #_(handler-button "auth" (partial respond [:switch-to :auth]))
-    ;  #_(handler-button "new-user" (partial respond [:switch-to :new-user]))
-    ;  #_(handler-button "edit-user" (partial respond [:switch-to :edit-profile]))
-    ;  #_(handler-button "view-profile" (partial respond [:switch-to :view-profile])))])
+     [:li.actions-panel--item {:key "new-course"}
+      [:a.actions-panel--link {:href "/courses/new"}
+                              "Create Course"]]
+     (handler-button "Sign In" #(respond [:switch-to :auth])))
+   (when credentials
+     (handler-button (str "Hi " user-name) (partial respond [:sign-out])))])
