@@ -23,10 +23,18 @@
     (case list-type
       :todo (map #(rum/with-key (todo-list-item % trackable? respond) (:checkpoint-id %)) checkpoints))])
 
-(rum/defc edit-list-item [checkpoint update-handler remove-handler create-handler]
+
+
+(rum/defc edit-list-item < {:did-mount (fn [state]
+                                           (let [checkpoint (rum/ref-node state "checkpoint-title")]
+                                            (.focus checkpoint)
+                                            (log/log checkpoint)
+                                            (log/log "Jello")))}
+                           [checkpoint update-handler remove-handler create-handler]
   [:li.list--item
     [:.list--item-section {:on-focus #(create-handler)}
-      [:input.list--course {:type        :text
+      [:input.list--course {:ref         "checkpoint-title" ;(str "checkpoint-title-" (or (:checkpoint-id checkpoint) "no-id--"))
+                            :type        :text
                             :placeholder "Task Name"
                             :value        (or (:task checkpoint) "")
                             :on-change   (fn [event]
