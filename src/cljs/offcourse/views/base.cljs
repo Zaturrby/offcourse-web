@@ -47,6 +47,6 @@
                          :curate-mode (overlay (course-form nil respond) respond)})
    :overlays       (fnk [base-overlays view-overlays]
                         (merge base-overlays view-overlays))
-   :overlay        (fnk [app-mode overlays]
+   :overlay        (fnk [app-mode overlays user respond]
                         (when-let [overlay (get overlays app-mode)]
                           overlay))})

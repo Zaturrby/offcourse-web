@@ -51,7 +51,8 @@
     [:.list--item-section
       [:button.button {:key :remove-button
                        :data-button-type (name :icon)
-                       :on-click #(remove-handler checkpoint)} "x"]]])
+                       :on-click #(remove-handler checkpoint)}
+       [:img.button--icon {:src "/images/x.svg"}]]]])
 
 (rum/defc edit-list [checkpoints update-handler remove-handler create-handler]
   [:ul.list {:data-list-type :edit}
