@@ -42,7 +42,7 @@
         [:h1.card--title {:data-title-indent true} "Save a course"]]
       [:.card--section
         [:.card--row {:data-row-spaced true
-                      :data-row-padded :small}
+                      :data-row-padded :large}
           [:p.card--subtitle {:data-subtitle-indent true}
                              "Goal of the course"]
           [:p.card--link {:data-link-type :em
@@ -75,6 +75,12 @@
                    #(create-checkpoint course-atom course))]
      [:.card--section
        [:.card--row {:data-row-spaced true}
+         [(when true
+           (button {:button-text "Cancel"
+                    :button-color "red"}
+                   #(do
+                     (respond [:switch-to :view-mode])
+                     (respond [:go :home]))))]
          [:.card--row
            (when (and valid? dirty?)
              (button {:button-text "Save Course"}
@@ -82,8 +88,4 @@
            (when false
              (button {:button-text "Publish Course"
                       :button-color "blue"}
-                     #(respond [:update course])))]
-         [(when true
-           (button {:button-text "Cancel"
-                    :button-color "red"}
-                   #(respond [:switch-to :view-mode])))]]]]))
+                     #(respond [:update course])))]]]]))

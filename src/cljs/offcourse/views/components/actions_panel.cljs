@@ -12,6 +12,7 @@
                          respond]
   [:ul.actions-panel
     [:.actions-panel--item
+      ; (handler-button "EP" #(respond [:switch-to :edit-profile]))
       [:.action-panel--search-container
         [:input.actions-panel--search {:placeholder "Enter your search"}]
         [:a.actions-panel--search-btn "Search"]]]

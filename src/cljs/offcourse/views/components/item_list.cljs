@@ -27,9 +27,7 @@
 
 (rum/defc edit-list-item < {:did-mount (fn [state]
                                            (let [checkpoint (rum/ref-node state "checkpoint-title")]
-                                            (.focus checkpoint)
-                                            (log/log checkpoint)
-                                            (log/log "Jello")))}
+                                             (.focus checkpoint)))}
                            [checkpoint update-handler remove-handler create-handler]
   [:li.list--item
     [:.list--item-section {:on-focus #(create-handler)}
